@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using SchoolManager.Application.Interfaces;
-using SchoolManager.Application.Services;
+using SchoolManager.Web.Interfaces;
 using SchoolManager.Web.Models;
 
 namespace SchoolManager.Web.Controllers
@@ -19,21 +18,16 @@ namespace SchoolManager.Web.Controllers
 
         public IActionResult Index()
         {
-            IEmployeeService employeeService = new EmlpoyeeService();
-            var employees = employeeService.GetAllEmployees();
-            return View(employees);
+            return View();
         }
 
+        [Route("all")]
         public IActionResult ViewListOfEmployees()
         {
-            List<Employee> employees = new List<Employee>
-            {
-                new Employee { Id = 1, Name = "John", LastName = "Doe", IsActive = true },
-                new Employee { Id = 2, Name = "Jane", LastName = "Smith", IsActive = false },
-                new Employee { Id = 3, Name = "Sam", LastName = "Brown", IsActive = true }
-            };
-
+            var employees = _employeeService.GetAllEmployees;
+            
             return View(employees);
+
         }
         public IActionResult Privacy()
         {

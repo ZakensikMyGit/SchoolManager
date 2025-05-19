@@ -10,7 +10,7 @@ namespace SchoolManager.Web.Models
         public string Name { get; set; } = string.Empty;
         [DisplayName("Nazwisko")]
         public string LastName { get; set; } = string.Empty;
-        [DisplayName("Zatrudniony")]
-        public bool IsActive { get; set; } = true;
+        [DisplayName("Stanowisko")]
+        public string Position { get; set; } = string.Empty;
     }
 }
