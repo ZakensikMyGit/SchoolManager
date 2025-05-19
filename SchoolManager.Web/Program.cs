@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SchoolManager.Application.Interfaces;
+using SchoolManager.Application.Services;
 using SchoolManager.Web.Data;
 
 namespace SchoolManager.Web
@@ -19,7 +21,8 @@ namespace SchoolManager.Web
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
-
+            
+            builder.Services.AddTransient<IEmployeeService, EmlpoyeeService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
