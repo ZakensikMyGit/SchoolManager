@@ -21,6 +21,7 @@ namespace SchoolManager.Web.Controllers
             return View();
         }
 
+        [Route("Employees")]
         public IActionResult ViewListOfEmployees()
         {
             var employees = _employeeService.GetAllEmployees();
@@ -28,11 +29,24 @@ namespace SchoolManager.Web.Controllers
             return View(employees);
         }
 
+        [Route("Teachers")]
         public IActionResult ViewListOfTeachers()
         {
             var teachers = _employeeService.GetAllTeachers();
             
             return View(teachers);
+        }
+
+        [Route("Detail/{id:int}")]
+        public IActionResult ViewEmployeeDetails(int id)
+        {
+            var employee = _employeeService.GetEmployeeById(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            
+            return View(employee);
         }
         public IActionResult Privacy()
         {
