@@ -7,8 +7,8 @@ namespace SchoolManager.Web.Services
     {
         private List<Teacher> teachers = new List<Teacher>
         {
-            new Teacher {Id = 1, Name = "Anna", LastName = "Nowak", Position = "Nauczyciel", Type = "Wychowawca", Education = new List<string>{"Pedagogika wczesnoszkolna"}, IsDirector = false },
-            new Teacher {Id = 2, Name = "Katarzyna", LastName = "Kowalska", Position = "Nauczyciel", Type = "Wychowawca", Education = new List<string>{"Pedagogika wczesnoszkolna"}, IsDirector = false },
+            new Teacher {Id = 1, Name = "Anna", LastName = "Nowak", Position = "Nauczyciel", Type = "Wychowawca", GroupName="Smerfy", Education = new List<string>{"Pedagogika wczesnoszkolna"}, IsDirector = false },
+            new Teacher {Id = 2, Name = "Katarzyna", LastName = "Kowalska", Position = "Nauczyciel", Type = "Wychowawca",GroupName="Skowronki", Education = new List<string>{"Pedagogika wczesnoszkolna"}, IsDirector = false },
         };
 
         private List<Employee> employees = new List<Employee>
@@ -19,14 +19,15 @@ namespace SchoolManager.Web.Services
         public List<Employee> GetAllEmployees()
         {
             var all = new List<Employee>();
-            //all.AddRange(teachers);
+            all.AddRange(teachers);
             all.AddRange(employees);
             return all;
         }
 
         public List<Teacher> GetAllTeachers()
         {
-            var list = new List<Teacher>(teachers);
+            var list = new List<Teacher>();
+            list.AddRange(teachers);
             return list;
         }
 

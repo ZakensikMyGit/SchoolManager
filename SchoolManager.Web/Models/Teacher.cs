@@ -7,6 +7,8 @@ namespace SchoolManager.Web.Models
     {
         [DisplayName("Typ nauczyciela")]
         public string Type { get; set; } = string.Empty;
+        [DisplayName("Grupa")]
+        public string GroupName { get; set; } = string.Empty;
         [DisplayName("Wykształcenie")]
         public List<string> Education { get; set; } = new List<string>();
         [IgnoreDataMember]

@@ -21,13 +21,18 @@ namespace SchoolManager.Web.Controllers
             return View();
         }
 
-        [Route("all")]
         public IActionResult ViewListOfEmployees()
         {
-            var employees = _employeeService.GetAllEmployees;
+            var employees = _employeeService.GetAllEmployees();
             
             return View(employees);
+        }
 
+        public IActionResult ViewListOfTeachers()
+        {
+            var teachers = _employeeService.GetAllTeachers();
+            
+            return View(teachers);
         }
         public IActionResult Privacy()
         {

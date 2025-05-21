@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SchoolManager.Application.Interfaces;
-using SchoolManager.Application.Services;
+
 using SchoolManager.Web.Data;
+using SchoolManager.Web.Interfaces;
+using SchoolManager.Web.Services;
 
 namespace SchoolManager.Web
 {
@@ -22,7 +23,7 @@ namespace SchoolManager.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
             
-            builder.Services.AddTransient<IEmployeeService, EmlpoyeeService>();
+            builder.Services.AddTransient<IEmployeeService, EmployeeService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
