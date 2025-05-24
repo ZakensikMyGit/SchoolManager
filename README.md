@@ -42,9 +42,3 @@ Projekt umożliwia zarządzanie:
 - Relacja `Child -> Declaration` – dziecko może mieć wiele dokumentów (orzeczeń, opinii)
 
 ---
-
-## 🔧 Jak uruchomić projekt
-
-1. Sklonuj repozytorium:
-   ```bash
-   git clone https://github.com/twoje-repozytorium/przedszkole.git
