@@ -9,11 +9,14 @@ namespace SchoolManager.Domain.Model
 {
     public class Employee
     {
-        public int EmployeeId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
-        public string Position { get; set; }
-        public int EducationId { get; set; }
+        public double WorkingHours { get; set; }
+        public DateTime EmploymentDate { get; set; }
+        public bool IsActive { get; set; }
+
+        public virtual Position Position { get; set; }
         public virtual ICollection<Education> Education { get; set; }
 
     }
