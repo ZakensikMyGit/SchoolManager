@@ -24,7 +24,7 @@ Projekt umożliwia zarządzanie:
 
 ---
 
-## 🛠️ Technologie
+## Technologie
 
 - C#
 - Entity Framework Core (Code First)
@@ -33,7 +33,7 @@ Projekt umożliwia zarządzanie:
 
 ---
 
-## 🧱 Struktura bazy danych (model encji)
+## Struktura bazy danych (model encji)
 
 - Relacja `Employee -> Position` – wiele do jednego
 - Relacja `Employee <-> Education` – wiele do wielu
