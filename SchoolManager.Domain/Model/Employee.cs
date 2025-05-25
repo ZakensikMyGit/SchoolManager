@@ -15,6 +15,7 @@ namespace SchoolManager.Domain.Model
         public double WorkingHours { get; set; }
         public DateTime EmploymentDate { get; set; }
         public bool IsActive { get; set; }
+        public int PositionId { get; set; }
 
         public virtual Position Position { get; set; }
         public virtual ICollection<Education> Educations { get; set; }
