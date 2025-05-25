@@ -20,6 +20,6 @@ namespace SchoolManager.Domain.Model
         public string ParentNames { get; set; }
         public int GroupId { get; set; }
         public virtual Group Group { get; set; }
-        public virtual ICollection<Declaration> Declaration { get; set; }
+        public virtual ICollection<Declaration> Declarations { get; set; }
     }
 }

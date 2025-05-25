@@ -17,7 +17,7 @@ namespace SchoolManager.Domain.Model
         public bool IsActive { get; set; }
 
         public virtual Position Position { get; set; }
-        public virtual ICollection<Education> Education { get; set; }
+        public virtual ICollection<Education> Educations { get; set; }
 
     }
 }
