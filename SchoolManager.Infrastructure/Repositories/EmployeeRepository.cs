@@ -12,7 +12,7 @@ namespace SchoolManager.Infrastructure.Repositories
         private readonly Context _context;
         public EmployeeRepository(Context context)
         {
-              _context = context;
+            _context = context;
         }
 
         public void DeleteEmployee(int EmployeeId)
@@ -41,6 +41,12 @@ namespace SchoolManager.Infrastructure.Repositories
         {
             var employee = _context.Employees.FirstOrDefault(e => e.Id == employeeId);
             return employee;
+        }
+
+        public IQueryable<Position> GetAllPositions()
+        {
+            var positions = _context.Positions;
+            return positions;
         }
     }
 }
