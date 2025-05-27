@@ -10,4 +10,8 @@
     <ProjectReference Include="..\SchoolManager.Domain\SchoolManager.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModel\Employee\" />
+  </ItemGroup>
+
 </Project>
