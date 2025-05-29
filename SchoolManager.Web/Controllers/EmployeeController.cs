@@ -16,7 +16,7 @@ namespace SchoolManager.Web.Controllers
             // serwis musi zwrócić dane do controlera w odpowienim formacie
             // kontroler musi przekazać dane do widoku i serwisu w odpowiednim formacie
 
-            var model = EmployeeService.GetAllEmployeesForList(); // Przykładowe wywołanie serwisu, aby pobrać pracowników o danym stanowisku
+            var model = employeeService.GetAllEmployeesForList(); // Przykładowe wywołanie serwisu, aby pobrać pracowników o danym stanowisku
             return View(model);
         }
 
@@ -48,7 +48,7 @@ namespace SchoolManager.Web.Controllers
 
         public IActionResult ViewEmployee(int employeeId)
         {
-            var employeeModel = employeeService.GetEmployeeById(employeeId); // Przykładowe wywołanie serwisu, aby pobrać pracownika o danym ID
+            var employeeModel = employeeService.GetEmployeeDetails(employeeId); // Przykładowe wywołanie serwisu, aby pobrać pracownika o danym ID
             return View(employeeModel);
 
         }

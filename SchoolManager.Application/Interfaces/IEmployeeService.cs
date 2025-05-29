@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SchoolManager.Application.ViewModels.Employee;
+using SchoolManager.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,8 @@ namespace SchoolManager.Application.Interfaces
 {
     public interface IEmployeeService
     {
-        public List<int> GetAllEmployees();
+        ListEmployeeForListVm GetAllEmployeesForList();
+        int AddEmployee(NewEmployeeVm model);
+        EmployeeDetailsVm GetEmployeeDetails(int employeeId);
     }
 }
