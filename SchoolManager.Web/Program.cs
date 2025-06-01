@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SchoolManager.Application;
+using SchoolManager.Application.Interfaces;
+using SchoolManager.Application.Services;
+using SchoolManager.Domain.Interfaces;
 using SchoolManager.Infrastructure;
-using SchoolManager.Web.Interfaces;
-using SchoolManager.Web.Services;
+using SchoolManager.Infrastructure.Repositories;
 
 namespace SchoolManager.Web
 {
@@ -22,7 +25,9 @@ namespace SchoolManager.Web
                 .AddEntityFrameworkStores<Context>();
             builder.Services.AddControllersWithViews();
             
-            builder.Services.AddTransient<IEmployeeService, EmployeeService>();
+            builder.Services.AddApplication(); // Register application services
+            builder.Services.AddInfrastructure(); // Register infrastructure services
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
