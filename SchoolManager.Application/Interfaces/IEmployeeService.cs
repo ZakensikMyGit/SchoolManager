@@ -15,6 +15,7 @@ namespace SchoolManager.Application.Interfaces
         //EmployeeDetailsVm GetEmployeeDetails(int employeeId);
         IQueryable<Employee> GetAllActiveEmployee();
         Employee GetEmployee(int EmployeeId);
+        EmployeeDetailsVm GetEmployeeDetails(int employeeId);
 
     }
 }
