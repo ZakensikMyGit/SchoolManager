@@ -11,7 +11,10 @@ namespace SchoolManager.Application.Interfaces
     public interface IEmployeeService
     {
         ListEmployeeForListVm GetAllEmployeesForList();
-        int AddEmployee(NewEmployeeVm model);
-        EmployeeDetailsVm GetEmployeeDetails(int employeeId);
+        //int AddEmployee(NewEmployeeVm model);
+        //EmployeeDetailsVm GetEmployeeDetails(int employeeId);
+        IQueryable<Employee> GetAllActiveEmployee();
+        Employee GetEmployee(int EmployeeId);
+
     }
 }

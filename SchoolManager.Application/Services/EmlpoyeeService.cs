@@ -8,6 +8,7 @@ using AutoMapper.QueryableExtensions;
 using SchoolManager.Application.Interfaces;
 using SchoolManager.Application.ViewModels.Employee;
 using SchoolManager.Domain.Interfaces;
+using SchoolManager.Domain.Model;
 
 namespace SchoolManager.Application.Services
 {
@@ -15,7 +16,17 @@ namespace SchoolManager.Application.Services
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
+        public EmlpoyeeService(IEmployeeRepository employeeRepo, IMapper mapper)
+        {
+            _employeeRepository = employeeRepo;
+            _mapper = mapper;
+        }
         public int AddEmployee(NewEmployeeVm model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<Employee> GetAllActiveEmployee()
         {
             throw new NotImplementedException();
         }
@@ -32,6 +43,11 @@ namespace SchoolManager.Application.Services
             };
 
             return employeeList;
+        }
+
+        public Employee GetEmployee(int EmployeeId)
+        {
+            throw new NotImplementedException();
         }
 
         public EmployeeDetailsVm GetEmployeeDetails(int employeeId)
