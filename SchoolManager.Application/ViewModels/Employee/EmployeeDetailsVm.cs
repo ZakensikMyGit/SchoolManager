@@ -23,7 +23,6 @@ namespace SchoolManager.Application.ViewModels.Employee
         public void Mapping(Profile profile)
         {
             profile.CreateMap<SchoolManager.Domain.Model.Employee, EmployeeDetailsVm>()
-                .ForMember(s => s.FullName, opt => opt.MapFrom(d => d.Name + " " + d.LastName)) //dodajemy w przypadku, gdy chcemy połączyć imię i nazwisko w jedno pole
                 .ForMember(s => s.Email, opt => opt.Ignore()) //jeśli nie chcemy mapować tego pola, np. gdy nie ma go w bazie danych
                 .ForMember(s => s.PhoneNumber, opt => opt.Ignore()) //jeśli nie chcemy mapować tego pola, np. gdy nie ma go w bazie danych
                 .ForMember(s => s.GroupName, opt => opt.Ignore()) //jeśli nie chcemy mapować tego pola, np. gdy nie ma go w bazie danych
