@@ -22,9 +22,15 @@ namespace SchoolManager.Web.Controllers
         [HttpGet]
         public IActionResult AddEmployee()
         {
+            return View(new NewEmployeeVm());
+        }
+        [HttpPost]
+        public IActionResult AddEmployee(NewEmployeeVm model)
+        {
+               var id = _employeeService.AddEmployee(model);
+                return RedirectToAction("Index");
             return View();
         }
-
         public IActionResult ViewEmployee(int employeeId)
         {
             var employeeModel = _employeeService.GetEmployeeDetails(employeeId);

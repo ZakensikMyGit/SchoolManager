@@ -23,7 +23,7 @@ namespace SchoolManager.Application.Services
         }
         public int AddEmployee(NewEmployeeVm model)
         {
-            throw new NotImplementedException();
+            return model.Id;
         }
 
         public IQueryable<Employee> GetAllActiveEmployee()
