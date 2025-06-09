@@ -15,15 +15,18 @@ namespace SchoolManager.Application.Services
     public class EmlpoyeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IPositionRepository _positionRepository; 
         private readonly IMapper _mapper;
-        public EmlpoyeeService(IEmployeeRepository employeeRepo, IMapper mapper)
+        public EmlpoyeeService(IEmployeeRepository employeeRepo, IPositionRepository positionRepository, IMapper mapper)
         {
             _employeeRepository = employeeRepo;
+            _positionRepository = positionRepository;
             _mapper = mapper;
         }
         public int AddEmployee(NewEmployeeVm employee)
         {
             var employeeEntity = _mapper.Map<Employee>(employee);
+            employeeEntity.IsActive = true;
             var employeeId = _employeeRepository.AddEmployee(employeeEntity);
             return employeeId;
         }
@@ -59,6 +62,11 @@ namespace SchoolManager.Application.Services
 
             
             return employeeVm;
+        }
+
+        public List<Position> GetAllPositions()
+        {
+            return _positionRepository.GetAllPositions();
         }
     }
 }
