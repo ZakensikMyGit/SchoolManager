@@ -1,9 +1,13 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SchoolManager.Application;
 using SchoolManager.Application.Interfaces;
 using SchoolManager.Application.Services;
+using SchoolManager.Application.ViewModels.Employee;
 using SchoolManager.Domain.Interfaces;
+using SchoolManager.Domain.Model;
 using SchoolManager.Infrastructure;
 using SchoolManager.Infrastructure.Repositories;
 
@@ -24,7 +28,10 @@ namespace SchoolManager.Web
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<Context>();
             builder.Services.AddControllersWithViews();
-            
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddFluentValidationClientsideAdapters();
+            builder.Services.AddTransient<IValidator<NewEmployeeVm>, NewEmployeeVmValidator>();
+
             builder.Services.AddApplication(); // Register application services
             builder.Services.AddInfrastructure(); // Register infrastructure services
 
