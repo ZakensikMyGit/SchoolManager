@@ -32,8 +32,8 @@ namespace SchoolManager.Web
             builder.Services.AddFluentValidationClientsideAdapters();
             builder.Services.AddTransient<IValidator<NewEmployeeVm>, NewEmployeeVmValidator>();
 
-            builder.Services.AddApplication(); // Register application services
-            builder.Services.AddInfrastructure(); // Register infrastructure services
+            builder.Services.AddApplication(); 
+            builder.Services.AddInfrastructure(); 
 
             var app = builder.Build();
 

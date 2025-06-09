@@ -19,6 +19,5 @@ namespace SchoolManager.Domain.Model
 
         public virtual Position Position { get; set; }
         public virtual ICollection<Education> Educations { get; set; }
-
     }
 }

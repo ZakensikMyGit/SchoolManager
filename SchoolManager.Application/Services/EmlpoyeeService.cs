@@ -15,7 +15,7 @@ namespace SchoolManager.Application.Services
     public class EmlpoyeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
-        private readonly IPositionRepository _positionRepository; 
+        private readonly IPositionRepository _positionRepository;
         private readonly IMapper _mapper;
         public EmlpoyeeService(IEmployeeRepository employeeRepo, IPositionRepository positionRepository, IMapper mapper)
         {
@@ -23,12 +23,29 @@ namespace SchoolManager.Application.Services
             _positionRepository = positionRepository;
             _mapper = mapper;
         }
-        public int AddEmployee(NewEmployeeVm employee)
+
+        public int AddEmployee(NewEmployeeVm model)
         {
-            var employeeEntity = _mapper.Map<Employee>(employee);
-            employeeEntity.IsActive = true;
-            var employeeId = _employeeRepository.AddEmployee(employeeEntity);
-            return employeeId;
+            if (model.Id == 0)
+            {
+                var employeeEntity = _mapper.Map<Employee>(model);
+                employeeEntity.IsActive = true;
+                var employeeId = _employeeRepository.AddEmployee(employeeEntity);
+                return employeeId;
+            }
+            else
+            {
+                var employee = _employeeRepository.GetEmployee(model.Id);
+                if (employee != null)
+                {
+                    _mapper.Map(model, employee);
+                    employee.PositionId = model.PositionId;
+                    _employeeRepository.UpdateEmployee(employee);
+
+                    return employee.Id;
+                }
+                return 0;
+            }
         }
 
         public IQueryable<Employee> GetAllActiveEmployee()
@@ -40,7 +57,7 @@ namespace SchoolManager.Application.Services
         {
             var employees = _employeeRepository.GetAllActiveEmployees()
                 .ProjectTo<EmployeeForListVm>(_mapper.ConfigurationProvider).ToList();
-            
+
             var employeeList = new ListEmployeeForListVm
             {
                 Employees = employees,
@@ -60,13 +77,19 @@ namespace SchoolManager.Application.Services
             var employee = _employeeRepository.GetEmployee(employeeId);
             var employeeVm = _mapper.Map<EmployeeDetailsVm>(employee);
 
-            
             return employeeVm;
         }
 
         public List<Position> GetAllPositions()
         {
             return _positionRepository.GetAllPositions();
+        }
+
+        public NewEmployeeVm GetEmployeeForEdit(int id)
+        {
+            var employee = _employeeRepository.GetEmployee(id);
+            var employeeVm = _mapper.Map<NewEmployeeVm>(employee);
+            return employeeVm;
         }
     }
 }

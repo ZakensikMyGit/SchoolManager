@@ -23,7 +23,7 @@ namespace SchoolManager.Application.ViewModels.Employee
         public void Mapping(Profile profile)
         {
             profile.CreateMap<NewEmployeeVm, SchoolManager.Domain.Model.Employee>()
-                .ForMember(dest => dest.Position, opt => opt.Ignore());
+                .ForMember(dest => dest.Position, opt => opt.Ignore()).ReverseMap();
         }
     }
 

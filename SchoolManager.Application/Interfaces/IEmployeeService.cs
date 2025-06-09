@@ -17,6 +17,6 @@ namespace SchoolManager.Application.Interfaces
         Employee GetEmployee(int EmployeeId);
         EmployeeDetailsVm GetEmployeeDetails(int employeeId);
         int AddEmployee(NewEmployeeVm model);
-
+        NewEmployeeVm GetEmployeeForEdit(int employeeId);
     }
 }

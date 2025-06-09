@@ -27,16 +27,6 @@ namespace SchoolManager.Web.Controllers
         [HttpGet]
         public IActionResult AddEmployee()
         {
-            //var model = new NewEmployeeVm();
-
-            //var positions = _positionRepository.GetAllPositions();
-            //model.Positions = positions.Select(p => new SelectListItem
-            //{
-            //    Value = p.Id.ToString(),
-            //    Text = p.Name
-            //});
-
-            //return View();
             return View(new NewEmployeeVm
             {
                 Positions = _positionRepository.GetAllPositions().Select(p => new SelectListItem
@@ -50,12 +40,36 @@ namespace SchoolManager.Web.Controllers
         [HttpPost]
         public IActionResult AddEmployee(NewEmployeeVm model)
         {
-                var positions = _positionRepository.GetAllPositions();
-                model.Positions = positions.Select(p => new SelectListItem
-                {
-                    Value = p.Id.ToString(),
-                    Text = p.Name
-                });
+            var positions = _positionRepository.GetAllPositions();
+            model.Positions = positions.Select(p => new SelectListItem
+            {
+                Value = p.Id.ToString(),
+                Text = p.Name
+            });
+            var id = _employeeService.AddEmployee(model);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult EditEmployee(int id)
+        {
+            var employeeModel = _employeeService.GetEmployeeForEdit(id);
+            employeeModel.Positions = _positionRepository.GetAllPositions().Select(p => new SelectListItem
+            {
+                Value = p.Id.ToString(),
+                Text = p.Name
+            });
+            return View(employeeModel);
+        }
+        [HttpPost]
+        public IActionResult EditEmployee(NewEmployeeVm model)
+        {
+            var positions = _positionRepository.GetAllPositions();
+            model.Positions = positions.Select(p => new SelectListItem
+            {
+                Value = p.Id.ToString(),
+                Text = p.Name
+            });
             var id = _employeeService.AddEmployee(model);
             return RedirectToAction("Index");
         }

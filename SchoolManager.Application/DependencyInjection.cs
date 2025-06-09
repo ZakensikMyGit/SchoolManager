@@ -14,7 +14,6 @@ namespace SchoolManager.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-          
             services.AddTransient<IEmployeeService, EmlpoyeeService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
