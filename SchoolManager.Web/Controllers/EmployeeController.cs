@@ -19,6 +19,7 @@ namespace SchoolManager.Web.Controllers
             return View(model);
         }
 
+
         [HttpGet]
         public IActionResult AddEmployee()
         {
@@ -27,9 +28,8 @@ namespace SchoolManager.Web.Controllers
         [HttpPost]
         public IActionResult AddEmployee(NewEmployeeVm model)
         {
-               var id = _employeeService.AddEmployee(model);
-                return RedirectToAction("Index");
-            return View();
+            var id = _employeeService.AddEmployee(model);
+            return RedirectToAction("index");
         }
         public IActionResult ViewEmployee(int employeeId)
         {

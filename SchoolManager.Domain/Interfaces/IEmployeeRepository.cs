@@ -11,9 +11,9 @@ namespace SchoolManager.Domain.Interfaces
     {
         IQueryable<Employee> GetAllActiveEmployees();
         Employee GetEmployee(int employeeId);
+        int AddEmployee(Employee employee);
 
         //void DeleteEmployee(int EmployeeId);
-        //int AddEmployee(Employee employee);
         //IQueryable<Employee> GetEmployeesByPositionId(int positionId);
         //Employee GetEmployeeById(int employeeId);
         //public IQueryable<Position> GetAllPositions();

@@ -15,6 +15,14 @@ namespace SchoolManager.Infrastructure.Repositories
         {
             _context = context;
         }
+
+        public int AddEmployee(Employee employee)
+        {
+            _context.Employees.Add(employee);   
+            _context.SaveChanges();
+            return employee.Id;
+        }
+
         public IQueryable<Employee> GetAllActiveEmployees()
         {
             return _context.Employees.Where(e => e.IsActive);

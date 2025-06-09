@@ -21,9 +21,11 @@ namespace SchoolManager.Application.Services
             _employeeRepository = employeeRepo;
             _mapper = mapper;
         }
-        public int AddEmployee(NewEmployeeVm model)
+        public int AddEmployee(NewEmployeeVm employee)
         {
-            return model.Id;
+            var employeeEntity = _mapper.Map<Employee>(employee);
+            var employeeId = _employeeRepository.AddEmployee(employeeEntity);
+            return employeeId;
         }
 
         public IQueryable<Employee> GetAllActiveEmployee()
