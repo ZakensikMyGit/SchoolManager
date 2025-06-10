@@ -13,7 +13,7 @@ namespace SchoolManager.Domain.Interfaces
         Employee GetEmployee(int employeeId);
         int AddEmployee(Employee employee);
         void UpdateEmployee(Employee employee);
-        //void DeleteEmployee(int EmployeeId);
+        void DeleteEmployee(int EmployeeId);
         //IQueryable<Employee> GetEmployeesByPositionId(int positionId);
         //Employee GetEmployeeById(int employeeId);
         //public IQueryable<Position> GetAllPositions();

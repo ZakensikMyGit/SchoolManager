@@ -18,9 +18,19 @@ namespace SchoolManager.Infrastructure.Repositories
 
         public int AddEmployee(Employee employee)
         {
-            _context.Employees.Add(employee);   
+            _context.Employees.Add(employee);
             _context.SaveChanges();
             return employee.Id;
+        }
+
+        public void DeleteEmployee(int id)
+        {
+            var employee = _context.Employees.FirstOrDefault(e => e.Id == id);
+            if (employee != null)
+            {
+                _context.Employees.Remove(employee);
+                _context.SaveChanges();
+            }
         }
 
         public IQueryable<Employee> GetAllActiveEmployees()

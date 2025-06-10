@@ -91,5 +91,10 @@ namespace SchoolManager.Application.Services
             var employeeVm = _mapper.Map<NewEmployeeVm>(employee);
             return employeeVm;
         }
+
+        public void DeleteEmployee(int id)
+        {
+            _employeeRepository.DeleteEmployee(id);
+        }
     }
 }
