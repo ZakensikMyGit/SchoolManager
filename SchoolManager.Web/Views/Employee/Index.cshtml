@@ -1,13 +1,13 @@
 ﻿@model SchoolManager.Application.ViewModels.Employee.ListEmployeeForListVm
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Index"] = "Index";
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="AddEmployee">Nowy pracownik</a>
 </p>
 <table class="table">
     <thead>
@@ -38,9 +38,9 @@
                     @Html.DisplayFor(modelItem => item.LastName)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                    @Html.ActionLink("Edytuj ", "EditEmployee", new { id=item.Id }) |
+                    @Html.ActionLink("Szczegóły ", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Usuń ", "Delete", new { id=item.Id })
                 </td>
             </tr>
         }
