@@ -16,6 +16,7 @@ namespace SchoolManager.Infrastructure
         {
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IPositionRepository, PositionRepository>();
+            services.AddTransient<IGroupRepository, GroupRepository>();
             return services;
         }
     }

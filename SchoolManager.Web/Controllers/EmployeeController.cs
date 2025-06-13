@@ -10,13 +10,16 @@ namespace SchoolManager.Web.Controllers
     {
         private readonly IEmployeeService _employeeService;
         private readonly IPositionRepository _positionRepository;
+        private readonly IGroupRepository _groupRepository;
 
         public EmployeeController(
             IEmployeeService employeeService,
-            IPositionRepository positionRepository)
+            IPositionRepository positionRepository,
+            IGroupRepository groupRepository)
         {
             _employeeService = employeeService;
             _positionRepository = positionRepository;
+            _groupRepository = groupRepository;
         }
         public IActionResult Index()
         {
@@ -33,6 +36,11 @@ namespace SchoolManager.Web.Controllers
                 {
                     Value = p.Id.ToString(),
                     Text = p.Name
+                }),
+                Groups = _groupRepository.GetAllGroups().Select(g => new SelectListItem
+                {
+                    Value = g.Id.ToString(),
+                    Text = g.GroupName
                 })
             });
         }
@@ -41,10 +49,16 @@ namespace SchoolManager.Web.Controllers
         public IActionResult AddEmployee(NewEmployeeVm model)
         {
             var positions = _positionRepository.GetAllPositions();
+            var groups = _groupRepository.GetAllGroups();
             model.Positions = positions.Select(p => new SelectListItem
             {
                 Value = p.Id.ToString(),
                 Text = p.Name
+            });
+            model.Groups = groups.Select(g => new SelectListItem
+            {
+                Value = g.Id.ToString(),
+                Text = g.GroupName
             });
             var id = _employeeService.AddEmployee(model);
             return RedirectToAction("Index");
@@ -59,16 +73,27 @@ namespace SchoolManager.Web.Controllers
                 Value = p.Id.ToString(),
                 Text = p.Name
             });
+            employeeModel.Groups = _groupRepository.GetAllGroups().Select(g => new SelectListItem
+            {
+                Value = g.Id.ToString(),
+                Text = g.GroupName
+            });
             return View(employeeModel);
         }
         [HttpPost]
         public IActionResult EditEmployee(NewEmployeeVm model)
         {
             var positions = _positionRepository.GetAllPositions();
+            var groups = _groupRepository.GetAllGroups();
             model.Positions = positions.Select(p => new SelectListItem
             {
                 Value = p.Id.ToString(),
                 Text = p.Name
+            });
+            model.Groups = groups.Select(g => new SelectListItem
+            {
+                Value = g.Id.ToString(),
+                Text = g.GroupName
             });
             var id = _employeeService.AddEmployee(model);
             return RedirectToAction("Index");

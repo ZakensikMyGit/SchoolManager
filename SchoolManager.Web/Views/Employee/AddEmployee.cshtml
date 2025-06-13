@@ -24,9 +24,19 @@
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="EmploymentDate" class="control-label"></label>
+                <input asp-for="EmploymentDate" class="form-control" />
+                <span asp-validation-for="EmploymentDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="PositionId" class="control-label"></label>
                 <select asp-for="PositionId" class="form-control" asp-items="Model.Positions"></select>
                 <span asp-validation-for="PositionId" class="text-danger"></span>
+            </div>
+            <div id="groupFields" class="form-group" style="display:none;">
+                <label asp-for="GroupId" class="control-label"></label>
+                <select asp-for="GroupId" class="form-control" asp-items="Model.Groups"></select>
+                <span asp-validation-for="GroupId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -43,4 +53,17 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        function toggleGroupFields() {
+            var selectedText = document.getElementById('PositionId').options[document.getElementById('PositionId').selectedIndex].text;
+            var groupDiv = document.getElementById('groupFields');
+            if (selectedText.toLowerCase().includes('teacher')) {
+                groupDiv.style.display = 'block';
+            } else {
+                groupDiv.style.display = 'none';
+            }
+        }
+        document.getElementById('PositionId').addEventListener('change', toggleGroupFields);
+        window.addEventListener('load', toggleGroupFields);
+    </script>
 }

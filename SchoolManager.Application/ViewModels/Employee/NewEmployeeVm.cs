@@ -16,9 +16,13 @@ namespace SchoolManager.Application.ViewModels.Employee
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public DateTime EmploymentDate { get; set; } = DateTime.Now;
 
         public int PositionId { get; set; }
         public IEnumerable<SelectListItem> Positions { get; set; }
+
+        public int? GroupId { get; set; }
+        public IEnumerable<SelectListItem> Groups { get; set; }
 
         public void Mapping(Profile profile)
         {
@@ -34,6 +38,7 @@ namespace SchoolManager.Application.ViewModels.Employee
             RuleFor(x => x.Id).NotNull();
             RuleFor(x => x.FirstName).NotEmpty().WithMessage("Uzupejnij pole");
             RuleFor(x => x.LastName).NotEmpty().WithMessage("Uzupejnij pole");
+            RuleFor(x => x.EmploymentDate).NotEmpty().WithMessage("Uzupejnij pole");
         }
     }
 }
