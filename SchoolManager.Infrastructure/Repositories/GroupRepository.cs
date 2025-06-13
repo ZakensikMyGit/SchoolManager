@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SchoolManager.Domain.Interfaces;
 using SchoolManager.Domain.Model;
 
 namespace SchoolManager.Infrastructure.Repositories
 {
-    public class GroupRepository
+    public class GroupRepository : IGroupRepository
     {
         private readonly Context _context;
         public GroupRepository(Context context)
