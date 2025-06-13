@@ -13,7 +13,7 @@ namespace SchoolManager.Domain.Model
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public double WorkingHours { get; set; }
-        public DateTime EmploymentDate { get; set; }
+        public DateTime EmploymentDate { get; set; } = DateTime.Now;
         public bool IsActive { get; set; }
         public int PositionId { get; set; }
 
