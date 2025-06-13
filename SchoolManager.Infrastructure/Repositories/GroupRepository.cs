@@ -23,5 +23,11 @@ namespace SchoolManager.Infrastructure.Repositories
         {
             return _context.Groups.FirstOrDefault(g => g.Id == id);
         }
+
+        public void UpdateGroup(Group group)
+        {
+            _context.Groups.Update(group);
+            _context.SaveChanges();
+        }
     }
 }

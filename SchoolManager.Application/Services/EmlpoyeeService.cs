@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -16,11 +17,13 @@ namespace SchoolManager.Application.Services
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IPositionRepository _positionRepository;
+        public readonly IGroupRepository _groupRepository;
         private readonly IMapper _mapper;
-        public EmlpoyeeService(IEmployeeRepository employeeRepo, IPositionRepository positionRepository, IMapper mapper)
+        public EmlpoyeeService(IEmployeeRepository employeeRepo, IPositionRepository positionRepository,IGroupRepository groupRepository ,IMapper mapper)
         {
             _employeeRepository = employeeRepo;
             _positionRepository = positionRepository;
+            _groupRepository = groupRepository;
             _mapper = mapper;
         }
 
@@ -31,6 +34,8 @@ namespace SchoolManager.Application.Services
                 var employeeEntity = _mapper.Map<Employee>(model);
                 employeeEntity.IsActive = true;
                 var employeeId = _employeeRepository.AddEmployee(employeeEntity);
+                
+                UpdateTeacherGroup(employeeId,model.PositionId, model.GroupId);
                 return employeeId;
             }
             else
@@ -42,10 +47,46 @@ namespace SchoolManager.Application.Services
                     employee.PositionId = model.PositionId;
                     _employeeRepository.UpdateEmployee(employee);
 
+                    UpdateTeacherGroup(employee.Id, model.PositionId, model.GroupId);
                     return employee.Id;
                 }
                 return 0;
             }
+        }
+
+
+
+        private void UpdateTeacherGroup(int teacherId, int positionId, int? groupId)
+        {
+            if (!groupId.HasValue)
+            {
+                return;
+            }
+
+            var position = _positionRepository.GetPositionById(positionId);
+            if (position == null)
+            {
+                return;
+            }
+
+            bool isTeacher = (position.Category?.IndexOf("teacher", StringComparison.OrdinalIgnoreCase) >= 0
+                               || position.Category?.IndexOf("nauczyciel", StringComparison.OrdinalIgnoreCase) >= 0
+                               || position.Name?.IndexOf("teacher", StringComparison.OrdinalIgnoreCase) >= 0
+                               || position.Name?.IndexOf("nauczyciel", StringComparison.OrdinalIgnoreCase) >= 0);
+
+            if (!isTeacher)
+            {
+                return;
+            }
+
+            var group = _groupRepository.GetGroup(groupId.Value);
+            if (group == null)
+            {
+                return;
+            }
+
+            group.TeacherId = teacherId;
+            _groupRepository.UpdateGroup(group);
         }
 
         public IQueryable<Employee> GetAllActiveEmployee()

@@ -11,5 +11,6 @@ namespace SchoolManager.Domain.Interfaces
     {
         List<Group> GetAllGroups();
         Group GetGroup(int groupId);
+        void UpdateGroup(Group group);
     }
 }
