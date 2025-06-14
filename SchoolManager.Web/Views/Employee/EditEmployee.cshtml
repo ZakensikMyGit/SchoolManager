@@ -40,6 +40,11 @@
                 <select asp-for="GroupId" class="form-control" asp-items="Model.Groups"></select>
                 <span asp-validation-for="GroupId" class="text-danger"></span>
             </div>
+            <div id="educationField" class="form-group" style="display:none;">
+                <label asp-for="Education" class="control-label"></label>
+                <input asp-for="Education" class="form-control" />
+                <span asp-validation-for="Education" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -58,12 +63,15 @@
     <script>
         function toggleGroupFields() {
             var select = document.getElementById('PositionId');
-            var selectedText = select.options[select.selectedIndex].text;
+            var selectedText = select.options[select.selectedIndex].text.toLowerCase();
             var groupDiv = document.getElementById('groupFields');
-            if (selectedText.toLowerCase().includes('teacher')) {
+           var eduDiv = document.getElementById('educationField');
+            if (selectedText.includes('teacher') || selectedText.includes('nauczyciel')) {
                 groupDiv.style.display = 'block';
+                eduDiv.style.display = 'block';
             } else {
                 groupDiv.style.display = 'none';
+                eduDiv.style.display = 'none';
             }
         }
         document.getElementById('PositionId').addEventListener('change', toggleGroupFields);

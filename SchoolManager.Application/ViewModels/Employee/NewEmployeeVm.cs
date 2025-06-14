@@ -23,7 +23,7 @@ namespace SchoolManager.Application.ViewModels.Employee
 
         public int? GroupId { get; set; }
         public IEnumerable<SelectListItem> Groups { get; set; }
-
+        public string? Education { get; set; }
         public void Mapping(Profile profile)
         {
             profile.CreateMap<NewEmployeeVm, SchoolManager.Domain.Model.Employee>()
