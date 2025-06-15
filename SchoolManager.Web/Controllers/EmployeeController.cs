@@ -98,7 +98,7 @@ namespace SchoolManager.Web.Controllers
             var id = _employeeService.AddEmployee(model);
             return RedirectToAction("Index");
         }
-        public IActionResult ViewEmployee(int id)
+        public IActionResult DetailsEmployee(int id)
         {
             var employeeModel = _employeeService.GetEmployeeDetails(id);
             return View(employeeModel);

@@ -38,9 +38,9 @@ namespace SchoolManager.Infrastructure.Repositories
             return _context.Employees.Where(e => e.IsActive);
         }
 
-        public Employee GetEmployee(int employeeId)
+        public Employee GetEmployee(int id)
         {
-            return _context.Employees.FirstOrDefault(e => e.Id == employeeId);
+            return _context.Employees.FirstOrDefault(e => e.Id == id);
         }
         public void UpdateEmployee(Employee employee)
         {
