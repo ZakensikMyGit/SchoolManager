@@ -14,7 +14,7 @@
         <dd class="col-sm-10">@Model.FullName</dd>
 
         <dt class="col-sm-2">Position</dt>
-        <dd class="col-sm-10">@Model.PositionName</dd>
+        <dd class="col-sm-10">@(Model.IsDirector ? "Dyrektor" : Model.PositionName)</dd>
 
         <dt class="col-sm-2">Date of Employment</dt>
         <dd class="col-sm-10">@Model.DateOfEmployment.ToString("yyyy-MM-dd")</dd>
@@ -27,9 +27,6 @@
 
         <dt class="col-sm-2">Working Hours</dt>
         <dd class="col-sm-10">@Model.WorkingHours</dd>
-
-        <dt class="col-sm-2">Director</dt>
-        <dd class="col-sm-10">@Model.IsDirector</dd>
 
         <dt class="col-sm-2">Education</dt>
         <dd class="col-sm-10">@Model.Education</dd>

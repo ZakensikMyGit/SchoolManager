@@ -33,9 +33,22 @@ namespace SchoolManager.Application.Services
             {
                 var employeeEntity = _mapper.Map<Employee>(model);
                 employeeEntity.IsActive = true;
+
+                if (!string.IsNullOrWhiteSpace(model.Education))
+                {
+                    employeeEntity.Educations = new List<Education>
+                    {
+                        new Education
+                        {
+                            Name = model.Education,
+                            Description = string.Empty,
+                            Type = string.Empty
+                        }
+                    };
+                }
                 var employeeId = _employeeRepository.AddEmployee(employeeEntity);
-                
-                UpdateTeacherGroup(employeeId,model.PositionId, model.GroupId);
+
+                UpdateTeacherGroup(employeeId, model.PositionId, model.GroupId);
                 return employeeId;
             }
             else
@@ -45,6 +58,32 @@ namespace SchoolManager.Application.Services
                 {
                     _mapper.Map(model, employee);
                     employee.PositionId = model.PositionId;
+
+                    if (!string.IsNullOrWhiteSpace(model.Education))
+                    {
+                        var existing = employee.Educations?.FirstOrDefault();
+                        if (existing == null)
+                        {
+                            employee.Educations = new List<Education>
+                            {
+                                new Education
+                                {
+                                    Name = model.Education,
+                                    Description = string.Empty,
+                                    Type = string.Empty
+                                }
+                            };
+                        }
+                        else
+                        {
+                            existing.Name = model.Education;
+                        }
+                    }
+                    else if (employee.Educations != null && employee.Educations.Any())
+                    {
+                        employee.Educations.Clear();
+                    }
+
                     _employeeRepository.UpdateEmployee(employee);
 
                     UpdateTeacherGroup(employee.Id, model.PositionId, model.GroupId);
@@ -53,8 +92,6 @@ namespace SchoolManager.Application.Services
                 return 0;
             }
         }
-
-
 
         private void UpdateTeacherGroup(int teacherId, int positionId, int? groupId)
         {
@@ -97,7 +134,17 @@ namespace SchoolManager.Application.Services
         public ListEmployeeForListVm GetAllEmployeesForList()
         {
             var employees = _employeeRepository.GetAllActiveEmployees()
-                .ProjectTo<EmployeeForListVm>(_mapper.ConfigurationProvider).ToList();
+                .ProjectTo<EmployeeForListVm>(_mapper.ConfigurationProvider)
+                .ToList();
+
+            foreach (var empVm in employees)
+            {
+                var employeeEntity = _employeeRepository.GetEmployee(empVm.Id);
+                if (employeeEntity is Teacher teacher && teacher.IsDirector)
+                {
+                    empVm.PositionName = "Dyrektor";
+                }
+            }
 
             var employeeList = new ListEmployeeForListVm
             {
@@ -118,6 +165,42 @@ namespace SchoolManager.Application.Services
             var employee = _employeeRepository.GetEmployee(employeeId);
             var employeeVm = _mapper.Map<EmployeeDetailsVm>(employee);
 
+            employeeVm.DateOfEmployment = employee.EmploymentDate;
+
+            employeeVm.Education = employee.Educations != null && employee.Educations.Any()
+                ? string.Join(", ", employee.Educations.Select(e => e.Name))
+                : string.Empty;
+
+            var position = _positionRepository.GetPositionById(employee.PositionId);
+
+            var group = _groupRepository.GetAllGroups()
+                .FirstOrDefault(g => g.TeacherId == employee.Id);
+            if (group != null)
+            {
+                employeeVm.GroupName = group.GroupName;
+            }
+
+            if (employee is Teacher teacher)
+            {
+                employeeVm.IsDirector = teacher.IsDirector;
+                if (teacher.IsDirector)
+                {
+                    employeeVm.PositionName = "Dyrektor";
+                    employeeVm.PensumHours = 40;
+                }
+                else
+                {
+                    employeeVm.PositionName = position.Name;
+                    employeeVm.PensumHours = 25;
+                }
+            }
+            else
+            {
+                employeeVm.IsDirector = false;
+                employeeVm.PositionName = position.Name;
+                employeeVm.PensumHours = 40;
+            }
+
             return employeeVm;
         }
 
@@ -130,6 +213,10 @@ namespace SchoolManager.Application.Services
         {
             var employee = _employeeRepository.GetEmployee(id);
             var employeeVm = _mapper.Map<NewEmployeeVm>(employee);
+            if (employee.Educations != null && employee.Educations.Any())
+            {
+                employeeVm.Education = string.Join(", ", employee.Educations.Select(e => e.Name));
+            }
             return employeeVm;
         }
 

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SchoolManager.Domain.Interfaces;
+using SchoolManager.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SchoolManager.Domain.Interfaces;
-using SchoolManager.Domain.Model;
 
 namespace SchoolManager.Infrastructure.Repositories
 {
@@ -40,7 +41,9 @@ namespace SchoolManager.Infrastructure.Repositories
 
         public Employee GetEmployee(int id)
         {
-            return _context.Employees.FirstOrDefault(e => e.Id == id);
+            return _context.Employees
+               .Include(e => e.Educations)
+               .FirstOrDefault(e => e.Id == id);
         }
         public void UpdateEmployee(Employee employee)
         {
