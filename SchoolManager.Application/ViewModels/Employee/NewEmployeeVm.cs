@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SchoolManager.Application.ViewModels.Employee
 {
-    public class NewEmployeeVm : IMapFrom<SchoolManager.Domain.Model.Employee>
+    public class NewEmployeeVm : IMapFrom<SchoolManager.Domain.Model.Employee>, IMapFrom<SchoolManager.Domain.Model.Teacher>
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -27,7 +27,13 @@ namespace SchoolManager.Application.ViewModels.Employee
         public void Mapping(Profile profile)
         {
             profile.CreateMap<NewEmployeeVm, SchoolManager.Domain.Model.Employee>()
-                .ForMember(dest => dest.Position, opt => opt.Ignore()).ReverseMap();
+                 .ForMember(dest => dest.Position, opt => opt.Ignore())
+                .ReverseMap();
+
+            profile.CreateMap<NewEmployeeVm, SchoolManager.Domain.Model.Teacher>()
+                .ForMember(dest => dest.Position, opt => opt.Ignore())
+                .ForMember(dest => dest.Group, opt => opt.Ignore())
+                .ReverseMap();
         }
     }
 

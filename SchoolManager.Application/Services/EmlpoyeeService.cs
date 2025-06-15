@@ -31,7 +31,27 @@ namespace SchoolManager.Application.Services
         {
             if (model.Id == 0)
             {
-                var employeeEntity = _mapper.Map<Employee>(model);
+                var position = _positionRepository.GetPositionById(model.PositionId);
+                bool isTeacher = position != null &&
+                                 ((position.Category?.IndexOf("teacher", StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                  (position.Category?.IndexOf("nauczyciel", StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                  (position.Name?.IndexOf("teacher", StringComparison.OrdinalIgnoreCase) >= 0) ||
+                                  (position.Name?.IndexOf("nauczyciel", StringComparison.OrdinalIgnoreCase) >= 0));
+
+                Employee employeeEntity;
+                if (isTeacher)
+                {
+                    var teacher = _mapper.Map<Teacher>(model);
+                    teacher.TypeTeacher = "wychowawca";
+                    teacher.IsDirector = false;
+                    teacher.PensumHours = 25;
+                    employeeEntity = teacher;
+                }
+                else
+                {
+                    employeeEntity = _mapper.Map<Employee>(model);
+                }
+
                 employeeEntity.IsActive = true;
 
                 if (!string.IsNullOrWhiteSpace(model.Education))
