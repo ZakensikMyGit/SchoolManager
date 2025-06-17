@@ -17,8 +17,9 @@ namespace SchoolManager.Application.Services
     {
         private readonly IChildRepository _childRepository;
         private readonly IGroupRepository _groupRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
-        public ChildService(IChildRepository childRepository, IGroupRepository groupRepository,IMapper mapper)
+        public ChildService(IChildRepository childRepository, IGroupRepository groupRepository, IMapper mapper)
         {
             _childRepository = childRepository;
             _groupRepository = groupRepository;
@@ -34,12 +35,17 @@ namespace SchoolManager.Application.Services
             var children = _childRepository.GetAllChildren()
                 .ProjectTo<ChildForListVm>(_mapper.ConfigurationProvider)
                 .ToList();
-           var childLost = new ListChildForListVm
+            foreach (var child in children)
+            {
+                var teacher = _employeeRepository.GetEmployee(child.TeacherId);
+            }
+
+            var childList = new ListChildForListVm
             {
                 Children = children,
                 Count = children.Count
-           };
-            return childLost;
+            };
+            return childList;
         }
 
         public ListChildForListVm GetAllChildrenForListByGroupId(int groupId)
