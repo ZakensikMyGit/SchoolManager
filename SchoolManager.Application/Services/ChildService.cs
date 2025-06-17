@@ -2,7 +2,6 @@
 using AutoMapper.QueryableExtensions;
 using SchoolManager.Application.Interfaces;
 using SchoolManager.Application.ViewModels.Child;
-using SchoolManager.Application.ViewModels.Employee;
 using SchoolManager.Domain.Interfaces;
 using SchoolManager.Domain.Model;
 using System;
@@ -17,7 +16,6 @@ namespace SchoolManager.Application.Services
     {
         private readonly IChildRepository _childRepository;
         private readonly IGroupRepository _groupRepository;
-        private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
         public ChildService(IChildRepository childRepository, IGroupRepository groupRepository, IMapper mapper)
         {
@@ -35,10 +33,6 @@ namespace SchoolManager.Application.Services
             var children = _childRepository.GetAllChildren()
                 .ProjectTo<ChildForListVm>(_mapper.ConfigurationProvider)
                 .ToList();
-            foreach (var child in children)
-            {
-                var teacher = _employeeRepository.GetEmployee(child.TeacherId);
-            }
 
             var childList = new ListChildForListVm
             {
