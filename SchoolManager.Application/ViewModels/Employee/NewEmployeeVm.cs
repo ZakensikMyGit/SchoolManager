@@ -16,6 +16,7 @@ namespace SchoolManager.Application.ViewModels.Employee
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public double WorkingHours { get; set; } = 1;
         public DateTime EmploymentDate { get; set; } = DateTime.Now;
 
         public int PositionId { get; set; }
@@ -45,6 +46,7 @@ namespace SchoolManager.Application.ViewModels.Employee
             RuleFor(x => x.FirstName).NotEmpty().WithMessage("Uzupejnij pole");
             RuleFor(x => x.LastName).NotEmpty().WithMessage("Uzupejnij pole");
             RuleFor(x => x.EmploymentDate).NotEmpty().WithMessage("Uzupejnij pole");
+            RuleFor(x => x.WorkingHours).GreaterThan(0).LessThanOrEqualTo(2).WithMessage("Godziny pracy powinny być większe niż 0 i mniejsze lub równe 2");
         }
     }
 }

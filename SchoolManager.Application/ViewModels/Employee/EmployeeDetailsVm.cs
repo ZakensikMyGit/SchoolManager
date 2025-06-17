@@ -20,6 +20,7 @@ namespace SchoolManager.Application.ViewModels.Employee
        // public string Email { get; set; }
         public int PensumHours { get; set; }
         public double WorkingHours { get; set; }
+        public double ActualWorkingHours => PensumHours * WorkingHours;
         public bool IsDirector { get; set; }
         public string Education { get; set; }
 

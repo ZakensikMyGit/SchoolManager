@@ -52,6 +52,7 @@ namespace SchoolManager.Application.Services
                     employeeEntity = _mapper.Map<Employee>(model);
                 }
 
+                employeeEntity.WorkingHours = 1;
                 employeeEntity.IsActive = true;
 
                 if (!string.IsNullOrWhiteSpace(model.Education))
