@@ -38,6 +38,7 @@ System zarządzania danymi dla publicznego przedszkola, zbudowany w technologii 
 | `Name`            | string      | Imię pracownika |
 | `LastName`        | string      | Nazwisko pracownika |
 | `WorkingHours`    | double      | Etat (np. 1.0 = pełny etat) |
+| 'ActualWorkingHours` | double  | Faktyczna liczba godzin (PensumHours × WorkingHours) |
 | `EmploymentDate`  | DateTime    | Data zatrudnienia |
 | `IsActive`        | bool        | Czy pracownik jest aktualnie zatrudniony |
 | `Position`        | Position    | Stanowisko pracownika |
