@@ -46,11 +46,11 @@ namespace SchoolManager.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add(int id)
+        public IActionResult Add(int employeeId)
         {
             var model = new NewScheduleEntryVm
             {
-                EmployeeId = id,
+                EmployeeId = employeeId,
                 Employees = _employeeRepository.GetAllActiveEmployees().Select(e => new SelectListItem
                 {
                     Value = e.Id.ToString(),

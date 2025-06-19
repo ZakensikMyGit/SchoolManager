@@ -24,8 +24,9 @@ namespace SchoolManager.Application.Services
         public IEnumerable<ScheduleEntryVm> GetSchedules(int employeeId, DateTime start, DateTime end)
         {
             return _scheduleRepository.GetByTeacher(employeeId)
-                .Where(x => x.StartTime >= start && x.EndTime <= end)
-                .ProjectTo<ScheduleEntryVm>(_mapper.ConfigurationProvider).ToList();
+                .Where(x => x.StartTime < end && x.EndTime > start)
+                .ProjectTo<ScheduleEntryVm>(_mapper.ConfigurationProvider)
+                .ToList();
         }
         public int AddSchedule(NewScheduleEntryVm entryVm)
         {
@@ -39,8 +40,29 @@ namespace SchoolManager.Application.Services
             //if (entryVm.PositionId != 1 && entryVm.PositionId != 2)
             //    throw new InvalidOperationException("Pracownik musi być nauczycielem");
 
-            var entity = _mapper.Map<ScheduleEntry>(entryVm);
-            return _scheduleRepository.AddScheduleEntry(entity);
+            if (entryVm.EntryType == ScheduleEntryTypeEnum.ZMIANA_PODSTAWOWA)
+            {
+                int startYear = entryVm.StartTime.Month >= 9 ? entryVm.StartTime.Year : entryVm.StartTime.Year - 1;
+                DateTime startDate = new DateTime(startYear, 9, 1);
+                DateTime endDate = new DateTime(startYear + 1, 6, 30);
+                int lastId = 0;
+                for (var date = startDate; date <= endDate; date = date.AddDays(1))
+                {
+                    if (date.DayOfWeek == entryVm.StartTime.DayOfWeek)
+                    {
+                        var entity = _mapper.Map<ScheduleEntry>(entryVm);
+                        entity.StartTime = date.Date.Add(entryVm.StartTime.TimeOfDay);
+                        entity.EndTime = date.Date.Add(entryVm.EndTime.TimeOfDay);
+                        lastId = _scheduleRepository.AddScheduleEntry(entity);
+                    }
+                }
+                return lastId;
+            }
+            else
+            {
+                var entity = _mapper.Map<ScheduleEntry>(entryVm);
+                return _scheduleRepository.AddScheduleEntry(entity);
+            }
         }
         public void UpdateSchedule(EditScheduleEntryVm entryVm)
         {
