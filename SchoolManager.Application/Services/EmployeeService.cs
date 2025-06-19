@@ -149,7 +149,7 @@ namespace SchoolManager.Application.Services
 
         public IQueryable<Employee> GetAllActiveEmployee()
         {
-            throw new NotImplementedException();
+            return _employeeRepository.GetAllActiveEmployees();
         }
 
         public ListEmployeeForListVm GetAllEmployeesForList()
@@ -178,7 +178,7 @@ namespace SchoolManager.Application.Services
 
         public Employee GetEmployee(int EmployeeId)
         {
-            throw new NotImplementedException();
+            return _employeeRepository.GetEmployee(EmployeeId);
         }
 
         public EmployeeDetailsVm GetEmployeeDetails(int employeeId)
