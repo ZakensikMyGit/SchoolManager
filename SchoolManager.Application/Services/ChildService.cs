@@ -25,7 +25,7 @@ namespace SchoolManager.Application.Services
         }
         public void DeleteChild(int childId)
         {
-            throw new NotImplementedException();
+           _childRepository.DeleteChild(childId);
         }
 
         public ListChildForListVm GetAllChildrenForList()
@@ -44,12 +44,20 @@ namespace SchoolManager.Application.Services
 
         public ListChildForListVm GetAllChildrenForListByGroupId(int groupId)
         {
-            throw new NotImplementedException();
+            var children = _childRepository.GetChildrenByGroupId(groupId)
+                .ProjectTo<ChildForListVm>(_mapper.ConfigurationProvider)
+                .ToList();
+
+            return new ListChildForListVm
+            {
+                Children = children,
+                Count = children.Count
+            };
         }
 
         public Child GetChild(int ChildId)
         {
-            throw new NotImplementedException();
+            return _childRepository.GetChildById(ChildId);
         }
     }
 }

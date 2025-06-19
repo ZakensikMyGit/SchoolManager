@@ -9,11 +9,11 @@ namespace SchoolManager.Application.Interfaces
 {
     public interface IScheduleService
     {
-        IEnumerable<ScheduleEntryVm> GetSchedules(int employeeId, DateTime strart, DateTime end);
-        int AddSchedule(NewScheduleEntryVm entryVm);
-        void UpdateSchedule(EditScheduleEntryVm entryVm);
+        IEnumerable<ScheduleEntryVm> GetSchedules(int employeeId, DateTime start, DateTime end);
+        int AddSchedule(NewScheduleEntryVm editEntryVm);
+        void UpdateSchedule(EditScheduleEntryVm editEntryVm);
         void DeleteSchedule(int scheduleEntryid);
-        bool IsScheduleEntryValid(NewScheduleEntryVm entryVm);
-        bool IsScheduleEntryValid(EditScheduleEntryVm entryVm);
+        bool IsScheduleEntryValid(NewScheduleEntryVm newEntryVm);
+        bool IsScheduleEntryValid(EditScheduleEntryVm editEntryVm);
     }
 }

@@ -13,13 +13,13 @@ using SchoolManager.Domain.Model;
 
 namespace SchoolManager.Application.Services
 {
-    public class EmlpoyeeService : IEmployeeService
+    public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IPositionRepository _positionRepository;
         public readonly IGroupRepository _groupRepository;
         private readonly IMapper _mapper;
-        public EmlpoyeeService(IEmployeeRepository employeeRepo, IPositionRepository positionRepository,IGroupRepository groupRepository ,IMapper mapper)
+        public EmployeeService(IEmployeeRepository employeeRepo, IPositionRepository positionRepository,IGroupRepository groupRepository ,IMapper mapper)
         {
             _employeeRepository = employeeRepo;
             _positionRepository = positionRepository;
