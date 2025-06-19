@@ -56,11 +56,7 @@ namespace SchoolManager.Web.Controllers
                     Value = e.Id.ToString(),
                     Text = e.FullName
                 }),
-                Groups = _groupRepository.GetAllGroups().Select(g => new SelectListItem
-                {
-                    Value = g.Id.ToString(),
-                    Text = g.GroupName
-                }),
+                
                 StartTime = DateTime.Today,
                 EndTime = DateTime.Today.AddHours(1)
             };
@@ -75,11 +71,16 @@ namespace SchoolManager.Web.Controllers
                 Value = e.Id.ToString(),
                 Text = e.FullName
             });
-            model.Groups = _groupRepository.GetAllGroups().Select(g => new SelectListItem
+            var employee = _employeeRepository.GetEmployee(model.EmployeeId);
+            if (employee != null)
             {
-                Value = g.Id.ToString(),
-                Text = g.GroupName
-            });
+                model.PositionId = employee.PositionId;
+                var group = _groupRepository.GetAllGroups().FirstOrDefault(g => g.TeacherId == employee.Id);
+                if (group != null)
+                {
+                    model.GroupId = group.Id;
+                }
+            }
 
             _scheduleService.AddSchedule(model);
             return RedirectToAction("Index", new { employeeId = model.EmployeeId });

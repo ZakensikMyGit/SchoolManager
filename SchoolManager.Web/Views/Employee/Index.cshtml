@@ -25,6 +25,7 @@
                 Stanowisko
             </th>
             <th></th>
+            <th>Grafik</th>
         </tr>
     </thead>
     <tbody>
@@ -47,6 +48,9 @@
                     @Html.ActionLink("Edytuj ", "EditEmployee", new { id=item.Id }) |
                     @Html.ActionLink("Szczegóły ", "DetailsEmployee", new { id = item.Id }) |
                     @Html.ActionLink("Usuń ", "Delete", new { id=item.Id })
+                </td>
+                <td>
+                    <a asp-controller="Schedule" asp-action="Add" asp-route-id="@item.Id">Grafik</a>
                 </td>
             </tr>
         }
