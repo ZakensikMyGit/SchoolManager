@@ -30,13 +30,27 @@ namespace SchoolManager.Web.Controllers
             ViewBag.EmployeeId = employeeId;
             return View(model);
         }
+        [HttpGet]
+        public IActionResult GetEvents(int employeeId, DateTime start, DateTime end)
+        {
+            var events = _scheduleService.GetSchedules(employeeId, start, end)
+                .Select(e => new
+                {
+                    id = e.Id,
+                    title = e.GroupName,
+                    start = e.StartTime,
+                    end = e.EndTime,
+                    description = e.Description
+                });
+            return Json(events);
+        }
 
         [HttpGet]
-        public IActionResult Add(int employeeId)
+        public IActionResult Add(int id)
         {
             var model = new NewScheduleEntryVm
             {
-                EmployeeId = employeeId,
+                EmployeeId = id,
                 Employees = _employeeRepository.GetAllActiveEmployees().Select(e => new SelectListItem
                 {
                     Value = e.Id.ToString(),

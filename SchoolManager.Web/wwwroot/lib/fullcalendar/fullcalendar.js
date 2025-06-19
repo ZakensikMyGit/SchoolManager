@@ -1,0 +1,1 @@
+﻿/* FullCalendar placeholder - in real deployment use official library */

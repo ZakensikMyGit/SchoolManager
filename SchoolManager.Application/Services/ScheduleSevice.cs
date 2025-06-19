@@ -35,8 +35,9 @@ namespace SchoolManager.Application.Services
             if (entryVm.StartTime > entryVm.EndTime)
                 throw new InvalidOperationException("Czas rozpoczęcia musi być wcześniejszy niż czas zakończenia");
 
-            if (entryVm.PositionId != 5)
-                throw new InvalidOperationException("Pracownik musi być nauczycielem");
+            //Stanowisko przypisane na stałe
+            //if (entryVm.PositionId != 1 && entryVm.PositionId != 2)
+            //    throw new InvalidOperationException("Pracownik musi być nauczycielem");
 
             var entity = _mapper.Map<ScheduleEntry>(entryVm);
             return _scheduleRepository.AddScheduleEntry(entity);

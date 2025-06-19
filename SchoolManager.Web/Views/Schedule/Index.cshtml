@@ -7,6 +7,7 @@
 <p>
     <a asp-action="Add" asp-route-employeeId="@ViewBag.EmployeeId">Dodaj wpis</a>
 </p>
+<div id="calendar" data-employee="@ViewBag.EmployeeId"></div>
 <table class="table">
     <thead>
         <tr>
@@ -32,3 +33,6 @@
         }
     </tbody>
 </table>
+@section Scripts {
+    <script src="~/js/calendar.js" asp-append-version="true"></script>
+}
