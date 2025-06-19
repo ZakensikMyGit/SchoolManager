@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchoolManager.Application.ViewModels.Schedule;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,6 @@ namespace SchoolManager.Application.Interfaces
         void UpdateSchedule(EditScheduleEntryVm entryVm);
         void DeleteSchedule(int scheduleEntryid);
         bool IsScheduleEntryValid(NewScheduleEntryVm entryVm);
-
+        bool IsScheduleEntryValid(EditScheduleEntryVm entryVm);
     }
 }

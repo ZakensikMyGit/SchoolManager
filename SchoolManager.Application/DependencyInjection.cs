@@ -16,6 +16,7 @@ namespace SchoolManager.Application
         {
             services.AddTransient<IEmployeeService, EmlpoyeeService>();
             services.AddTransient<IChildService, ChildService>();
+            services.AddTransient<IScheduleService, ScheduleSevice>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
         }

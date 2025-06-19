@@ -1,0 +1,34 @@
+﻿@model IEnumerable<SchoolManager.Application.ViewModels.Schedule.ScheduleEntryVm>
+@{
+    ViewData["Title"] = "Grafik";
+}
+
+<h2>Grafik</h2>
+<p>
+    <a asp-action="Add" asp-route-employeeId="@ViewBag.EmployeeId">Dodaj wpis</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Pracownik</th>
+            <th>Grupa</th>
+            <th>Od</th>
+            <th>Do</th>
+            <th>Typ</th>
+            <th>Opis</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.EmployeeName</td>
+                <td>@item.GroupName</td>
+                <td>@item.StartTime.ToString("g")</td>
+                <td>@item.EndTime.ToString("g")</td>
+                <td>@item.EntryType</td>
+                <td>@item.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>

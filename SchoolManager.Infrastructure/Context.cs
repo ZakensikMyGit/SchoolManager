@@ -13,6 +13,7 @@ namespace SchoolManager.Infrastructure
         public DbSet<Group> Groups { get; set; }
         public DbSet<Position> Positions { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<ScheduleEntry> ScheduleEntries { get; set; }
 
         public Context(DbContextOptions options) : base(options) { }
 
@@ -53,6 +54,26 @@ namespace SchoolManager.Infrastructure
                 .HasMany(e => e.Educations)
                 .WithMany(ed => ed.Employees)
                 .UsingEntity(j => j.ToTable("EmployeeEducation"));
+            
+            // ScheduleEntry relationships
+            builder.Entity<ScheduleEntry>()
+                .HasOne(e => e.Employee)
+                .WithMany()
+                .HasForeignKey(se => se.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ScheduleEntry>()
+                .HasOne(e => e.Position)
+                .WithMany()
+                .HasForeignKey(se => se.PositionId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ScheduleEntry>()
+                .HasOne(e => e.Group)
+                .WithMany()
+                .HasForeignKey(se => se.GroupId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
+       
