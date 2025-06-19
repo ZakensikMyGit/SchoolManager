@@ -37,12 +37,34 @@ namespace SchoolManager.Web.Controllers
                 .Select(e => new
                 {
                     id = e.Id,
-                    title = e.GroupName,
+                    title = string.Format(
+                        "{0:HH:mm} - {1:HH:mm} {2} - {3}",
+                        e.StartTime,
+                        e.EndTime,
+                        e.GroupName,
+                        GetInitialAndLastName(e.EmployeeName)
+                    ),
                     start = e.StartTime,
                     end = e.EndTime,
                     description = e.Description
                 });
             return Json(events);
+        }
+        private static string GetInitialAndLastName(string fullName)
+        {
+            if (string.IsNullOrWhiteSpace(fullName))
+            {
+                return string.Empty;
+            }
+            var parts = fullName.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            var firstInitial = parts[0].Substring(0, 1).ToUpperInvariant();
+            var lastName = parts.Length > 1 ? parts[^1] : string.Empty;
+            return $"{firstInitial}.{lastName}";
         }
 
         [HttpGet]
