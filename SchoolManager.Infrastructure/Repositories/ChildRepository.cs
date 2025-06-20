@@ -1,4 +1,5 @@
-﻿using SchoolManager.Domain.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using SchoolManager.Domain.Interfaces;
 using SchoolManager.Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -21,28 +22,42 @@ namespace SchoolManager.Infrastructure.Repositories
         }
         public int AddChild(Child child)
         {
-            throw new NotImplementedException();
+            _context.Children.Add(child);
+            _context.SaveChanges();
+            return child.Id;
         }
 
         public void DeleteChild(int childId)
         {
-            throw new NotImplementedException();
+            var entity = _context.Children.FirstOrDefault(c => c.Id == childId);
+            if (entity != null)
+            {
+                _context.Children.Remove(entity);
+                _context.SaveChanges();
+            }
         }
-
 
         public Child GetChildById(int childId)
         {
-            throw new NotImplementedException();
+            return _context.Children
+                .Include(c => c.Group)
+                .ThenInclude(g => g.Teacher)
+                .Include(c => c.Declarations)
+                .FirstOrDefault(c => c.Id == childId);
         }
 
         public IQueryable<Child> GetChildrenByGroupId(int groupId)
         {
-            throw new NotImplementedException();
+            return _context.Children
+               .Where(c => c.GroupId == groupId)
+               .Include(c => c.Group)
+               .ThenInclude(g => g.Teacher);
         }
 
         public void UpdateChild(Child child)
         {
-            throw new NotImplementedException();
+            _context.Children.Update(child);
+            _context.SaveChanges();
         }
     }
 }
