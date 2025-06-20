@@ -7,6 +7,7 @@
         const employeeId = el.getAttribute('data-employee');
         const calendar = new FullCalendar.Calendar(el, {
             initialView: 'dayGridMonth',
+            locale: 'pl',
             events: function (info, successCallback, failureCallback) {
                 $.ajax({
                     url: '/Schedule/GetEvents',

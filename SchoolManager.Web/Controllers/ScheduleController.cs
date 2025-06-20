@@ -38,15 +38,15 @@ namespace SchoolManager.Web.Controllers
                 {
                     id = e.Id,
                     title = string.Format(
-                        "{0:HH:mm} - {1:HH:mm} {2} - {3}",
+                        "{0:HH:mm} - {1:HH:mm} {2}",
                         e.StartTime,
                         e.EndTime,
-                        e.GroupName,
                         GetInitialAndLastName(e.EmployeeName)
                     ),
                     start = e.StartTime,
                     end = e.EndTime,
-                    description = e.Description
+                    description = e.Description,
+                    className = GetGroupClass(e.GroupName)
                 });
             return Json(events);
         }
@@ -67,9 +67,37 @@ namespace SchoolManager.Web.Controllers
             return $"{firstInitial}.{lastName}";
         }
 
+        private static string GetGroupClass(string groupName)
+        {
+            if (string.IsNullOrWhiteSpace(groupName))
+            {
+                return string.Empty;
+            }
+
+            if (string.Equals(groupName, "smerfy", StringComparison.OrdinalIgnoreCase))
+            {
+                return "group-smerfy";
+            }
+
+            if (string.Equals(groupName, "motyle", StringComparison.OrdinalIgnoreCase))
+            {
+                return "group-motyle";
+            }
+
+            return string.Empty;
+        }
+
+
         [HttpGet]
         public IActionResult Add(int employeeId)
         {
+            var groups = _groupRepository.GetAllGroups().Select(g => new SelectListItem
+            {
+                Value = g.Id.ToString(),
+                Text = g.GroupName
+            });
+
+            var defaultGroup = _groupRepository.GetAllGroups().FirstOrDefault(g => g.TeacherId == employeeId);
             var model = new NewScheduleEntryVm
             {
                 EmployeeId = employeeId,
@@ -78,7 +106,9 @@ namespace SchoolManager.Web.Controllers
                     Value = e.Id.ToString(),
                     Text = e.FullName
                 }),
-                
+
+                Groups = groups,
+                GroupId = defaultGroup?.Id ?? 0,
                 StartTime = DateTime.Today,
                 EndTime = DateTime.Today.AddHours(1)
             };
@@ -93,15 +123,15 @@ namespace SchoolManager.Web.Controllers
                 Value = e.Id.ToString(),
                 Text = e.FullName
             });
+            model.Groups = _groupRepository.GetAllGroups().Select(g => new SelectListItem
+            {
+                Value = g.Id.ToString(),
+                Text = g.GroupName
+            });
             var employee = _employeeRepository.GetEmployee(model.EmployeeId);
             if (employee != null)
             {
                 model.PositionId = employee.PositionId;
-                var group = _groupRepository.GetAllGroups().FirstOrDefault(g => g.TeacherId == employee.Id);
-                if (group != null)
-                {
-                    model.GroupId = group.Id;
-                }
             }
 
             try
