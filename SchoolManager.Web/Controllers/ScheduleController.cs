@@ -104,8 +104,16 @@ namespace SchoolManager.Web.Controllers
                 }
             }
 
-            _scheduleService.AddSchedule(model);
-            return RedirectToAction("Index", new { employeeId = model.EmployeeId });
+            try
+            {
+                _scheduleService.AddSchedule(model);
+                return RedirectToAction("Index", new { employeeId = model.EmployeeId });
+            }
+            catch (InvalidOperationException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return View(model);
+            }
         }
     }
 }
