@@ -29,27 +29,55 @@ namespace SchoolManager.Web.Controllers
             //var model = _scheduleService.GetSchedulesById(employeeId, start.Value, end.Value);
             //ViewBag.EmployeeId = employeeId;
             //return View(model);
+            ViewBag.EmployeeId = employeeId;
             var model = _scheduleService.GetAllSchedules();
             return View(model);
         }
         [HttpGet]
-        public IActionResult GetEvents(int employeeId, DateTime start, DateTime end)
+        public IActionResult GetEvents(int? employeeId, DateTime start, DateTime end)
         {
-            var events = _scheduleService.GetSchedulesById(employeeId, start, end)
-                .Select(e => new
-                {
-                    id = e.Id,
-                    title = string.Format(
-                        "{0:HH:mm} - {1:HH:mm} {2}",
-                        e.StartTime,
-                        e.EndTime,
-                        GetInitialAndLastName(e.EmployeeName)
-                    ),
-                    start = e.StartTime,
-                    end = e.EndTime,
-                    description = e.Description,
-                    className = GetGroupClass(e.GroupName)
-                });
+            //var events = _scheduleService.GetSchedulesById(employeeId, start, end)
+            //    .Select(e => new
+            //    {
+            //        id = e.Id,
+            //        title = string.Format(
+            //            "{0:HH:mm} - {1:HH:mm} {2}",
+            //            e.StartTime,
+            //            e.EndTime,
+            //            GetInitialAndLastName(e.EmployeeName)
+            //        ),
+            //        start = e.StartTime,
+            //        end = e.EndTime,
+            //        description = e.Description,
+            //        className = GetGroupClass(e.GroupName)
+            //    });
+            IEnumerable<ScheduleEntryVm> entries;
+            if (employeeId.HasValue && employeeId.Value != 0)
+            {
+                entries = _scheduleService.GetSchedulesById(employeeId.Value, start, end);
+            }
+            else
+            {
+                entries = _scheduleService
+                    .GetAllSchedules()
+                    .Schedules
+                    .Where(e => e.StartTime < end && e.EndTime > start);
+            }
+
+            var events = entries.Select(e => new
+            {
+                id = e.Id,
+                title = string.Format(
+                    "{0:HH:mm} - {1:HH:mm} {2}",
+                    e.StartTime,
+                    e.EndTime,
+                    GetInitialAndLastName(e.EmployeeName)
+                ),
+                start = e.StartTime,
+                end = e.EndTime,
+                description = e.Description,
+                className = GetGroupClass(e.GroupName)
+            });
             return Json(events);
         }
         private static string GetInitialAndLastName(string fullName)
