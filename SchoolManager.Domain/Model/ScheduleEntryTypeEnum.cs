@@ -8,12 +8,11 @@ namespace SchoolManager.Domain.Model
 {
     public enum ScheduleEntryTypeEnum
     {
-        ZMIANA_PODSTAWOWA,
-        NADGODZINY_STALE,
-        NADGODZINY_NIEPLANOWANE,
+        GODZINY_STALE,
+        GODZINY_PONADWYMIAROWE,
+        GODZINY_DORAZNE,
         URLOP,
         CHOROBA,
-        ZASTEPSTWO,
         INNE_WYDARZENIA,
     }
 }

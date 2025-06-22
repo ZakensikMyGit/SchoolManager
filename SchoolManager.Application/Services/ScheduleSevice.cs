@@ -47,15 +47,8 @@ namespace SchoolManager.Application.Services
             if (entryVm.StartTime > entryVm.EndTime)
                 throw new InvalidOperationException("Czas rozpoczęcia musi być wcześniejszy niż czas zakończenia");
 
-            //Stanowisko przypisane na stałe
-            //if (entryVm.PositionId != 1 && entryVm.PositionId != 2)
-            //    throw new InvalidOperationException("Pracownik musi być nauczycielem");
-
-            if (entryVm.EntryType == ScheduleEntryTypeEnum.ZMIANA_PODSTAWOWA)
+            if (entryVm.EntryType == ScheduleEntryTypeEnum.GODZINY_STALE)
             {
-                //int startYear = entryVm.StartTime.Month >= 9 ? entryVm.StartTime.Year : entryVm.StartTime.Year - 1;
-                //DateTime startDate = new DateTime(startYear, 9, 1);
-                //DateTime endDate = new DateTime(startYear + 1, 6, 30);
                 if (entryVm.RangeStart > entryVm.RangeEnd)
                     throw new InvalidOperationException("Data początkowa musi być wcześniejsza niż data końcowa");
 

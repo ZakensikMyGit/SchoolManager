@@ -4,17 +4,39 @@
 }
 
 <h2>Grafik</h2>
-<p>
-    <a asp-action="Add" asp-route-employeeId="@ViewBag.EmployeeId">Dodaj godziny stałe</a>
-</p>
-<p>
-    <a asp-action="Add" asp-route-employeeId="@ViewBag.EmployeeId">Dodaj godziny ponadwymiarowe</a>
-</p>
-<p>
-    <a asp-action="Add" asp-route-employeeId="@ViewBag.EmployeeId">Dodaj godziny doraźne</a>
-</p>
+
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <a asp-action="Add" asp-route-employeeId="@ViewBag.EmployeeId" class="btn btn-primary btn-lg w-100 py-4 shadow">
+                <i class="fas fa-users fa-2x mb-2"></i>
+                    <br>
+                    <span class="fs-4">Godziny stałe</span> @* GODZINY_STALE *@
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="@Url.Action("Index", "Child")" class="btn btn-success btn-lg w-100 py-4 shadow">
+                    <i class="fas fa-child fa-2x mb-2"></i>
+                    <br>
+                    <span class="fs-4">Godziny ponadwymiarowe</span> @* GODZINY_PONADWYMIAROWE *@
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="@Url.Action("Index", "Schedule")" class="btn btn-info btn-lg w-100 py-4 shadow">
+                    <i class="fas fa-calendar-alt fa-2x mb-2"></i>
+                    <br>
+                    <span class="fs-4">Godziny doraźne</span> @* GODZINY_DORAZNE *@
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
 <div id="calendar" data-employee="@ViewBag.EmployeeId"></div>
-<table class="table">
+@* <table class="table">
     <thead>
         <tr>
             <th>Pracownik</th>
@@ -38,7 +60,7 @@
             </tr>
         }
     </tbody>
-</table>
+</table> *@
 @section Scripts {
     <script src="~/js/calendar.js" asp-append-version="true"></script>
 }

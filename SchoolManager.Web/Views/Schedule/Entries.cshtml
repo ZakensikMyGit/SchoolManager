@@ -1,0 +1,30 @@
+﻿@model SchoolManager.Application.ViewModels.Schedule.ScheduleForEntryVm
+@{
+    ViewData["Title"] = "Wpisy w grafiku";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Pracownik</th>
+            <th>Grupa</th>
+            <th>Od</th>
+            <th>Do</th>
+            <th>Typ</th>
+            <th>Opis</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Schedules)
+        {
+            <tr>
+                <td>@item.EmployeeName</td>
+                <td>@item.GroupName</td>
+                <td>@item.StartTime.ToString("g")</td>
+                <td>@item.EndTime.ToString("g")</td>
+                <td>@item.EntryType</td>
+                <td>@item.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>
