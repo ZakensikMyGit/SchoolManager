@@ -53,13 +53,18 @@ namespace SchoolManager.Application.Services
 
             if (entryVm.EntryType == ScheduleEntryTypeEnum.ZMIANA_PODSTAWOWA)
             {
-                int startYear = entryVm.StartTime.Month >= 9 ? entryVm.StartTime.Year : entryVm.StartTime.Year - 1;
-                DateTime startDate = new DateTime(startYear, 9, 1);
-                DateTime endDate = new DateTime(startYear + 1, 6, 30);
+                //int startYear = entryVm.StartTime.Month >= 9 ? entryVm.StartTime.Year : entryVm.StartTime.Year - 1;
+                //DateTime startDate = new DateTime(startYear, 9, 1);
+                //DateTime endDate = new DateTime(startYear + 1, 6, 30);
+                if (entryVm.RangeStart > entryVm.RangeEnd)
+                    throw new InvalidOperationException("Data początkowa musi być wcześniejsza niż data końcowa");
+
                 int lastId = 0;
+                var startDate = entryVm.RangeStart.Date;
+                var endDate = entryVm.RangeEnd.Date;
                 for (var date = startDate; date <= endDate; date = date.AddDays(1))
                 {
-                    if (date.DayOfWeek == entryVm.StartTime.DayOfWeek)
+                    if (date.DayOfWeek == entryVm.DayOfWeek)
                     {
                         var entity = _mapper.Map<ScheduleEntry>(entryVm);
                         entity.StartTime = date.Date.Add(entryVm.StartTime.TimeOfDay);

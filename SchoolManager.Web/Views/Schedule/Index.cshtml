@@ -5,7 +5,13 @@
 
 <h2>Grafik</h2>
 <p>
-    <a asp-action="Add" asp-route-employeeId="@ViewBag.EmployeeId">Dodaj wpis</a>
+    <a asp-action="Add" asp-route-employeeId="@ViewBag.EmployeeId">Dodaj godziny stałe</a>
+</p>
+<p>
+    <a asp-action="Add" asp-route-employeeId="@ViewBag.EmployeeId">Dodaj godziny ponadwymiarowe</a>
+</p>
+<p>
+    <a asp-action="Add" asp-route-employeeId="@ViewBag.EmployeeId">Dodaj godziny doraźne</a>
 </p>
 <div id="calendar" data-employee="@ViewBag.EmployeeId"></div>
 <table class="table">

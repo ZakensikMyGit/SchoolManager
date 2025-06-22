@@ -16,6 +16,9 @@ namespace SchoolManager.Application.ViewModels.Schedule
         public int GroupId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public DayOfWeek DayOfWeek { get; set; }
+        public DateTime RangeStart { get; set; }
+        public DateTime RangeEnd { get; set; }
         public ScheduleEntryTypeEnum EntryType { get; set; }
         public string Description { get; set; }
 

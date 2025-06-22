@@ -140,7 +140,11 @@ namespace SchoolManager.Web.Controllers
                 Groups = groups,
                 GroupId = defaultGroup?.Id ?? 0,
                 StartTime = DateTime.Today,
-                EndTime = DateTime.Today.AddHours(1)
+                //EndTime = DateTime.Today.AddHours(1)
+                EndTime = DateTime.Today.AddHours(1),
+                DayOfWeek = DayOfWeek.Monday,
+                RangeStart = DateTime.Today,
+                RangeEnd = DateTime.Today.AddMonths(1),
             };
             return View(model);
         }
