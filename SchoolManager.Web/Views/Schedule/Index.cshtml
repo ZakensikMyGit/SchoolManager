@@ -1,5 +1,4 @@
-﻿@model IEnumerable<SchoolManager.Application.ViewModels.Schedule.ScheduleEntryVm>
-@{
+﻿@model SchoolManager.Application.ViewModels.Schedule.ScheduleForEntryVm
     ViewData["Title"] = "Grafik";
 }
 
@@ -20,7 +19,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Schedules)
         {
             <tr>
                 <td>@item.EmployeeName</td>
