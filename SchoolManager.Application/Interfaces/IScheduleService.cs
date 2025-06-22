@@ -9,7 +9,8 @@ namespace SchoolManager.Application.Interfaces
 {
     public interface IScheduleService
     {
-        IEnumerable<ScheduleEntryVm> GetSchedules(int employeeId, DateTime start, DateTime end);
+        ScheduleForEntryVm GetAllSchedules();
+        IEnumerable<ScheduleEntryVm> GetSchedulesById(int employeeId, DateTime start, DateTime end);
         int AddSchedule(NewScheduleEntryVm editEntryVm);
         void UpdateSchedule(EditScheduleEntryVm editEntryVm);
         void DeleteSchedule(int scheduleEntryid);

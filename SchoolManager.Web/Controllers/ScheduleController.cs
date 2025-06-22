@@ -24,16 +24,18 @@ namespace SchoolManager.Web.Controllers
 
         public IActionResult Index(int employeeId, DateTime? start, DateTime? end)
         {
-            if (start == null) start = DateTime.Today.AddDays(-7);
-            if (end == null) end = DateTime.Today.AddDays(7);
-            var model = _scheduleService.GetSchedules(employeeId, start.Value, end.Value);
-            ViewBag.EmployeeId = employeeId;
+            //if (start == null) start = DateTime.Today.AddDays(-7);
+            //if (end == null) end = DateTime.Today.AddDays(7);
+            //var model = _scheduleService.GetSchedulesById(employeeId, start.Value, end.Value);
+            //ViewBag.EmployeeId = employeeId;
+            //return View(model);
+            var model = _scheduleService.GetAllSchedules();
             return View(model);
         }
         [HttpGet]
         public IActionResult GetEvents(int employeeId, DateTime start, DateTime end)
         {
-            var events = _scheduleService.GetSchedules(employeeId, start, end)
+            var events = _scheduleService.GetSchedulesById(employeeId, start, end)
                 .Select(e => new
                 {
                     id = e.Id,

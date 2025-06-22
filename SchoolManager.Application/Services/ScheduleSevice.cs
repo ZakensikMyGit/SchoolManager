@@ -21,7 +21,18 @@ namespace SchoolManager.Application.Services
             _scheduleRepository = scheduleRepository;
             _mapper = mapper;
         }
-        public IEnumerable<ScheduleEntryVm> GetSchedules(int employeeId, DateTime start, DateTime end)
+        public ScheduleForEntryVm GetAllSchedules()
+        {
+            var schedules = _scheduleRepository.GetAllSchedules()
+                .ProjectTo<ScheduleEntryVm>(_mapper.ConfigurationProvider)
+                .ToList();
+            return new ScheduleForEntryVm
+            {
+                Schedules = schedules,
+                Count = schedules.Count
+            };
+        }
+        public IEnumerable<ScheduleEntryVm> GetSchedulesById(int employeeId, DateTime start, DateTime end)
         {
             return _scheduleRepository.GetByTeacher(employeeId)
                 .Where(x => x.StartTime < end && x.EndTime > start)

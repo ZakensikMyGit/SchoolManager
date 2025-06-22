@@ -17,6 +17,13 @@ namespace SchoolManager.Infrastructure.Repositories
             _context = context;
         }
 
+        public IQueryable<ScheduleEntry> GetAllSchedules()
+        {
+            return _context.ScheduleEntries
+                .Include(e => e.Employee)
+                .Include(e => e.Position)
+                .Include(e => e.Group);
+        }
         public int AddScheduleEntry(ScheduleEntry entry)
         {
             _context.ScheduleEntries.Add(entry);

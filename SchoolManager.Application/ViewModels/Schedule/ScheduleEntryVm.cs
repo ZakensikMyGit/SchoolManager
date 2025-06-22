@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SchoolManager.Application.ViewModels.Schedule
 {
-    public class ScheduleEntryVm : IMapFrom<ScheduleEntry>
+    public class ScheduleEntryVm : IMapFrom<ScheduleForEntryVm>
     {
         public int Id { get; set; }
         public int EmployeeId { get; set; }

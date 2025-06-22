@@ -9,6 +9,7 @@ namespace SchoolManager.Domain.Interfaces
 {
     public interface IScheduleRepository
     {
+        IQueryable<ScheduleEntry> GetAllSchedules();
         IQueryable<ScheduleEntry> GetByTeacher(int emloyeeId);
         IQueryable<ScheduleEntry> GetByGroup(int groupId);
         ScheduleEntry GetById(int id);
