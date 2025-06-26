@@ -15,8 +15,10 @@ namespace SchoolManager.Application.Interfaces
         Child GetChild(int ChildId);
         void DeleteChild(int childId);
         ListChildForListVm GetAllChildrenForListByGroupId(int groupId);
-        //ChildDetailsVm GetChildDetails(int childId);
-        //int AddChild(NewChildVm model);
-        //NewChildVm GetChildForEdit(int childId);
+
+        Task<ListChildForListVm> GetAllChildrenForListAsync();
+        Task<Child?> GetChildAsync(int childId);
+        Task DeleteChildAsync(int childId);
+        Task<ListChildForListVm> GetAllChildrenForListByGroupIdAsync(int groupId);
     }
 }

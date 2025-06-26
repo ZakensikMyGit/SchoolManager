@@ -17,5 +17,14 @@ namespace SchoolManager.Application.Interfaces
         int AddEmployee(NewEmployeeVm model);
         NewEmployeeVm GetEmployeeForEdit(int employeeId);
         void DeleteEmployee(int employeeId);
+
+        Task<ListEmployeeForListVm> GetAllEmployeesForListAsync();
+        Task<List<Employee>> GetAllActiveEmployeeAsync();
+        Task<Employee?> GetEmployeeAsync(int employeeId);
+        Task<EmployeeDetailsVm> GetEmployeeDetailsAsync(int employeeId);
+        Task<int> AddEmployeeAsync(NewEmployeeVm model);
+        Task<NewEmployeeVm> GetEmployeeForEditAsync(int employeeId);
+        Task DeleteEmployeeAsync(int employeeId);
     }
+}
 }

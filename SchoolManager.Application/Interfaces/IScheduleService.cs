@@ -16,5 +16,11 @@ namespace SchoolManager.Application.Interfaces
         void DeleteSchedule(int scheduleEntryid);
         bool IsScheduleEntryValid(NewScheduleEntryVm newEntryVm);
         bool IsScheduleEntryValid(EditScheduleEntryVm editEntryVm);
+
+        Task<ScheduleForEntryVm> GetAllSchedulesAsync();
+        Task<IEnumerable<ScheduleEntryVm>> GetSchedulesByIdAsync(int employeeId, DateTime start, DateTime end);
+        Task<int> AddScheduleAsync(NewScheduleEntryVm editEntryVm);
+        Task UpdateScheduleAsync(EditScheduleEntryVm editEntryVm);
+        Task DeleteScheduleAsync(int scheduleEntryid);
     }
 }

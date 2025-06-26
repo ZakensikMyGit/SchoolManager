@@ -27,6 +27,10 @@ namespace SchoolManager.Application.Services
         {
            _childRepository.DeleteChild(childId);
         }
+        public Task DeleteChildAsync(int childId)
+        {
+            return _childRepository.DeleteChildAsync(childId);
+        }
 
         public ListChildForListVm GetAllChildrenForList()
         {
@@ -41,7 +45,19 @@ namespace SchoolManager.Application.Services
             };
             return childList;
         }
+        public async Task<ListChildForListVm> GetAllChildrenForListAsync()
+        {
+            var children = await _childRepository.GetAllChildrenAsync();
+            var childVms = children.AsQueryable()
+                .ProjectTo<ChildForListVm>(_mapper.ConfigurationProvider)
+                .ToList();
 
+            return new ListChildForListVm
+            {
+                Children = childVms,
+                Count = childVms.Count
+            };
+        }
         public ListChildForListVm GetAllChildrenForListByGroupId(int groupId)
         {
             var children = _childRepository.GetChildrenByGroupId(groupId)
@@ -54,10 +70,26 @@ namespace SchoolManager.Application.Services
                 Count = children.Count
             };
         }
+        public async Task<ListChildForListVm> GetAllChildrenForListByGroupIdAsync(int groupId)
+        {
+            var children = await _childRepository.GetChildrenByGroupIdAsync(groupId);
+            var childVms = children.AsQueryable()
+                .ProjectTo<ChildForListVm>(_mapper.ConfigurationProvider)
+                .ToList();
 
+            return new ListChildForListVm
+            {
+                Children = childVms,
+                Count = childVms.Count
+            };
+        }
         public Child GetChild(int ChildId)
         {
             return _childRepository.GetChildById(ChildId);
+        }
+        public Task<Child?> GetChildAsync(int childId)
+        {
+            return _childRepository.GetChildByIdAsync(childId);
         }
     }
 }
