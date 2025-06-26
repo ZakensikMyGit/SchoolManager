@@ -6,26 +6,26 @@
 <div class="row justify-content-center">
     <div class="col-md-10 col-lg-8">
         <div class="row g-5">
-            <div class="col-md-4">
-                <a asp-action="Add" asp-route-employeeId="@ViewBag.EmployeeId" class="btn btn-primary btn-lg w-75 h-100 py-4 shadow">
+            <div class="col-sm-6 col-md-3">
+                <a asp-action="Add" asp-route-employeeId="@ViewBag.EmployeeId" class="btn btn-primary btn-lg w-100 h-100 py-4 shadow">
                     <br>
                     <span class="fs-4">Godziny stałe</span> @* GODZINY_STALE *@
                 </a>
             </div>
-            <div class="col-md-4">
-                <a href="@Url.Action("Index", "Schedule")" class="btn btn-success btn-lg w-75 h-100 py-4 shadow">
+            <div class="col-sm-6 col-md-3">
+                <a href="@Url.Action("Index", "Schedule")" class="btn btn-success btn-lg w-100 h-100 py-4 shadow">
                     <br>
                     <span class="fs-4">Godziny ponadwymiarowe</span> @* GODZINY_PONADWYMIAROWE *@
                 </a>
             </div>
-            <div class="col-md-4">
-                <a href="@Url.Action("Index", "Schedule")" class="btn btn-info btn-lg w-75 h-100 py-4 shadow">
+            <div class="col-sm-6 col-md-3">
+                <a href="@Url.Action("Index", "Schedule")" class="btn btn-info btn-lg w-100 h-100 py-4 shadow">
                     <br>
                     <span class="fs-4">Godziny doraźne</span> @* GODZINY_DORAZNE *@
                 </a>
             </div>
-            <div class="col-md-4">
-                <a href="@Url.Action("Entries", "Schedule")" class="btn btn-info btn-warning w-75 h-100 py-5 rounded">
+            <div class="col-sm-6 col-md-3">
+                <a href="@Url.Action("Entries", "Schedule")" class="btn btn-info btn-warning w-100 h-100 py-5 rounded">
                     <br>
                     <span class="fs-4">Logi</span> @* Logi wpisów do grafiku *@
                 </a>
