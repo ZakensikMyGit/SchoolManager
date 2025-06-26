@@ -1,5 +1,6 @@
 
 using Serilog;
+using System.IO;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
@@ -20,11 +21,16 @@ namespace SchoolManager.Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var runMigrations = builder.Configuration.GetValue<bool>("RunMigrations");
 
-            builder.Logging.AddFile("Logs/myLog-{Date}.txt");
+            Directory.CreateDirectory(Path.Combine(builder.Environment.ContentRootPath, "Logs"));
+            builder.Host.UseSerilog((ctx, lc) =>
+            {
+                lc.MinimumLevel.Information()
+                    .WriteTo.Async(a => a.File("Logs/myLog-.txt", rollingInterval: RollingInterval.Day))
+                    .ReadFrom.Configuration(ctx.Configuration);
+            });
 
-
-            // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<Context>(options =>
                 options.UseSqlServer(connectionString));
@@ -43,7 +49,7 @@ namespace SchoolManager.Web
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() && runMigrations)
             {
                 app.UseMigrationsEndPoint();
             }
