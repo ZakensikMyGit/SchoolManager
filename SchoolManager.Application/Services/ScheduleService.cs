@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace SchoolManager.Application.Services
 {
-    public class ScheduleSevice : IScheduleService
+    public class ScheduleService : IScheduleService
     {
         private readonly IScheduleRepository _scheduleRepository;
         private readonly IMapper _mapper;
-        public ScheduleSevice(IScheduleRepository scheduleRepository, IMapper mapper)
+        public ScheduleService(IScheduleRepository scheduleRepository, IMapper mapper)
         {
             _scheduleRepository = scheduleRepository;
             _mapper = mapper;

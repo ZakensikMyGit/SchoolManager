@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SchoolManager.Application.ViewModels.Child
 {
-    public class ChildForListVm : IMapFrom<ChildForListVm>
+    public class ChildForListVm : IMapFrom<SchoolManager.Domain.Model.Child>
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

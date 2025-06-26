@@ -1,18 +1,12 @@
 
 using Serilog;
-using System.IO;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SchoolManager.Application;
-using SchoolManager.Application.Interfaces;
-using SchoolManager.Application.Services;
 using SchoolManager.Application.ViewModels.Employee;
-using SchoolManager.Domain.Interfaces;
-using SchoolManager.Domain.Model;
 using SchoolManager.Infrastructure;
-using SchoolManager.Infrastructure.Repositories;
 
 namespace SchoolManager.Web
 {

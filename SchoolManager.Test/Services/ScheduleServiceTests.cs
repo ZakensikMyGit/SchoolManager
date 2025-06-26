@@ -14,12 +14,12 @@ namespace SchoolManager.Test.Services
     public class ScheduleServiceTests
     {
         private readonly Mock<IScheduleRepository> _scheduleRepoMock = new();
-        private readonly ScheduleSevice _service;
+        private readonly ScheduleService _service;
 
         public ScheduleServiceTests()
         {
             var mapper = new MapperConfiguration(cfg => { }).CreateMapper();
-            _service = new ScheduleSevice(_scheduleRepoMock.Object, mapper);
+            _service = new ScheduleService(_scheduleRepoMock.Object, mapper);
         }
 
         [Fact]
