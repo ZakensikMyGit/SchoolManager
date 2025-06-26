@@ -1,7 +1,18 @@
 ﻿@model SchoolManager.Application.ViewModels.Schedule.ScheduleForEntryVm
-@{
-    ViewData["Title"] = "Wpisy w grafiku";
-}
+
+<div class="row justify-content-evenly">
+    <div class="col-md-10 col-lg-8">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <a href="@Url.Action("Index", "Schedule")" class="btn btn-success btn-lg w-100 h-25 py-4 shadow">
+                    <i class="fas fa-Schedule fa-2x mb-2"></i>
+                    <br>
+                    <span class="fs-4">Grafik</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <table class="table">
     <thead>
