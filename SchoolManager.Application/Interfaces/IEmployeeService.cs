@@ -27,4 +27,3 @@ namespace SchoolManager.Application.Interfaces
         Task DeleteEmployeeAsync(int employeeId);
     }
 }
-}
