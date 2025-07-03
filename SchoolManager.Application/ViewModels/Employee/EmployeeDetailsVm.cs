@@ -30,8 +30,9 @@ namespace SchoolManager.Application.ViewModels.Employee
         public void Mapping(Profile profile)
         {
             profile.CreateMap<SchoolManager.Domain.Model.Employee, EmployeeDetailsVm>()
-                .ForMember(dest => dest.PositionName, opt => opt.MapFrom(src => src.Position.Name))
-                 .ForMember(s => s.DateOfEmployment, opt => opt.MapFrom(src => src.EmploymentDate));
+               .ForMember(dest => dest.PositionName,
+                    opt => opt.MapFrom(src => src.Position != null ? src.Position.Name : string.Empty))
+                .ForMember(s => s.DateOfEmployment, opt => opt.MapFrom(src => src.EmploymentDate));
             //.ForMember(s => s.DateOfBirth, opt => opt.Ignore()) //jeśli nie chcemy mapować tego pola, np. gdy nie ma go w bazie danych
             //.ForMember(s => s.PhoneNumber, opt => opt.Ignore()) //jeśli nie chcemy mapować tego pola, np. gdy nie ma go w bazie danych
             //.ForMember(s => s.Email, opt => opt.Ignore()) //jeśli nie chcemy mapować tego pola, np. gdy nie ma go w bazie danych

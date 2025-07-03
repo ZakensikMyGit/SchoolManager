@@ -53,7 +53,9 @@ namespace SchoolManager.Infrastructure.Repositories
 
         public IQueryable<Employee> GetAllActiveEmployees()
         {
-            return _context.Employees.Where(e => e.IsActive);
+            return _context.Employees
+               .Include(e => e.Position)
+               .Where(e => e.IsActive);
         }
 
         public Task<List<Employee>> GetAllActiveEmployeesAsync()
