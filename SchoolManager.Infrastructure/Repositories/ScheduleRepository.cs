@@ -24,10 +24,26 @@ namespace SchoolManager.Infrastructure.Repositories
                 .Include(e => e.Position)
                 .Include(e => e.Group);
         }
+
+        public Task<List<ScheduleEntry>> GetAllSchedulesAsync()
+        {
+            return _context.ScheduleEntries
+                .Include(e => e.Employee)
+                .Include(e => e.Position)
+                .Include(e => e.Group)
+                .ToListAsync();
+        }
         public int AddScheduleEntry(ScheduleEntry entry)
         {
             _context.ScheduleEntries.Add(entry);
             _context.SaveChanges();
+            return entry.Id;
+        }
+
+        public async Task<int> AddScheduleEntryAsync(ScheduleEntry entry)
+        {
+            await _context.ScheduleEntries.AddAsync(entry);
+            await _context.SaveChangesAsync();
             return entry.Id;
         }
 
@@ -41,6 +57,16 @@ namespace SchoolManager.Infrastructure.Repositories
             }
         }
 
+        public async Task DeleteScheduleEntryAsync(int id)
+        {
+            var entry = await _context.ScheduleEntries.FirstOrDefaultAsync(e => e.Id == id);
+            if (entry != null)
+            {
+                _context.ScheduleEntries.Remove(entry);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public ScheduleEntry GetById(int id)
         {
             return _context.ScheduleEntries
@@ -50,10 +76,26 @@ namespace SchoolManager.Infrastructure.Repositories
                 .FirstOrDefault(e => e.Id == id);
         }
 
+        public Task<ScheduleEntry?> GetByIdAsync(int id)
+        {
+            return _context.ScheduleEntries
+                .Include(e => e.Employee)
+                .Include(e => e.Position)
+                .Include(e => e.Group)
+                .FirstOrDefaultAsync(e => e.Id == id);
+        }
+
         public IQueryable<ScheduleEntry> GetByGroup(int groupId)
         {
             return _context.ScheduleEntries
                 .Where(e => e.GroupId == groupId);
+        }
+
+        public Task<List<ScheduleEntry>> GetByGroupAsync(int groupId)
+        {
+            return _context.ScheduleEntries
+                .Where(e => e.GroupId == groupId)
+                .ToListAsync();
         }
 
         public IQueryable<ScheduleEntry> GetByTeacher(int emloyeeId)
@@ -62,10 +104,23 @@ namespace SchoolManager.Infrastructure.Repositories
                 .Where(e => e.EmployeeId == emloyeeId);
         }
 
+        public Task<List<ScheduleEntry>> GetByTeacherAsync(int emloyeeId)
+        {
+            return _context.ScheduleEntries
+                .Where(e => e.EmployeeId == emloyeeId)
+                .ToListAsync();
+        }
+
         public void UpdateScheduleEntry(ScheduleEntry entry)
         {
             _context.ScheduleEntries.Update(entry);
             _context.SaveChanges();
+        }
+
+        public async Task UpdateScheduleEntryAsync(ScheduleEntry entry)
+        {
+            _context.ScheduleEntries.Update(entry);
+            await _context.SaveChangesAsync();
         }
     }
 }

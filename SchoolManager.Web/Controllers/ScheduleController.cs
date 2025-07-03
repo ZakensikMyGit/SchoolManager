@@ -22,30 +22,30 @@ namespace SchoolManager.Web.Controllers
             _groupRepository = groupRepository;
         }
 
-        public IActionResult Index(int employeeId, DateTime? start, DateTime? end)
+             public async Task<IActionResult> Index(int employeeId, DateTime? start, DateTime? end)
         {
             ViewBag.EmployeeId = employeeId;
-            var model = _scheduleService.GetAllSchedules();
+            var model = await _scheduleService.GetAllSchedulesAsync();
             return View(model);
         }
-        public IActionResult Entries()
+            public async Task<IActionResult> Entries()
         {
-            var model = _scheduleService.GetAllSchedules();
+            var model = await _scheduleService.GetAllSchedulesAsync();
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult GetEvents(int? employeeId, DateTime start, DateTime end)
+            public async Task<IActionResult> GetEvents(int? employeeId, DateTime start, DateTime end)
         {
             IEnumerable<ScheduleEntryVm> entries;
             if (employeeId.HasValue && employeeId.Value != 0)
             {
-                entries = _scheduleService.GetSchedulesById(employeeId.Value, start, end);
+                entries = await _scheduleService.GetSchedulesByIdAsync(employeeId.Value, start, end);
             }
             else
             {
-                entries = _scheduleService
-                    .GetAllSchedules()
+                entries = (await _scheduleService
+                    .GetAllSchedulesAsync())
                     .Schedules
                     .Where(e => e.StartTime < end && e.EndTime > start);
             }
@@ -105,7 +105,7 @@ namespace SchoolManager.Web.Controllers
 
 
         [HttpGet]
-        public IActionResult Add(int employeeId)
+            public async Task<IActionResult> Add(int employeeId)
         {
             var groups = _groupRepository.GetAllGroups().Select(g => new SelectListItem
             {
@@ -117,7 +117,7 @@ namespace SchoolManager.Web.Controllers
             var model = new NewScheduleEntryVm
             {
                 EmployeeId = employeeId,
-                Employees = _employeeRepository.GetAllActiveEmployees().Select(e => new SelectListItem
+                Employees = (await _employeeRepository.GetAllActiveEmployeesAsync()).Select(e => new SelectListItem
                 {
                     Value = e.Id.ToString(),
                     Text = e.FullName
@@ -136,9 +136,9 @@ namespace SchoolManager.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(NewScheduleEntryVm model)
+            public async Task<IActionResult> Add(NewScheduleEntryVm model)
         {
-            model.Employees = _employeeRepository.GetAllActiveEmployees().Select(e => new SelectListItem
+            model.Employees = (await _employeeRepository.GetAllActiveEmployeesAsync()).Select(e => new SelectListItem
             {
                 Value = e.Id.ToString(),
                 Text = e.FullName
@@ -148,7 +148,7 @@ namespace SchoolManager.Web.Controllers
                 Value = g.Id.ToString(),
                 Text = g.GroupName
             });
-            var employee = _employeeRepository.GetEmployee(model.EmployeeId);
+            var employee = await _employeeRepository.GetEmployeeAsync(model.EmployeeId);
             if (employee != null)
             {
                 model.PositionId = employee.PositionId;
@@ -156,7 +156,7 @@ namespace SchoolManager.Web.Controllers
 
             try
             {
-                _scheduleService.AddSchedule(model);
+                await _scheduleService.AddScheduleAsync(model);
                 return RedirectToAction("Index", new { employeeId = model.EmployeeId });
             }
             catch (InvalidOperationException ex)

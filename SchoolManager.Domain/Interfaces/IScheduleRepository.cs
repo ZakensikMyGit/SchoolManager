@@ -16,5 +16,13 @@ namespace SchoolManager.Domain.Interfaces
         int AddScheduleEntry(ScheduleEntry entry);
         void UpdateScheduleEntry(ScheduleEntry entry);
         void DeleteScheduleEntry(int id);
+
+        Task<List<ScheduleEntry>> GetAllSchedulesAsync();
+        Task<List<ScheduleEntry>> GetByTeacherAsync(int employeeId);
+        Task<List<ScheduleEntry>> GetByGroupAsync(int groupId);
+        Task<ScheduleEntry?> GetByIdAsync(int id);
+        Task<int> AddScheduleEntryAsync(ScheduleEntry entry);
+        Task UpdateScheduleEntryAsync(ScheduleEntry entry);
+        Task DeleteScheduleEntryAsync(int id);
     }
 }

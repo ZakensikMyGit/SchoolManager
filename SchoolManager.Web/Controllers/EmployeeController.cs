@@ -21,9 +21,9 @@ namespace SchoolManager.Web.Controllers
             _positionRepository = positionRepository;
             _groupRepository = groupRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var model = _employeeService.GetAllEmployeesForList(); // Przykładowe wywołanie serwisu, aby pobrać pracowników o danym stanowisku
+            var model = await _employeeService.GetAllEmployeesForListAsync();
             return View(model);
         }
 
@@ -46,7 +46,7 @@ namespace SchoolManager.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddEmployee(NewEmployeeVm model)
+        public async Task<IActionResult> AddEmployee(NewEmployeeVm model)
         {
             var positions = _positionRepository.GetAllPositions();
             var groups = _groupRepository.GetAllGroups();
@@ -60,14 +60,14 @@ namespace SchoolManager.Web.Controllers
                 Value = g.Id.ToString(),
                 Text = g.GroupName
             });
-            var id = _employeeService.AddEmployee(model);
+            var id = await _employeeService.AddEmployeeAsync(model);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult EditEmployee(int id)
+        public async Task<IActionResult> EditEmployee(int id)
         {
-            var employeeModel = _employeeService.GetEmployeeForEdit(id);
+            var employeeModel = await _employeeService.GetEmployeeForEditAsync(id);
             employeeModel.Positions = _positionRepository.GetAllPositions().Select(p => new SelectListItem
             {
                 Value = p.Id.ToString(),
@@ -81,7 +81,7 @@ namespace SchoolManager.Web.Controllers
             return View(employeeModel);
         }
         [HttpPost]
-        public IActionResult EditEmployee(NewEmployeeVm model)
+        public async Task<IActionResult> EditEmployee(NewEmployeeVm model)
         {
             var positions = _positionRepository.GetAllPositions();
             var groups = _groupRepository.GetAllGroups();
@@ -95,18 +95,18 @@ namespace SchoolManager.Web.Controllers
                 Value = g.Id.ToString(),
                 Text = g.GroupName
             });
-            var id = _employeeService.AddEmployee(model);
+            var id = await _employeeService.AddEmployeeAsync(model);
             return RedirectToAction("Index");
         }
-        public IActionResult DetailsEmployee(int id)
+        public async Task<IActionResult> DetailsEmployee(int id)
         {
-            var employeeModel = _employeeService.GetEmployeeDetails(id);
+            var employeeModel = await _employeeService.GetEmployeeDetailsAsync(id);
             return View(employeeModel);
         }
 
-        public IActionResult Delete(int Id)
+        public async Task<IActionResult> Delete(int Id)
         {
-            _employeeService.DeleteEmployee(Id);
+            await _employeeService.DeleteEmployeeAsync(Id);
             return RedirectToAction("Index");
         }
     }

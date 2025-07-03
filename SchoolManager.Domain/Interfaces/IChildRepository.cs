@@ -16,5 +16,12 @@ namespace SchoolManager.Domain.Interfaces
         void DeleteChild(int childId);
         IQueryable<Child> GetChildrenByGroupId(int groupId);
 
+        Task<List<Child>> GetAllChildrenAsync();
+        Task<Child?> GetChildByIdAsync(int childId);
+        Task<int> AddChildAsync(Child child);
+        Task UpdateChildAsync(Child child);
+        Task DeleteChildAsync(int childId);
+        Task<List<Child>> GetChildrenByGroupIdAsync(int groupId);
+
     }
 }

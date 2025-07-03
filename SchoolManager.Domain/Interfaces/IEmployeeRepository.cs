@@ -14,5 +14,11 @@ namespace SchoolManager.Domain.Interfaces
         int AddEmployee(Employee employee);
         void UpdateEmployee(Employee employee);
         void DeleteEmployee(int EmployeeId);
+
+        Task<List<Employee>> GetAllActiveEmployeesAsync();
+        Task<Employee?> GetEmployeeAsync(int employeeId);
+        Task<int> AddEmployeeAsync(Employee employee);
+        Task UpdateEmployeeAsync(Employee employee);
+        Task DeleteEmployeeAsync(int employeeId);
     }
 }

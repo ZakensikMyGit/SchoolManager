@@ -15,9 +15,9 @@ namespace SchoolManager.Web.Controllers
             _childService = childService;
             _groupRepository = groupRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var model = _childService.GetAllChildrenForList();
+            var model = await _childService.GetAllChildrenForListAsync();
             return View(model);
         }
 
