@@ -20,24 +20,33 @@ html {
 body {
   margin-bottom: 60px;
 }
-/* Calendar event group colors */
-.fc-event.group-smerfy {
-    background-color: green;
-    color: #fff;
-}
 
-.fc-event.group-motyle {
-    background-color: blue;
-    color: #fff;
-}
-
-/* Ensure event titles wrap so full names are visible */
 .fc-event .fc-event-title {
     white-space: normal;
     overflow: visible;
 }
 
-/* Hide bullet dot preceding events when time is suppressed */
 .fc-daygrid-event-dot {
     display: none;
+}
+
+/* Calendar event group colors */
+.fc-event.group-smerfy {
+    background-color: deepskyblue;
+    color: #fff;
+}
+
+.fc-event.group-motyle {
+    background-color: lightsalmon;
+    color: #fff;
+}
+
+.fc-event.group-krasnale {
+    background-color: greenyellow;
+    color: #fff;
+}
+
+.fc-event.group-kotki {
+    background-color: indianred;
+    color: #fff;
 }
