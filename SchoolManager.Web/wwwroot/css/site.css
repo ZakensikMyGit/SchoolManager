@@ -36,3 +36,8 @@ body {
     white-space: normal;
     overflow: visible;
 }
+
+/* Hide bullet dot preceding events when time is suppressed */
+.fc-daygrid-event-dot {
+    display: none;
+}

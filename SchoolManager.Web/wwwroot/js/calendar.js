@@ -8,6 +8,7 @@
         const calendar = new FullCalendar.Calendar(el, {
             initialView: 'dayGridMonth',
             locale: 'pl',
+            displayEventTime: false,
             events: function (info, successCallback, failureCallback) {
                 $.ajax({
                     url: '/Schedule/GetEvents',

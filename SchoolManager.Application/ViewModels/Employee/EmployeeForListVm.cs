@@ -23,13 +23,6 @@ namespace SchoolManager.Application.ViewModels.Employee
             profile.CreateMap<SchoolManager.Domain.Model.Employee, EmployeeForListVm>()
                  .ForMember(dest => dest.PositionName,
                     opt => opt.MapFrom(src => src.Position != null ? src.Position.Name : string.Empty));
-            //Jeśli te same parametry w tabeli, to poniższy kod jest niepotrzebny
-            //.ForMember(dest => dest.PositionId, opt => opt.MapFrom(src => src.Position));
-            //.ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Name))
-            //.ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName));
         }
-        //nazwa stanowiska
-
-
     }
 }
