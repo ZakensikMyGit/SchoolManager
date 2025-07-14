@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolManager.Application.Mapping;
+using SchoolManager.Domain.Enums;
 using SchoolManager.Domain.Model;
 using System;
 using System.Collections.Generic;

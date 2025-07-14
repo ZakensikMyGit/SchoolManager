@@ -22,20 +22,20 @@ namespace SchoolManager.Web.Controllers
             _groupRepository = groupRepository;
         }
 
-             public async Task<IActionResult> Index(int employeeId, DateTime? start, DateTime? end)
+        public async Task<IActionResult> Index(int employeeId, DateTime? start, DateTime? end)
         {
             ViewBag.EmployeeId = employeeId;
             var model = await _scheduleService.GetAllSchedulesAsync();
             return View(model);
         }
-            public async Task<IActionResult> Entries()
+        public async Task<IActionResult> Entries()
         {
             var model = await _scheduleService.GetAllSchedulesAsync();
             return View(model);
         }
 
         [HttpGet]
-            public async Task<IActionResult> GetEvents(int? employeeId, DateTime start, DateTime end)
+        public async Task<IActionResult> GetEvents(int? employeeId, DateTime start, DateTime end)
         {
             IEnumerable<ScheduleEntryVm> entries;
             if (employeeId.HasValue && employeeId.Value != 0)
@@ -86,26 +86,21 @@ namespace SchoolManager.Web.Controllers
         private static string GetGroupClass(string groupName)
         {
             if (string.IsNullOrWhiteSpace(groupName))
-            {
                 return string.Empty;
-            }
 
-            if (string.Equals(groupName, "smerfy", StringComparison.OrdinalIgnoreCase))
+            return groupName.Trim().ToLowerInvariant()
+                switch
             {
-                return "group-smerfy";
-            }
-
-            if (string.Equals(groupName, "motyle", StringComparison.OrdinalIgnoreCase))
-            {
-                return "group-motyle";
-            }
-
-            return string.Empty;
+                "smerfy" => "group-smerfy",
+                "motyle" => "group-motyle",
+                "krasnale" => "group-krasnale",
+                "koty" => "group-koty",
+                _ => string.Empty
+            };
         }
 
-
         [HttpGet]
-            public async Task<IActionResult> Add(int employeeId)
+        public async Task<IActionResult> Add(int employeeId)
         {
             var groups = _groupRepository.GetAllGroups().Select(g => new SelectListItem
             {
@@ -136,7 +131,7 @@ namespace SchoolManager.Web.Controllers
         }
 
         [HttpPost]
-            public async Task<IActionResult> Add(NewScheduleEntryVm model)
+        public async Task<IActionResult> Add(NewScheduleEntryVm model)
         {
             model.Employees = (await _employeeRepository.GetAllActiveEmployeesAsync()).Select(e => new SelectListItem
             {

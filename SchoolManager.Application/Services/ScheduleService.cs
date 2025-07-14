@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using SchoolManager.Application.Interfaces;
 using SchoolManager.Application.ViewModels.Schedule;
+using SchoolManager.Domain.Enums;
 using SchoolManager.Domain.Interfaces;
 using SchoolManager.Domain.Model;
 using System;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SchoolManager.Domain.Model
+namespace SchoolManager.Domain.Enums
 {
     public enum ScheduleEntryTypeEnum
     {

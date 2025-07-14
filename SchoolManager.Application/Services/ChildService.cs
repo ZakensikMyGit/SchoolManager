@@ -14,6 +14,7 @@ namespace SchoolManager.Application.Services
 {
     public class ChildService : IChildService
     {
+        private const string Message = "Id parametru jest niepoprawne.";
         private readonly IChildRepository _childRepository;
         private readonly IGroupRepository _groupRepository;
         private readonly IMapper _mapper;
@@ -25,10 +26,28 @@ namespace SchoolManager.Application.Services
         }
         public void DeleteChild(int childId)
         {
-           _childRepository.DeleteChild(childId);
+            if (childId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(childId),
+                    childId,
+                    Message
+                );
+            }
+
+            _childRepository.DeleteChild(childId);
         }
+
         public Task DeleteChildAsync(int childId)
         {
+            if (childId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(childId),
+                    childId,
+                    Message
+                );
+            }
             return _childRepository.DeleteChildAsync(childId);
         }
 
@@ -60,6 +79,15 @@ namespace SchoolManager.Application.Services
         }
         public ListChildForListVm GetAllChildrenForListByGroupId(int groupId)
         {
+            if (groupId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(groupId),
+                    groupId,
+                    Message
+                );
+            }
+
             var children = _childRepository.GetChildrenByGroupId(groupId)
                 .ProjectTo<ChildForListVm>(_mapper.ConfigurationProvider)
                 .ToList();
@@ -72,6 +100,14 @@ namespace SchoolManager.Application.Services
         }
         public async Task<ListChildForListVm> GetAllChildrenForListByGroupIdAsync(int groupId)
         {
+            if (groupId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(groupId),
+                    groupId,
+                    Message
+                );
+            }
             var children = await _childRepository.GetChildrenByGroupIdAsync(groupId);
             var childVms = children.AsQueryable()
                 .ProjectTo<ChildForListVm>(_mapper.ConfigurationProvider)
@@ -85,10 +121,26 @@ namespace SchoolManager.Application.Services
         }
         public Child GetChild(int ChildId)
         {
+            if (ChildId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(ChildId),
+                    ChildId,
+                    Message
+                );
+            }
             return _childRepository.GetChildById(ChildId);
         }
         public Task<Child?> GetChildAsync(int childId)
         {
+            if (childId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(childId),
+                    childId,
+                    Message
+                );
+            }
             return _childRepository.GetChildByIdAsync(childId);
         }
     }

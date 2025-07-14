@@ -12,7 +12,7 @@ namespace SchoolManager.Application.Interfaces
     public interface IChildService
     {
         ListChildForListVm GetAllChildrenForList();
-        Child GetChild(int ChildId);
+        Child GetChild(int childId);
         void DeleteChild(int childId);
         ListChildForListVm GetAllChildrenForListByGroupId(int groupId);
 
