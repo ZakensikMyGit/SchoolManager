@@ -15,11 +15,12 @@ namespace SchoolManager.Application.Services
 {
     public class EmployeeService : IEmployeeService
     {
+        private const string Message = "Id parametru jest niepoprawne.";
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IPositionRepository _positionRepository;
         public readonly IGroupRepository _groupRepository;
         private readonly IMapper _mapper;
-        public EmployeeService(IEmployeeRepository employeeRepo, IPositionRepository positionRepository,IGroupRepository groupRepository ,IMapper mapper)
+        public EmployeeService(IEmployeeRepository employeeRepo, IPositionRepository positionRepository, IGroupRepository groupRepository, IMapper mapper)
         {
             _employeeRepository = employeeRepo;
             _positionRepository = positionRepository;
@@ -201,35 +202,36 @@ namespace SchoolManager.Application.Services
         }
         private void UpdateTeacherGroup(int teacherId, int positionId, int? groupId)
         {
-            if (!groupId.HasValue)
-            {
+            if (!groupId.HasValue || teacherId <= 0 || positionId <= 0)
                 return;
-            }
 
             var position = _positionRepository.GetPositionById(positionId);
             if (position == null)
-            {
                 return;
-            }
 
-            bool isTeacher = (position.Category?.IndexOf("teacher", StringComparison.OrdinalIgnoreCase) >= 0
-                               || position.Category?.IndexOf("nauczyciel", StringComparison.OrdinalIgnoreCase) >= 0
-                               || position.Name?.IndexOf("teacher", StringComparison.OrdinalIgnoreCase) >= 0
-                               || position.Name?.IndexOf("nauczyciel", StringComparison.OrdinalIgnoreCase) >= 0);
-
-            if (!isTeacher)
-            {
+            if (!IsTeacherPosition(position))
                 return;
-            }
 
             var group = _groupRepository.GetGroup(groupId.Value);
             if (group == null)
-            {
                 return;
-            }
 
             group.TeacherId = teacherId;
             _groupRepository.UpdateGroup(group);
+        }
+
+        private bool IsTeacherPosition(Position position)
+        {
+            if (position == null)
+                return false;
+
+            var cat = position.Category?.ToLowerInvariant() ?? "";
+            var name = position.Name?.ToLowerInvariant() ?? "";
+
+            return cat.Contains("teacher")
+                || cat.Contains("nauczyciel")
+                || name.Contains("teacher")
+                || name.Contains("nauczyciel");
         }
 
         public IQueryable<Employee> GetAllActiveEmployee()
@@ -285,16 +287,34 @@ namespace SchoolManager.Application.Services
                 Count = employeeVms.Count
             };
         }
-        public Employee GetEmployee(int EmployeeId)
+        public Employee GetEmployee(int employeeId)
         {
-            return _employeeRepository.GetEmployee(EmployeeId);
+            if (employeeId <= 0)
+                throw new ArgumentOutOfRangeException(
+                        nameof(employeeId),
+                        employeeId,
+                        Message
+                    );
+            return _employeeRepository.GetEmployee(employeeId);
         }
         public Task<Employee?> GetEmployeeAsync(int employeeId)
         {
+            if (employeeId <= 0)
+                throw new ArgumentOutOfRangeException(
+                        nameof(employeeId),
+                        employeeId,
+                        Message
+                    );
             return _employeeRepository.GetEmployeeAsync(employeeId);
         }
         public EmployeeDetailsVm GetEmployeeDetails(int employeeId)
         {
+            if (employeeId <= 0)
+                throw new ArgumentOutOfRangeException(
+                        nameof(employeeId),
+                        employeeId,
+                        Message
+                    );
             var employee = _employeeRepository.GetEmployee(employeeId);
             var employeeVm = _mapper.Map<EmployeeDetailsVm>(employee);
 
@@ -338,6 +358,12 @@ namespace SchoolManager.Application.Services
         }
         public async Task<EmployeeDetailsVm> GetEmployeeDetailsAsync(int employeeId)
         {
+            if (employeeId <= 0)
+                throw new ArgumentOutOfRangeException(
+                        nameof(employeeId),
+                        employeeId,
+                        Message
+                    );
             var employee = await _employeeRepository.GetEmployeeAsync(employeeId);
             var employeeVm = _mapper.Map<EmployeeDetailsVm>(employee);
 
@@ -389,6 +415,12 @@ namespace SchoolManager.Application.Services
 
         public NewEmployeeVm GetEmployeeForEdit(int id)
         {
+            if (id <= 0)
+                throw new ArgumentOutOfRangeException(
+                        nameof(id),
+                        id,
+                        "Id parametru jest niepoprawne."
+                    );
             var employee = _employeeRepository.GetEmployee(id);
             var employeeVm = _mapper.Map<NewEmployeeVm>(employee);
             if (employee.Educations != null && employee.Educations.Any())
@@ -400,6 +432,12 @@ namespace SchoolManager.Application.Services
 
         public async Task<NewEmployeeVm> GetEmployeeForEditAsync(int id)
         {
+            if (id <= 0)
+                throw new ArgumentOutOfRangeException(
+                        nameof(id),
+                        id,
+                        "Id parametru jest niepoprawne."
+                    );
             var employee = await _employeeRepository.GetEmployeeAsync(id);
             var employeeVm = _mapper.Map<NewEmployeeVm>(employee);
             if (employee != null && employee.Educations != null && employee.Educations.Any())
@@ -411,11 +449,23 @@ namespace SchoolManager.Application.Services
 
         public void DeleteEmployee(int id)
         {
+            if (id <= 0)
+                throw new ArgumentOutOfRangeException(
+                        nameof(id),
+                        id,
+                        "Id parametru jest niepoprawne."
+                    );
             _employeeRepository.DeleteEmployee(id);
         }
 
         public Task DeleteEmployeeAsync(int id)
         {
+            if (id <= 0)
+                throw new ArgumentOutOfRangeException(
+                        nameof(id),
+                        id,
+                        "Id parametru jest niepoprawne."
+                    );
             return _employeeRepository.DeleteEmployeeAsync(id);
         }
     }
