@@ -15,6 +15,7 @@ namespace SchoolManager.Application.Services
 {
     public class ScheduleService : IScheduleService
     {
+        private const string Message = "Id parametru jest niepoprawne.";
         private readonly IScheduleRepository _scheduleRepository;
         private readonly IMapper _mapper;
         public ScheduleService(IScheduleRepository scheduleRepository, IMapper mapper)
@@ -47,6 +48,20 @@ namespace SchoolManager.Application.Services
         }
         public IEnumerable<ScheduleEntryVm> GetSchedulesById(int employeeId, DateTime start, DateTime end)
         {
+            if (start == default || end == default)
+                throw new ArgumentException("Czas rozpoczęcia i zakończenia musi być ustawiony");
+            if(employeeId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(employeeId),
+                    employeeId,
+                    Message
+                );
+            }
+            if (start > end)
+                throw new ArgumentException("Czas rozpoczęcia musi być wcześniejszy niż czas zakończenia");
+            if (employeeId <= 0)
+                throw new ArgumentException(Message);
             return _scheduleRepository.GetByTeacher(employeeId)
                 .Where(x => x.StartTime < end && x.EndTime > start)
                 .ProjectTo<ScheduleEntryVm>(_mapper.ConfigurationProvider)
@@ -149,15 +164,29 @@ namespace SchoolManager.Application.Services
 
         public void DeleteSchedule(int scheduleEntryid)
         {
+            if (scheduleEntryid <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(scheduleEntryid),
+                    scheduleEntryid,
+                    Message
+                );
+            }
             _scheduleRepository.DeleteScheduleEntry(scheduleEntryid);
         }
 
         public Task DeleteScheduleAsync(int scheduleEntryid)
         {
+            if (scheduleEntryid <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(scheduleEntryid),
+                    scheduleEntryid,
+                    Message
+                );
+            }
             return _scheduleRepository.DeleteScheduleEntryAsync(scheduleEntryid);
         }
-
-
 
         public bool IsScheduleEntryValid(NewScheduleEntryVm newEntryVm)
         {

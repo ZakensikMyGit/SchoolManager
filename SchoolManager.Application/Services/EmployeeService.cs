@@ -203,7 +203,9 @@ namespace SchoolManager.Application.Services
         private void UpdateTeacherGroup(int teacherId, int positionId, int? groupId)
         {
             if (!groupId.HasValue || teacherId <= 0 || positionId <= 0)
-                return;
+            {
+                throw new ArgumentOutOfRangeException(Message);
+            }
 
             var position = _positionRepository.GetPositionById(positionId);
             if (position == null)
