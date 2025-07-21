@@ -60,7 +60,7 @@ namespace SchoolManager.Infrastructure.Repositories
 
         public Task<List<Employee>> GetAllActiveEmployeesAsync()
         {
-            return _context.Employees.Where(e => e.IsActive).ToListAsync();
+            return _context.Employees.Include(e => e.Position).Where(e => e.IsActive).ToListAsync();
         }
 
         public Employee GetEmployee(int id)
