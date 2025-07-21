@@ -21,11 +21,11 @@ namespace SchoolManager.Application.ViewModels.Child
         public void Mapping(AutoMapper.Profile profile)
         {
             profile.CreateMap<SchoolManager.Domain.Model.Child, ChildForListVm>()
-                .ForMember(dest => dest.TeacherId,
+                .ForMember(s => s.TeacherId,
                            opt => opt.MapFrom(src => src.Group.TeacherId))
-                .ForMember(dest => dest.GroupName,
+                .ForMember(s => s.GroupName,
                            opt => opt.MapFrom(src => src.Group.GroupName))
-                .ForMember(dest => dest.TeacherName,
+                .ForMember(s => s.TeacherName,
                            opt => opt.MapFrom(src => src.Group.Teacher.FullName));
         }
     }
