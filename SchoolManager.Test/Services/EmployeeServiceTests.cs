@@ -17,7 +17,12 @@ namespace SchoolManager.Test.Services
         private EmployeeService CreateService(Mock<IEmployeeRepository> repo)
         {
             var mapper = new MapperConfiguration(cfg => { }).CreateMapper();
-            return new EmployeeService(repo.Object, new Mock<IPositionRepository>().Object, new Mock<IGroupRepository>().Object, mapper);
+            return new EmployeeService(
+                repo.Object,
+                new Mock<IPositionRepository>().Object,
+                new Mock<IGroupRepository>().Object,
+                new Mock<IScheduleRepository>().Object,
+                mapper);
         }
 
         [Fact]

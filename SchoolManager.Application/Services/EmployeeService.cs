@@ -19,132 +19,79 @@ namespace SchoolManager.Application.Services
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IPositionRepository _positionRepository;
         public readonly IGroupRepository _groupRepository;
+        public readonly IScheduleRepository _scheduleRepository;
         private readonly IMapper _mapper;
-        public EmployeeService(IEmployeeRepository employeeRepo, IPositionRepository positionRepository, IGroupRepository groupRepository, IMapper mapper)
+        public EmployeeService(IEmployeeRepository employeeRepo, IPositionRepository positionRepository, IGroupRepository groupRepository,IScheduleRepository scheduleRepository, IMapper mapper)
         {
             _employeeRepository = employeeRepo;
             _positionRepository = positionRepository;
             _groupRepository = groupRepository;
+            _scheduleRepository = scheduleRepository;
             _mapper = mapper;
         }
 
-        //public int AddEmployee(NewEmployeeVm model)
-        //{
-        //    if (model.Id == 0)
-        //    {
-        //        var position = _positionRepository.GetPositionById(model.PositionId);
-        //        bool isTeacher = position != null &&
-        //                         ((position.Category?.IndexOf("teacher", StringComparison.OrdinalIgnoreCase) >= 0) ||
-        //                          (position.Category?.IndexOf("nauczyciel", StringComparison.OrdinalIgnoreCase) >= 0) ||
-        //                          (position.Name?.IndexOf("teacher", StringComparison.OrdinalIgnoreCase) >= 0) ||
-        //                          (position.Name?.IndexOf("nauczyciel", StringComparison.OrdinalIgnoreCase) >= 0));
-
-        //        Employee employeeEntity;
-        //        if (isTeacher)
-        //        {
-        //            var teacher = _mapper.Map<Teacher>(model);
-        //            teacher.TypeTeacher = "wychowawca";
-        //            teacher.IsDirector = false;
-        //            teacher.PensumHours = 25;
-        //            employeeEntity = teacher;
-        //        }
-        //        else
-        //        {
-        //            employeeEntity = _mapper.Map<Employee>(model);
-        //        }
-
-        //        employeeEntity.WorkingHours = 1;
-        //        employeeEntity.IsActive = true;
-
-        //        if (!string.IsNullOrWhiteSpace(model.Education))
-        //        {
-        //            employeeEntity.Educations = new List<Education>
-        //            {
-        //                new Education
-        //                {
-        //                    Name = model.Education,
-        //                    Description = string.Empty,
-        //                    Type = string.Empty
-        //                }
-        //            };
-        //        }
-        //        var employeeId = _employeeRepository.AddEmployee(employeeEntity);
-
-        //        UpdateTeacherGroup(employeeId, model.PositionId, model.GroupId);
-        //        return employeeId;
-        //    }
-        //    else
-        //    {
-        //        var employee = _employeeRepository.GetEmployee(model.Id);
-        //        if (employee != null)
-        //        {
-        //            _mapper.Map(model, employee);
-        //            employee.PositionId = model.PositionId;
-
-        //            if (!string.IsNullOrWhiteSpace(model.Education))
-        //            {
-        //                var existing = employee.Educations?.FirstOrDefault();
-        //                if (existing == null)
-        //                {
-        //                    employee.Educations = new List<Education>
-        //                    {
-        //                        new Education
-        //                        {
-        //                            Name = model.Education,
-        //                            Description = string.Empty,
-        //                            Type = string.Empty
-        //                        }
-        //                    };
-        //                }
-        //                else
-        //                {
-        //                    existing.Name = model.Education;
-        //                }
-        //            }
-        //            else if (employee.Educations != null && employee.Educations.Any())
-        //            {
-        //                employee.Educations.Clear();
-        //            }
-
-        //            _employeeRepository.UpdateEmployee(employee);
-
-        //            UpdateTeacherGroup(employee.Id, model.PositionId, model.GroupId);
-        //            return employee.Id;
-        //        }
-        //        return 0;
-        //    }
-        //}
         public async Task<int> AddEmployeeAsync(NewEmployeeVm model)
         {
-            if (model.Id == 0)
+            return model.Id == 0
+                ? await CreateEmployeeAsync(model)
+                : await EditEmployeeAsync(model);
+        }
+
+        private async Task<int> CreateEmployeeAsync(NewEmployeeVm model)
+        {
+            var position = await _positionRepository.GetPositionByIdAsync(model.PositionId);
+            var isTeacher = IsTeacherPosition(position);
+
+            Employee employeeEntity;
+            if (isTeacher)
             {
-                var position = await _positionRepository.GetPositionByIdAsync(model.PositionId);
-                bool isTeacher = position != null &&
-                                 ((position.Category.IndexOf("teacher", StringComparison.OrdinalIgnoreCase) >= 0) ||
-                                  (position.Category?.IndexOf("nauczyciel", StringComparison.OrdinalIgnoreCase) >= 0) ||
-                                  (position.Name?.IndexOf("teacher", StringComparison.OrdinalIgnoreCase) >= 0) ||
-                                  (position.Name?.IndexOf("nauczyciel", StringComparison.OrdinalIgnoreCase) >= 0));
+                var teacher = _mapper.Map<Teacher>(model);
+                teacher.TypeTeacher = "wychowawca";
+                teacher.IsDirector = false;
+                teacher.PensumHours = 25;
+                employeeEntity = teacher;
+            }
+            else
+            {
+                employeeEntity = _mapper.Map<Employee>(model);
+            }
 
-                Employee employeeEntity;
-                if (isTeacher)
-                {
-                    var teacher = _mapper.Map<Teacher>(model);
-                    teacher.TypeTeacher = "wychowawca";
-                    teacher.IsDirector = false;
-                    teacher.PensumHours = 25;
-                    employeeEntity = teacher;
-                }
-                else
-                {
-                    employeeEntity = _mapper.Map<Employee>(model);
-                }
+            employeeEntity.WorkingHours = 1;
+            employeeEntity.IsActive = true;
 
-                employeeEntity.WorkingHours = 1;
-                employeeEntity.IsActive = true;
-
-                if (!string.IsNullOrWhiteSpace(model.Education))
+            if (!string.IsNullOrWhiteSpace(model.Education))
+            {
+                employeeEntity.Educations = new List<Education>
                 {
-                    employeeEntity.Educations = new List<Education>
+                     new Education
+                    {
+                        Name = model.Education,
+                        Description = string.Empty,
+                        Type = string.Empty
+                    }
+                };
+            }
+
+            var employeeId = await _employeeRepository.AddEmployeeAsync(employeeEntity);
+            await UpdateTeacherGroupAsync(employeeId, model.PositionId, model.GroupId);
+
+            return employeeId;
+        }
+
+        private async Task<int> EditEmployeeAsync(NewEmployeeVm model)
+        {
+            var employee = await _employeeRepository.GetEmployeeAsync(model.Id);
+            if (employee == null)
+                return 0;
+
+            _mapper.Map(model, employee);
+            employee.PositionId = model.PositionId;
+            if (!string.IsNullOrWhiteSpace(model.Education))
+            {
+                var existing = employee.Educations?.FirstOrDefault();
+                if (existing == null)
+                {
+                    employee.Educations = new List<Education>
                     {
                         new Education
                         {
@@ -154,52 +101,20 @@ namespace SchoolManager.Application.Services
                         }
                     };
                 }
-                var employeeId = await _employeeRepository.AddEmployeeAsync(employeeEntity);
-
-               await UpdateTeacherGroupAsync(employeeId, model.PositionId, model.GroupId);
-                return employeeId;
-            }
-            else
-            {
-                var employee = await _employeeRepository.GetEmployeeAsync(model.Id);
-                if (employee != null)
+                else
                 {
-                    _mapper.Map(model, employee);
-                    employee.PositionId = model.PositionId;
-
-                    if (!string.IsNullOrWhiteSpace(model.Education))
-                    {
-                        var existing = employee.Educations?.FirstOrDefault();
-                        if (existing == null)
-                        {
-                            employee.Educations = new List<Education>
-                            {
-                                new Education
-                                {
-                                    Name = model.Education,
-                                    Description = string.Empty,
-                                    Type = string.Empty
-                                }
-                            };
-                        }
-                        else
-                        {
-                            existing.Name = model.Education;
-                        }
-                    }
-                    else if (employee.Educations != null && employee.Educations.Any())
-                    {
-                        employee.Educations.Clear();
-                    }
-
-                    await _employeeRepository.UpdateEmployeeAsync(employee);
-
-                    await UpdateTeacherGroupAsync(employee.Id, model.PositionId, model.GroupId);
-                    return employee.Id;
+                    existing.Name = model.Education;
                 }
-                return 0;
             }
+            else if (employee.Educations != null && employee.Educations.Any())
+            {
+                employee.Educations.Clear();
+            }
+            await _employeeRepository.UpdateEmployeeAsync(employee);
+            await UpdateTeacherGroupAsync(employee.Id, model.PositionId, model.GroupId);
+            return employee.Id;
         }
+
         private async Task UpdateTeacherGroupAsync(int teacherId, int positionId, int? groupId)
         {
             if (!groupId.HasValue || teacherId <= 0 || positionId <= 0)
@@ -294,7 +209,7 @@ namespace SchoolManager.Application.Services
                 var position = await _positionRepository.GetPositionByIdAsync(employee.PositionId);
 
                 var groups = await _groupRepository.GetAllGroupsAsync();
-                   var group = groups.FirstOrDefault(g => g.TeacherId == employee.Id);
+                var group = groups.FirstOrDefault(g => g.TeacherId == employee.Id);
                 if (group != null)
                 {
                     employeeVm.GroupName = group.GroupName;
@@ -324,7 +239,7 @@ namespace SchoolManager.Application.Services
 
             return employeeVm;
         }
-        public async Task <List<Position>> GetAllPositionsAsync()
+        public async Task<List<Position>> GetAllPositionsAsync()
         {
             return await _positionRepository.GetAllPositionsAsync();
         }
@@ -363,7 +278,7 @@ namespace SchoolManager.Application.Services
             return employeeVm;
         }
 
-        public void DeleteEmployee(int id)
+        public async Task DeleteEmployeeAsync(int id)
         {
             if (id <= 0)
                 throw new ArgumentOutOfRangeException(
@@ -371,18 +286,14 @@ namespace SchoolManager.Application.Services
                         id,
                         "Id parametru jest niepoprawne."
                     );
-            _employeeRepository.DeleteEmployee(id);
-        }
 
-        public Task DeleteEmployeeAsync(int id)
-        {
-            if (id <= 0)
-                throw new ArgumentOutOfRangeException(
-                        nameof(id),
-                        id,
-                        "Id parametru jest niepoprawne."
-                    );
-            return _employeeRepository.DeleteEmployeeAsync(id);
+            var schedules = await _scheduleRepository.GetByTeacherAsync(id);
+            foreach (var entry in schedules)
+            {
+                await _scheduleRepository.DeleteScheduleEntryAsync(entry.Id);
+            }
+
+            await _employeeRepository.DeleteEmployeeAsync(id);
         }
     }
 }
