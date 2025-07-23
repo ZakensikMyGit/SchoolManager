@@ -5,7 +5,7 @@ namespace SchoolManager.Domain.Interfaces
 {
     public interface IPositionRepository
     {
-        List<Position> GetAllPositions();
-        Position GetPositionById(int id);
+        Task <List<Position>> GetAllPositionsAsync();
+        Task <Position> GetPositionByIdAsync(int id);
     }
 }

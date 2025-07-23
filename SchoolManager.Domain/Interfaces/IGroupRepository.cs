@@ -9,8 +9,8 @@ namespace SchoolManager.Domain.Interfaces
 {
     public interface IGroupRepository
     {
-        List<Group> GetAllGroups();
-        Group GetGroup(int groupId);
-        void UpdateGroup(Group group);
+        public Task<List<Group>> GetAllGroupsAsync();
+        public Task<Group> GetGroupAsync(int groupId);
+        public Task UpdateGroupAsync(Group group);
     }
 }

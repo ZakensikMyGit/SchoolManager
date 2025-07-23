@@ -1,7 +1,9 @@
-﻿using SchoolManager.Domain.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using SchoolManager.Domain.Interfaces;
 using SchoolManager.Domain.Model;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SchoolManager.Infrastructure.Repositories
 {
@@ -14,14 +16,14 @@ namespace SchoolManager.Infrastructure.Repositories
             _context = context;
         }
 
-        public List<Position> GetAllPositions()
+        public Task <List<Position>> GetAllPositionsAsync()
         {
-            return _context.Positions.ToList();
+            return _context.Positions.ToListAsync();
         }
 
-        public Position GetPositionById(int id)
+        public Task <Position> GetPositionByIdAsync(int id)
         {
-            return _context.Positions.FirstOrDefault(p => p.Id == id);
+            return _context.Positions.FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }

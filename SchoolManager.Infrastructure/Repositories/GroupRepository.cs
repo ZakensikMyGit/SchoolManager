@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using SchoolManager.Domain.Interfaces;
 using SchoolManager.Domain.Model;
 
@@ -15,19 +16,19 @@ namespace SchoolManager.Infrastructure.Repositories
         {
             _context = context;
         }
-        public List<Group> GetAllGroups()
+        public Task <List<Group>> GetAllGroupsAsync()
         {
-            return _context.Groups.ToList();
+            return _context.Groups.ToListAsync();
         }
-        public Group GetGroup(int id)
+        public Task <Group> GetGroupAsync(int id)
         {
-            return _context.Groups.FirstOrDefault(g => g.Id == id);
+            return _context.Groups.FirstOrDefaultAsync(g => g.Id == id);
         }
 
-        public void UpdateGroup(Group group)
+        public async Task UpdateGroupAsync(Group group)
         {
             _context.Groups.Update(group);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -10,13 +10,13 @@ namespace SchoolManager.Application.Interfaces
 {
     public interface IEmployeeService
     {
-        ListEmployeeForListVm GetAllEmployeesForList();
-        IQueryable<Employee> GetAllActiveEmployee();
-        Employee GetEmployee(int EmployeeId);
-        EmployeeDetailsVm GetEmployeeDetails(int employeeId);
-        int AddEmployee(NewEmployeeVm model);
-        NewEmployeeVm GetEmployeeForEdit(int employeeId);
-        void DeleteEmployee(int employeeId);
+        //ListEmployeeForListVm GetAllEmployeesForList();
+        //IQueryable<Employee> GetAllActiveEmployee();
+        //Employee GetEmployee(int EmployeeId);
+        //EmployeeDetailsVm GetEmployeeDetails(int employeeId);
+        //int AddEmployee(NewEmployeeVm model);
+        //NewEmployeeVm GetEmployeeForEdit(int employeeId);
+        //void DeleteEmployee(int employeeId);
 
         Task<ListEmployeeForListVm> GetAllEmployeesForListAsync();
         Task<List<Employee>> GetAllActiveEmployeeAsync();
@@ -25,5 +25,6 @@ namespace SchoolManager.Application.Interfaces
         Task<int> AddEmployeeAsync(NewEmployeeVm model);
         Task<NewEmployeeVm> GetEmployeeForEditAsync(int employeeId);
         Task DeleteEmployeeAsync(int employeeId);
+
     }
 }

@@ -28,7 +28,7 @@ namespace SchoolManager.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddEmployee()
+        public async Task <IActionResult> AddEmployee()
         {
             return View(new NewEmployeeVm
             {
