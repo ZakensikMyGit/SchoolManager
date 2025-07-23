@@ -102,13 +102,15 @@ namespace SchoolManager.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Add(int employeeId)
         {
-            var groups = _groupRepository.GetAllGroups().Select(g => new SelectListItem
+            var group = await _groupRepository.GetAllGroupsAsync();
+            var groups = group.Select(g => new SelectListItem
             {
                 Value = g.Id.ToString(),
                 Text = g.GroupName
             });
 
-            var defaultGroup = _groupRepository.GetAllGroups().FirstOrDefault(g => g.TeacherId == employeeId);
+            var defaultGroups = await _groupRepository.GetAllGroupsAsync();
+            var defaultGroup = defaultGroups.FirstOrDefault(g => g.TeacherId == employeeId);
             var model = new NewScheduleEntryVm
             {
                 EmployeeId = employeeId,
@@ -138,7 +140,7 @@ namespace SchoolManager.Web.Controllers
                 Value = e.Id.ToString(),
                 Text = e.FullName
             });
-            model.Groups = _groupRepository.GetAllGroups().Select(g => new SelectListItem
+            model.Groups = (await _groupRepository.GetAllGroupsAsync()).Select(g => new SelectListItem
             {
                 Value = g.Id.ToString(),
                 Text = g.GroupName

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NuGet.Protocol.Core.Types;
 using SchoolManager.Application.Interfaces;
 using SchoolManager.Application.ViewModels.Employee;
 using SchoolManager.Domain.Interfaces;
+using System.Linq;
 
 namespace SchoolManager.Web.Controllers
 {
@@ -28,28 +30,30 @@ namespace SchoolManager.Web.Controllers
         }
 
         [HttpGet]
-        public async Task <IActionResult> AddEmployee()
+        public async Task<IActionResult> AddEmployee()
         {
+            var positions = await _positionRepository.GetAllPositionsAsync();
+            var groups = await _groupRepository.GetAllGroupsAsync();
+
             return View(new NewEmployeeVm
             {
-                Positions = _positionRepository.GetAllPositions().Select(p => new SelectListItem
+                Positions = positions.Select(p => new SelectListItem
                 {
                     Value = p.Id.ToString(),
                     Text = p.Name
                 }),
-                Groups = _groupRepository.GetAllGroups().Select(g => new SelectListItem
+                Groups = groups.Select(g => new SelectListItem
                 {
                     Value = g.Id.ToString(),
                     Text = g.GroupName
                 })
             });
         }
-
         [HttpPost]
         public async Task<IActionResult> AddEmployee(NewEmployeeVm model)
         {
-            var positions = _positionRepository.GetAllPositions();
-            var groups = _groupRepository.GetAllGroups();
+            var positions = await _positionRepository.GetAllPositionsAsync();
+            var groups = await _groupRepository.GetAllGroupsAsync();
             model.Positions = positions.Select(p => new SelectListItem
             {
                 Value = p.Id.ToString(),
@@ -68,12 +72,14 @@ namespace SchoolManager.Web.Controllers
         public async Task<IActionResult> EditEmployee(int id)
         {
             var employeeModel = await _employeeService.GetEmployeeForEditAsync(id);
-            employeeModel.Positions = _positionRepository.GetAllPositions().Select(p => new SelectListItem
+            var positions = await _positionRepository.GetAllPositionsAsync();
+            var groups = await _groupRepository.GetAllGroupsAsync();
+            employeeModel.Positions = positions.Select(p => new SelectListItem
             {
                 Value = p.Id.ToString(),
                 Text = p.Name
             });
-            employeeModel.Groups = _groupRepository.GetAllGroups().Select(g => new SelectListItem
+            employeeModel.Groups = groups.Select(g => new SelectListItem
             {
                 Value = g.Id.ToString(),
                 Text = g.GroupName
@@ -83,8 +89,9 @@ namespace SchoolManager.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> EditEmployee(NewEmployeeVm model)
         {
-            var positions = _positionRepository.GetAllPositions();
-            var groups = _groupRepository.GetAllGroups();
+
+            var positions = await _positionRepository.GetAllPositionsAsync();
+            var groups = await _groupRepository.GetAllGroupsAsync();
             model.Positions = positions.Select(p => new SelectListItem
             {
                 Value = p.Id.ToString(),
