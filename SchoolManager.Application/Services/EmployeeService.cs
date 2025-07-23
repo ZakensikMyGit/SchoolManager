@@ -287,6 +287,14 @@ namespace SchoolManager.Application.Services
                         "Id parametru jest niepoprawne."
                     );
 
+            var groups = await _groupRepository.GetAllGroupsAsync();
+            var group = groups.FirstOrDefault(g => g.TeacherId == id);
+            if (group != null)
+            {
+                group.TeacherId = 0;
+                await _groupRepository.UpdateGroupAsync(group);
+            }
+
             var schedules = await _scheduleRepository.GetByTeacherAsync(id);
             foreach (var entry in schedules)
             {

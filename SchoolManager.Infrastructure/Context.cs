@@ -40,7 +40,7 @@ namespace SchoolManager.Infrastructure
                 .HasOne(g => g.Teacher)
                 .WithOne(t => t.Group)
                 .HasForeignKey<Group>(g => g.TeacherId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.SetNull);
 
             // Employee → Position (many-to-one)
             builder.Entity<Employee>()
