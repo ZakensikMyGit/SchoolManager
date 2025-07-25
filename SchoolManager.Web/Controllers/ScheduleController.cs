@@ -45,10 +45,7 @@ namespace SchoolManager.Web.Controllers
             }
             else
             {
-                entries = (await _scheduleService
-                    .GetAllSchedulesAsync())
-                    .Schedules
-                    .Where(e => e.StartTime < end && e.EndTime > start);
+                entries = await _scheduleService.GetSchedulesByRangeAsync(start, end);
             }
 
             var events = entries.Select(e => new

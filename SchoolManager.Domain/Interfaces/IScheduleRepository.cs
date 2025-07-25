@@ -24,5 +24,6 @@ namespace SchoolManager.Domain.Interfaces
         Task<int> AddScheduleEntryAsync(ScheduleEntry entry);
         Task UpdateScheduleEntryAsync(ScheduleEntry entry);
         Task DeleteScheduleEntryAsync(int id);
+        Task<List<ScheduleEntry>> GetByDateRangeAsync(DateTime start, DateTime end);
     }
 }

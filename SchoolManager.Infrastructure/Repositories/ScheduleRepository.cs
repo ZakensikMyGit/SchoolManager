@@ -122,5 +122,16 @@ namespace SchoolManager.Infrastructure.Repositories
             _context.ScheduleEntries.Update(entry);
             await _context.SaveChangesAsync();
         }
+
+        public Task<List<ScheduleEntry>> GetByDateRangeAsync(DateTime start, DateTime end)
+        {
+            return _context.ScheduleEntries
+                .Include(e => e.Employee)
+                .Include(e => e.Position)
+                .Include(e => e.Group)
+                .Where(e => e.StartTime < end && e.EndTime > start)
+                .AsNoTracking()
+                .ToListAsync();
+        }
     }
 }
