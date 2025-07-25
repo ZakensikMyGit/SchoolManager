@@ -6,8 +6,6 @@ namespace SchoolManager.Infrastructure
 {
     public class Context : IdentityDbContext
     {
-        public DbSet<Child> Children { get; set; }
-        public DbSet<Declaration> Declarations { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Group> Groups { get; set; }
@@ -20,20 +18,6 @@ namespace SchoolManager.Infrastructure
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            // Child → Group (many-to-one)
-            builder.Entity<Child>()
-                .HasOne(c => c.Group)
-                .WithMany(g => g.Children)
-                .HasForeignKey(c => c.GroupId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Child → Declarations (one-to-many)
-            builder.Entity<Child>()
-                .HasMany(c => c.Declarations)
-                .WithOne(d => d.Child)
-                .HasForeignKey(d => d.ChildId)
-                .OnDelete(DeleteBehavior.Cascade);
 
             // Teacher ↔ Group (one-to-one)
             builder.Entity<Teacher>()

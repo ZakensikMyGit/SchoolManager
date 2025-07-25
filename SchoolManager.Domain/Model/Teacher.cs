@@ -10,7 +10,6 @@ namespace SchoolManager.Domain.Model
 {
     public class Teacher : Employee
     {
-
         public string TypeTeacher { get; set; }
         public bool IsDirector { get; set; }
         public int PensumHours { get; set; }

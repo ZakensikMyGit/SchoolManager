@@ -14,7 +14,6 @@ namespace SchoolManager.Domain.Model
         public int GirlsCount { get; set; }
         public int BoysCount { get; set; }
         public int MaxChildrenCount { get; set; } = 25;
-        public virtual ICollection<Child> Children { get; set; }
         public virtual Teacher Teacher { get; set; }
     }
 }
