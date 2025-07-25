@@ -133,5 +133,11 @@ namespace SchoolManager.Infrastructure.Repositories
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+        public async Task AddScheduleEntriesAsync(IEnumerable<ScheduleEntry> entries)
+        {
+            await _context.ScheduleEntries.AddRangeAsync(entries);
+            await _context.SaveChangesAsync();
+        }
     }
 }

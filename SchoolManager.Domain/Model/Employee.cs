@@ -20,7 +20,7 @@ namespace SchoolManager.Domain.Model
         //public string Email { get; set; }
         public DateTime EmploymentDate { get; set; } = DateTime.Now;
         public bool IsActive { get; set; }
-        public int PositionId { get; set; }
+        public int? PositionId { get; set; }
 
         public virtual Position Position { get; set; }
         public virtual ICollection<Education> Educations { get; set; }

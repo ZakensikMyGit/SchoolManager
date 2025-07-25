@@ -18,12 +18,16 @@ namespace SchoolManager.Infrastructure.Repositories
 
         public Task <List<Position>> GetAllPositionsAsync()
         {
-            return _context.Positions.ToListAsync();
+            return _context.Positions
+               .AsNoTracking()
+               .ToListAsync();
         }
 
-        public Task <Position> GetPositionByIdAsync(int id)
+        public Task<Position> GetPositionByIdAsync(int id)
         {
-            return _context.Positions.FirstOrDefaultAsync(p => p.Id == id);
+            return _context.Positions
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == id)!;
         }
     }
 }

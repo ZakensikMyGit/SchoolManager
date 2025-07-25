@@ -29,8 +29,8 @@ namespace SchoolManager.Test.Services
         public async Task GetAllActiveEmployee_ReturnsAllActiveEmployeesAsync()
         {
             var repo = new Mock<IEmployeeRepository>();
-            var employees = new List<Employee> { new Employee { Id = 1 }, new Employee { Id = 2 } }.AsQueryable();
-            repo.Setup(r => r.GetAllActiveEmployees()).Returns(employees);
+            var employees = new List<Employee> { new Employee { Id = 1 }, new Employee { Id = 2 } };
+            repo.Setup(r => r.GetAllActiveEmployeesAsync()).ReturnsAsync(employees);
             var service = CreateService(repo);
 
             var result = await service.GetAllActiveEmployeeAsync();
@@ -44,7 +44,7 @@ namespace SchoolManager.Test.Services
         {
             var repo = new Mock<IEmployeeRepository>();
             var employee = new Employee { Id = 5 };
-            repo.Setup(r => r.GetEmployee(5)).Returns(employee);
+            repo.Setup(r => r.GetEmployeeAsync(5)).ReturnsAsync(employee);
             var service = CreateService(repo);
 
             var result = await service.GetEmployeeAsync(5);

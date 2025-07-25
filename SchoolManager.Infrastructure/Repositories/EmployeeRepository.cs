@@ -60,19 +60,17 @@ namespace SchoolManager.Infrastructure.Repositories
 
         public Task<List<Employee>> GetAllActiveEmployeesAsync()
         {
-            return _context.Employees.Include(e => e.Position).Where(e => e.IsActive).ToListAsync();
-        }
-
-        public Employee GetEmployee(int id)
-        {
             return _context.Employees
-               .Include(e => e.Educations)
-               .FirstOrDefault(e => e.Id == id);
+                .AsNoTracking()
+                .Include(e => e.Position)
+                .Where(e => e.IsActive)
+                .ToListAsync();
         }
 
         public Task<Employee?> GetEmployeeAsync(int id)
         {
             return _context.Employees
+                .AsNoTracking()
                .Include(e => e.Educations)
                .FirstOrDefaultAsync(e => e.Id == id);
         }

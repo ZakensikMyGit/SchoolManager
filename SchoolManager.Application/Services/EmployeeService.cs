@@ -246,23 +246,6 @@ namespace SchoolManager.Application.Services
             return await _positionRepository.GetAllPositionsAsync();
         }
 
-        public NewEmployeeVm GetEmployeeForEdit(int id)
-        {
-            if (id <= 0)
-                throw new ArgumentOutOfRangeException(
-                        nameof(id),
-                        id,
-                        "Id parametru jest niepoprawne."
-                    );
-            var employee = _employeeRepository.GetEmployee(id);
-            var employeeVm = _mapper.Map<NewEmployeeVm>(employee);
-            if (employee.Educations != null && employee.Educations.Any())
-            {
-                employeeVm.Education = string.Join(", ", employee.Educations.Select(e => e.Name));
-            }
-            return employeeVm;
-        }
-
         public async Task<NewEmployeeVm> GetEmployeeForEditAsync(int id)
         {
             if (id <= 0)

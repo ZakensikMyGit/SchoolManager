@@ -67,9 +67,11 @@ namespace SchoolManager.Application.Services
                 if (entryVm.RangeStart > entryVm.RangeEnd)
                     throw new InvalidOperationException("Data początkowa musi być wcześniejsza niż data końcowa");
 
-                int lastId = 0;
+            
                 var startDate = entryVm.RangeStart.Date;
                 var endDate = entryVm.RangeEnd.Date;
+                var entries = new List<ScheduleEntry>();
+
                 for (var date = startDate; date <= endDate; date = date.AddDays(1))
                 {
                     if (date.DayOfWeek == entryVm.DayOfWeek)
@@ -77,10 +79,15 @@ namespace SchoolManager.Application.Services
                         var entity = _mapper.Map<ScheduleEntry>(entryVm);
                         entity.StartTime = date.Date.Add(entryVm.StartTime.TimeOfDay);
                         entity.EndTime = date.Date.Add(entryVm.EndTime.TimeOfDay);
-                        lastId = await _scheduleRepository.AddScheduleEntryAsync(entity);
+                        entries.Add(entity);
                     }
                 }
-                return lastId;
+                if (entries.Count == 0)
+                    return 0;
+
+                await _scheduleRepository.AddScheduleEntriesAsync(entries);
+
+                return entries.Last().Id;
             }
             else
             {
@@ -88,15 +95,15 @@ namespace SchoolManager.Application.Services
                 return await _scheduleRepository.AddScheduleEntryAsync(entity);
             }
         }
-        //public async Task<int> AddScheduleAsync(EditScheduleEntryVm entryVm)
-        //{
-        //    if (!IsScheduleEntryValid(entryVm))
-        //        throw new InvalidOperationException("Konflikt godzinowy");
-        //    if (entryVm.StartTime > entryVm.EndTime)
-        //        throw new InvalidOperationException("Czas rozpoczęcia musi być wcześniejszy niż czas zakończenia");
-        //    var entity = _mapper.Map<ScheduleEntry>(entryVm);
-        //    return await _scheduleRepository.AddScheduleEntryAsync(entity);
-        //}
+        public async Task<int> AddScheduleAsync(EditScheduleEntryVm entryVm)
+        {
+            if (!IsScheduleEntryValid(entryVm))
+                throw new InvalidOperationException("Konflikt godzinowy");
+            if (entryVm.StartTime > entryVm.EndTime)
+                throw new InvalidOperationException("Czas rozpoczęcia musi być wcześniejszy niż czas zakończenia");
+            var entity = _mapper.Map<ScheduleEntry>(entryVm);
+            return await _scheduleRepository.AddScheduleEntryAsync(entity);
+        }
         public async Task UpdateScheduleAsync(EditScheduleEntryVm entryVm)
         {
             if (!IsScheduleEntryValid(entryVm))

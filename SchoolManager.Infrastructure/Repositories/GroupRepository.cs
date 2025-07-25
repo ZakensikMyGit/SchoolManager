@@ -18,11 +18,20 @@ namespace SchoolManager.Infrastructure.Repositories
         }
         public Task <List<Group>> GetAllGroupsAsync()
         {
-            return _context.Groups.ToListAsync();
+            return _context.Groups
+                .AsNoTracking()
+                .ToListAsync();
         }
-        public Task <Group> GetGroupAsync(int id)
+        public async Task<Group> GetGroupAsync(int id)
         {
-            return _context.Groups.FirstOrDefaultAsync(g => g.Id == id);
+            var group = await _context.Groups
+                .AsNoTracking()
+                .FirstOrDefaultAsync(g => g.Id == id);
+
+            if (group == null)
+                throw new InvalidOperationException($"Nie znaleziono id grupy: {id}.");
+
+            return group;
         }
 
         public async Task UpdateGroupAsync(Group group)
