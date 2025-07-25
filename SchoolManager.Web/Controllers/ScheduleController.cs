@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolManager.Application.Interfaces;
 using SchoolManager.Application.ViewModels.Schedule;
 using SchoolManager.Domain.Interfaces;
+using SchoolManager.Domain.Model;
 
 namespace SchoolManager.Web.Controllers
 {
@@ -109,8 +110,12 @@ namespace SchoolManager.Web.Controllers
                 Text = g.GroupName
             });
 
-            var defaultGroups = await _groupRepository.GetAllGroupsAsync();
-            var defaultGroup = defaultGroups.FirstOrDefault(g => g.TeacherId == employeeId);
+            var employee = await _employeeRepository.GetEmployeeAsync(employeeId) as Teacher;
+            Group? defaultGroup = null;
+            if (employee != null && employee.GroupId.HasValue)
+            {
+                defaultGroup = await _groupRepository.GetGroupAsync(employee.GroupId.Value);
+            }
             var model = new NewScheduleEntryVm
             {
                 EmployeeId = employeeId,

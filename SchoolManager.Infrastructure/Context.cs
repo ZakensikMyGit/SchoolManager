@@ -35,11 +35,11 @@ namespace SchoolManager.Infrastructure
                 .HasForeignKey(d => d.ChildId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Group → Teacher (one-to-one)
-            builder.Entity<Group>()
-                .HasOne(g => g.Teacher)
-                .WithOne(t => t.Group)
-                .HasForeignKey<Group>(g => g.TeacherId)
+            // Teacher ↔ Group (one-to-one)
+            builder.Entity<Teacher>()
+                .HasOne(t => t.Group)
+                .WithOne(g => g.Teacher)
+                .HasForeignKey<Teacher>(t => t.GroupId)
                 .OnDelete(DeleteBehavior.SetNull);
 
             // Employee → Position (many-to-one)

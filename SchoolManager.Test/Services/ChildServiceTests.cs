@@ -47,7 +47,7 @@ namespace SchoolManager.Test.Services
         public void GetAllChildrenForListByGroupId_ReturnsMappedList()
         {
             var repo = new Mock<IChildRepository>();
-            var group = new Group { Id = 1, GroupName = "A", TeacherId = 2, Teacher = new Teacher { Id = 2, FirstName = "T", LastName = "L" } };
+            var group = new Group { Id = 1, GroupName = "A", Teacher = new Teacher { Id = 2, FirstName = "T", LastName = "L" } };
             var children = new List<Child>
             {
                 new Child { Id = 1, FirstName="c", LastName="d", GroupId = 1, Group = group }

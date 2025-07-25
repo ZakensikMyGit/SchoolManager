@@ -21,7 +21,7 @@ namespace SchoolManager.Application.Services
         public readonly IGroupRepository _groupRepository;
         public readonly IScheduleRepository _scheduleRepository;
         private readonly IMapper _mapper;
-        public EmployeeService(IEmployeeRepository employeeRepo, IPositionRepository positionRepository, IGroupRepository groupRepository,IScheduleRepository scheduleRepository, IMapper mapper)
+        public EmployeeService(IEmployeeRepository employeeRepo, IPositionRepository positionRepository, IGroupRepository groupRepository, IScheduleRepository scheduleRepository, IMapper mapper)
         {
             _employeeRepository = employeeRepo;
             _positionRepository = positionRepository;
@@ -129,12 +129,12 @@ namespace SchoolManager.Application.Services
             if (!IsTeacherPosition(position))
                 return;
 
-            var group = await _groupRepository.GetGroupAsync(groupId.Value);
-            if (group == null)
+            var teacher = await _employeeRepository.GetEmployeeAsync(teacherId) as Teacher;
+            if (teacher == null)
                 return;
 
-            group.TeacherId = teacherId;
-            await _groupRepository.UpdateGroupAsync(group);
+            teacher.GroupId = groupId;
+            await _employeeRepository.UpdateEmployeeAsync(teacher);
         }
 
         private bool IsTeacherPosition(Position position)
@@ -208,11 +208,13 @@ namespace SchoolManager.Application.Services
 
                 var position = await _positionRepository.GetPositionByIdAsync(employee.PositionId);
 
-                var groups = await _groupRepository.GetAllGroupsAsync();
-                var group = groups.FirstOrDefault(g => g.TeacherId == employee.Id);
-                if (group != null)
+                if (employee is Teacher t && t.GroupId.HasValue)
                 {
-                    employeeVm.GroupName = group.GroupName;
+                    var group = await _groupRepository.GetGroupAsync(t.GroupId.Value);
+                    if (group != null)
+                    {
+                        employeeVm.GroupName = group.GroupName;
+                    }
                 }
 
                 if (employee is Teacher teacher)
@@ -286,14 +288,6 @@ namespace SchoolManager.Application.Services
                         id,
                         "Id parametru jest niepoprawne."
                     );
-
-            var groups = await _groupRepository.GetAllGroupsAsync();
-            var group = groups.FirstOrDefault(g => g.TeacherId == id);
-            if (group != null)
-            {
-                group.TeacherId = 0;
-                await _groupRepository.UpdateGroupAsync(group);
-            }
 
             var schedules = await _scheduleRepository.GetByTeacherAsync(id);
             foreach (var entry in schedules)
