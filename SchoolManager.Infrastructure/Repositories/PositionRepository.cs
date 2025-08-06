@@ -29,5 +29,12 @@ namespace SchoolManager.Infrastructure.Repositories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Id == id)!;
         }
+
+        public async Task<int> AddPositionAsync(Position position)
+        {
+            await _context.Positions.AddAsync(position);
+            await _context.SaveChangesAsync();
+            return position.Id;
+        }
     }
 }
