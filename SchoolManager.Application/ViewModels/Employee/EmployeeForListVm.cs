@@ -13,7 +13,7 @@ namespace SchoolManager.Application.ViewModels.Employee
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int PositionId { get; set; }
+        public int? PositionId { get; set; }
         public string PositionName { get; set; }
         public DateTime EmploymentDate { get; set; } = DateTime.Now;
         

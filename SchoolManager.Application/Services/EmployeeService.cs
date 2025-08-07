@@ -39,7 +39,14 @@ namespace SchoolManager.Application.Services
 
         private async Task<int> CreateEmployeeAsync(NewEmployeeVm model)
         {
-            var position = await _positionRepository.GetPositionByIdAsync(model.PositionId);
+            if (model == null)
+                throw new ArgumentNullException(nameof(model), "Problem z pobraniem danych.");
+
+            Position? position = null;
+            if (model.PositionId != 0)
+            {
+                position = await _positionRepository.GetPositionByIdAsync(model.PositionId.Value);
+            }
             var isTeacher = IsTeacherPosition(position);
 
             Employee employeeEntity;
@@ -115,14 +122,14 @@ namespace SchoolManager.Application.Services
             return employee.Id;
         }
 
-        private async Task UpdateTeacherGroupAsync(int teacherId, int positionId, int? groupId)
+        private async Task UpdateTeacherGroupAsync(int teacherId, int? positionId, int? groupId)
         {
-            if (!groupId.HasValue || teacherId <= 0 || positionId <= 0)
+            if (!groupId.HasValue || !positionId.HasValue || teacherId <= 0)
             {
-                throw new ArgumentOutOfRangeException(Message);
+                return;
             }
 
-            var position = await _positionRepository.GetPositionByIdAsync(positionId);
+            var position = await _positionRepository.GetPositionByIdAsync(positionId.Value);
             if (position == null)
                 return;
 
@@ -206,7 +213,11 @@ namespace SchoolManager.Application.Services
                     ? string.Join(", ", employee.Educations.Select(e => e.Name))
                     : string.Empty;
 
-                var position = await _positionRepository.GetPositionByIdAsync(employee.PositionId);
+                Position? position = null;
+                if (employee.PositionId != 0)
+                {
+                    position = await _positionRepository.GetPositionByIdAsync(employee.PositionId.Value);
+                }
 
                 if (employee is Teacher t && t.GroupId.HasValue)
                 {
@@ -227,14 +238,14 @@ namespace SchoolManager.Application.Services
                     }
                     else
                     {
-                        employeeVm.PositionName = position.Name;
+                        employeeVm.PositionName = position?.Name;
                         employeeVm.PensumHours = 25;
                     }
                 }
                 else
                 {
                     employeeVm.IsDirector = false;
-                    employeeVm.PositionName = position.Name;
+                    employeeVm.PositionName = position?.Name;
                     employeeVm.PensumHours = 40;
                 }
             }

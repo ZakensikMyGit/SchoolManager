@@ -215,7 +215,7 @@ namespace SchoolManager.Infrastructure.Migrations
                     WorkingHours = table.Column<double>(type: "double precision", nullable: false),
                     EmploymentDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    PositionId = table.Column<int>(type: "integer", nullable: false),
+                    PositionId = table.Column<int>(type: "integer", nullable: true),
                     Discriminator = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: false),
                     TypeTeacher = table.Column<string>(type: "text", nullable: true),
                     IsDirector = table.Column<bool>(type: "boolean", nullable: true),

@@ -29,7 +29,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="PositionId" class="control-label">Stanowisko</label>
-                <select asp-for="PositionId" class="form-control" asp-items="Model.Positions"></select>
+                <select asp-for="PositionId" class="form-control" asp-items="Model.Positions">
+                    <option value="">-- wybierz --</option>
+                </select>
                 <span asp-validation-for="PositionId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,7 +41,9 @@
             </div>
             <div id="groupFields" class="form-group" style="display:none;">
                 <label asp-for="GroupId" class="control-label">Grupa</label>
-                <select asp-for="GroupId" class="form-control" asp-items="Model.Groups"></select>
+                <select asp-for="GroupId" class="form-control" asp-items="Model.Groups">
+                    <option value="">-- wybierz --</option>
+                </select>
                 <span asp-validation-for="GroupId" class="text-danger"></span>
             </div>
             <div id="educationField" class="form-group" style="display:none;">

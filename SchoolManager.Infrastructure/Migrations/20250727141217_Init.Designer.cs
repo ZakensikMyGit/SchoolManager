@@ -295,7 +295,7 @@ namespace SchoolManager.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("PositionId")
+                    b.Property<int?>("PositionId")
                         .HasColumnType("integer");
 
                     b.Property<double>("WorkingHours")
@@ -494,8 +494,7 @@ namespace SchoolManager.Infrastructure.Migrations
                     b.HasOne("SchoolManager.Domain.Model.Position", "Position")
                         .WithMany("Employees")
                         .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Position");
                 });

@@ -30,7 +30,7 @@ namespace SchoolManager.Infrastructure
             builder.Entity<Employee>()
                 .HasOne(e => e.Position)
                 .WithMany(p => p.Employees)
-                .HasForeignKey("PositionId")
+                .HasForeignKey(e => e.PositionId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // Employee ↔ Education (many-to-many)

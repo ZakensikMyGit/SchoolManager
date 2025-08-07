@@ -19,7 +19,7 @@ namespace SchoolManager.Application.ViewModels.Employee
         public double WorkingHours { get; set; } = 1;
         public DateTime EmploymentDate { get; set; } = DateTime.Now;
 
-        public int PositionId { get; set; }
+        public int? PositionId { get; set; }
         public IEnumerable<SelectListItem> Positions { get; set; }
 
         public int? GroupId { get; set; }

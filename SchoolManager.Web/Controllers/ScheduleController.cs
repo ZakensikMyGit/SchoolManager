@@ -150,7 +150,7 @@ namespace SchoolManager.Web.Controllers
             var employee = await _employeeRepository.GetEmployeeAsync(model.EmployeeId);
             if (employee != null)
             {
-                model.PositionId = employee.PositionId;
+                model.PositionId = employee.PositionId ?? 0;
             }
 
             try
