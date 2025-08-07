@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
 using SchoolManager.Application.ViewModels.Position;
 using System.Collections.Generic;
+using DomainPosition = SchoolManager.Domain.Model.Position;
 
 namespace SchoolManager.Application.ViewModels.Position
 {
     public class AddPositionViewModel : NewPositionVm
     {
-        public List<Position> Positions { get; set; } = new List<Position>();
+        public List<DomainPosition> Positions { get; set; } = new List<DomainPosition>();
     }
 }
 
