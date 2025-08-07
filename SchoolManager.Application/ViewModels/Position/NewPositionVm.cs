@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SchoolManager.Application.Mapping;
 
 namespace SchoolManager.Application.ViewModels.Position
 {
-    public class NewPositionVm
+    public class NewPositionVm : IMapFrom<Domain.Model.Position>
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -22,14 +23,14 @@ namespace SchoolManager.Application.ViewModels.Position
                 .ReverseMap();
         }
     }
-}
-
-public class NewPositionVmValidator : AbstractValidator<NewPositionVm>
-{
-    public NewPositionVmValidator()
+    public class NewPositionVmValidator : AbstractValidator<NewPositionVm>
     {
-        RuleFor(x => x.Id).NotNull();
-        RuleFor(x => x.Name).NotEmpty().WithMessage("Uzupełnij pole");
-        RuleFor(x => x.Category).NotEmpty().WithMessage("Uzupełnij pole");
+        public NewPositionVmValidator()
+        {
+            RuleFor(x => x.Id).NotNull();
+            RuleFor(x => x.Name).NotEmpty().WithMessage("Uzupełnij pole");
+            RuleFor(x => x.Category).NotEmpty().WithMessage("Uzupełnij pole");
+        }
     }
 }
+

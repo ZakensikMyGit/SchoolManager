@@ -43,7 +43,7 @@ namespace SchoolManager.Application.Services
                 throw new ArgumentNullException(nameof(model), "Problem z pobraniem danych.");
 
             Position? position = null;
-            if (model.PositionId != 0)
+            if (model.PositionId.HasValue && model.PositionId.Value != 0)
             {
                 position = await _positionRepository.GetPositionByIdAsync(model.PositionId.Value);
             }
@@ -214,7 +214,7 @@ namespace SchoolManager.Application.Services
                     : string.Empty;
 
                 Position? position = null;
-                if (employee.PositionId != 0)
+                if (employee.PositionId.HasValue && employee.PositionId.Value != 0)
                 {
                     position = await _positionRepository.GetPositionByIdAsync(employee.PositionId.Value);
                 }
