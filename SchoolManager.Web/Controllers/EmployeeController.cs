@@ -52,6 +52,10 @@ namespace SchoolManager.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddEmployee(NewEmployeeVm model)
         {
+            if (model == null)
+            {
+                return BadRequest("NewEmployeeVM nie może być null");
+            }
             var positions = await _positionRepository.GetAllPositionsAsync();
             var groups = await _groupRepository.GetAllGroupsAsync();
             model.Positions = positions.Select(p => new SelectListItem
@@ -64,6 +68,8 @@ namespace SchoolManager.Web.Controllers
                 Value = g.Id.ToString(),
                 Text = g.GroupName
             });
+            if (!ModelState.IsValid)
+                return View(model);
             var id = await _employeeService.AddEmployeeAsync(model);
             return RedirectToAction("Index");
         }
@@ -71,6 +77,10 @@ namespace SchoolManager.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> EditEmployee(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest("Id musi być większe niż 0");
+            }
             var employeeModel = await _employeeService.GetEmployeeForEditAsync(id);
             var positions = await _positionRepository.GetAllPositionsAsync();
             var groups = await _groupRepository.GetAllGroupsAsync();
@@ -89,7 +99,10 @@ namespace SchoolManager.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> EditEmployee(NewEmployeeVm model)
         {
-
+            if (model == null)
+            {
+                return BadRequest("NewEmployeeVM nie może być null");
+            }
             var positions = await _positionRepository.GetAllPositionsAsync();
             var groups = await _groupRepository.GetAllGroupsAsync();
             model.Positions = positions.Select(p => new SelectListItem
@@ -102,17 +115,28 @@ namespace SchoolManager.Web.Controllers
                 Value = g.Id.ToString(),
                 Text = g.GroupName
             });
+            if (!ModelState.IsValid)
+                return View(model);
+
             var id = await _employeeService.AddEmployeeAsync(model);
             return RedirectToAction("Index");
         }
         public async Task<IActionResult> DetailsEmployee(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest("Id musi być większe niż 0");
+            }
             var employeeModel = await _employeeService.GetEmployeeDetailsAsync(id);
             return View(employeeModel);
         }
 
         public async Task<IActionResult> Delete(int Id)
         {
+            if (Id <= 0)
+            {
+                return BadRequest("Id musi być większe niż 0");
+            }
             await _employeeService.DeleteEmployeeAsync(Id);
             return RedirectToAction("Index");
         }

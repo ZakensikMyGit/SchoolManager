@@ -25,6 +25,16 @@ namespace SchoolManager.Web.Controllers
 
         public async Task<IActionResult> Index(int employeeId, DateTime? start, DateTime? end)
         {
+            if (employeeId <= 0)
+            {
+                ModelState.AddModelError(string.Empty, "Nieprawidłowy identyfikator pracownika.");
+                return View();
+            }
+            if (start == null || end == null)
+            {
+                start = DateTime.Today;
+                end = DateTime.Today.AddDays(7);
+            }
             ViewBag.EmployeeId = employeeId;
             var model = await _scheduleService.GetAllSchedulesAsync();
             return View(model);
@@ -38,6 +48,11 @@ namespace SchoolManager.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEvents(int? employeeId, DateTime start, DateTime end)
         {
+            if (start > end)
+            {
+                return BadRequest("Data początkowa nie może być późniejsza niż data końcowa.");
+            }
+
             IEnumerable<ScheduleEntryVm> entries;
             if (employeeId.HasValue && employeeId.Value != 0)
             {
@@ -100,6 +115,11 @@ namespace SchoolManager.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Add(int employeeId)
         {
+            if (employeeId <= 0)
+            {
+                ModelState.AddModelError(string.Empty, "Nieprawidłowy identyfikator pracownika.");
+                return View(new NewScheduleEntryVm());
+            }
             var group = await _groupRepository.GetAllGroupsAsync();
             var groups = group.Select(g => new SelectListItem
             {
@@ -137,6 +157,10 @@ namespace SchoolManager.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(NewScheduleEntryVm model)
         {
+            if (model == null)
+            {
+                return BadRequest("Model nie może być null");
+            }
             model.Employees = (await _employeeRepository.GetAllActiveEmployeesAsync()).Select(e => new SelectListItem
             {
                 Value = e.Id.ToString(),

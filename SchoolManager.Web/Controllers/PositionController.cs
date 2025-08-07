@@ -27,6 +27,11 @@ namespace SchoolManager.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPosition(NewPositionVm model)
         {
+            if (model == null)
+            {
+                return BadRequest("NewPositionVm nie może być null");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);

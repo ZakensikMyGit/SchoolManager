@@ -9,8 +9,6 @@ namespace SchoolManager.Application.ViewModels.Position
     {
         public List<DomainPosition> Positions { get; set; } = new List<DomainPosition>();
     }
-}
-
 public class AddPositionViewModelValidator : AbstractValidator<AddPositionViewModel>
 {
     public AddPositionViewModelValidator()
@@ -19,4 +17,5 @@ public class AddPositionViewModelValidator : AbstractValidator<AddPositionViewMo
         RuleFor(x => x.Name).NotEmpty().WithMessage("Uzupełnij pole");
         RuleFor(x => x.Category).NotEmpty().WithMessage("Uzupełnij pole");
     }
+}
 }
