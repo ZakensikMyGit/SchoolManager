@@ -1,5 +1,4 @@
-﻿@model SchoolManager.Application.ViewModels.Position.NewPositionVm
-
+﻿@model SchoolManager.Application.ViewModels.Position.AddPositionViewModel
 @{
     ViewData["Title"] = "AddPosition";
 }
@@ -28,7 +27,26 @@
         </form>
     </div>
 </div>
-
+@if (Model.Positions != null && Model.Positions.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var position in Model.Positions)
+            {
+                <tr>
+                    <td>@position.Name</td>
+                    <td>@position.Category</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

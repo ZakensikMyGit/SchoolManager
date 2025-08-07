@@ -14,10 +14,15 @@ namespace SchoolManager.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddPosition()
+        public async Task<IActionResult> AddPosition()
         {
-            return View(new NewPositionVm());
+            var model = new AddPositionViewModel
+            {
+                Positions = await _positionService.GetAllAsync()
+            };
+            return View(model);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> AddPosition(NewPositionVm model)
