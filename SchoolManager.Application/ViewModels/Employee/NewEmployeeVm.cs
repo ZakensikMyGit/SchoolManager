@@ -17,7 +17,7 @@ namespace SchoolManager.Application.ViewModels.Employee
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public double WorkingHours { get; set; } = 1;
-        public DateTime EmploymentDate { get; set; } = DateTime.Now;
+        public DateTime EmploymentDate { get; set; } = DateTime.UtcNow;
 
         public int? PositionId { get; set; }
         public IEnumerable<SelectListItem> Positions { get; set; }

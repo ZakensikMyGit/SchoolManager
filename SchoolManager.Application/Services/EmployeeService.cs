@@ -65,6 +65,7 @@ namespace SchoolManager.Application.Services
 
             employeeEntity.WorkingHours = 1;
             employeeEntity.IsActive = true;
+            employeeEntity.EmploymentDate = DateTime.SpecifyKind(employeeEntity.EmploymentDate, DateTimeKind.Utc);
 
             if (!string.IsNullOrWhiteSpace(model.Education))
             {
@@ -117,6 +118,7 @@ namespace SchoolManager.Application.Services
             {
                 employee.Educations.Clear();
             }
+            employee.EmploymentDate = DateTime.SpecifyKind(employee.EmploymentDate, DateTimeKind.Utc);
             await _employeeRepository.UpdateEmployeeAsync(employee);
             await UpdateTeacherGroupAsync(employee.Id, model.PositionId, model.GroupId);
             return employee.Id;

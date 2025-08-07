@@ -15,8 +15,7 @@ namespace SchoolManager.Application.ViewModels.Employee
         public string LastName { get; set; }
         public int? PositionId { get; set; }
         public string PositionName { get; set; }
-        public DateTime EmploymentDate { get; set; } = DateTime.Now;
-        
+        public DateTime EmploymentDate { get; set; } = DateTime.UtcNow;
 
         public void Mapping(Profile profile)
         {
