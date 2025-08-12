@@ -25,11 +25,11 @@ namespace SchoolManager.Web
                     .ReadFrom.Configuration(ctx.Configuration);
             });
 
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            //builder.Services.AddDbContext<Context>(options =>
-            //    options.UseSqlServer(connectionString));
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+               ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<Context>(options => options.UseNpgsql(connectionString));
 
+            builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -40,7 +40,6 @@ namespace SchoolManager.Web
             builder.Services.AddTransient<IValidator<NewEmployeeVm>, NewEmployeeVmValidator>();
 
             builder.Services.AddApplication();
-            builder.Services.AddInfrastructure();
 
             var app = builder.Build();
 
