@@ -4,6 +4,7 @@ using SchoolManager.Application.Interfaces;
 using SchoolManager.Application.ViewModels.Schedule;
 using SchoolManager.Domain.Interfaces;
 using SchoolManager.Domain.Model;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SchoolManager.Web.Controllers
 {
@@ -113,43 +114,28 @@ namespace SchoolManager.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Add(int employeeId)
+        public async Task<IActionResult> Add()
         {
-            if (employeeId <= 0)
-            {
-                ModelState.AddModelError(string.Empty, "Nieprawidłowy identyfikator pracownika.");
-                return View(new NewScheduleEntryVm());
-            }
-            var group = await _groupRepository.GetAllGroupsAsync();
-            var groups = group.Select(g => new SelectListItem
+            var groups = (await _groupRepository.GetAllGroupsAsync()).Select(g=> new SelectListItem
             {
                 Value = g.Id.ToString(),
                 Text = g.GroupName
             });
 
-            var employee = await _employeeRepository.GetEmployeeAsync(employeeId) as Teacher;
-            Group? defaultGroup = null;
-            if (employee != null && employee.GroupId.HasValue)
-            {
-                defaultGroup = await _groupRepository.GetGroupAsync(employee.GroupId.Value);
-            }
             var model = new NewScheduleEntryVm
             {
-                EmployeeId = employeeId,
                 Employees = (await _employeeRepository.GetAllActiveEmployeesAsync()).Select(e => new SelectListItem
                 {
                     Value = e.Id.ToString(),
-                    Text = e.FullName
+                    Text = $"{e.LastName} {e.FirstName}"
                 }),
 
                 Groups = groups,
-                GroupId = defaultGroup?.Id ?? 0,
                 StartTime = DateTime.Today,
-                //EndTime = DateTime.Today.AddHours(1)
                 EndTime = DateTime.Today.AddHours(1),
                 DayOfWeek = DayOfWeek.Monday,
                 RangeStart = DateTime.Today,
-                RangeEnd = DateTime.Today.AddMonths(1),
+                RangeEnd = DateTime.Today,
             };
             return View(model);
         }
@@ -164,7 +150,7 @@ namespace SchoolManager.Web.Controllers
             model.Employees = (await _employeeRepository.GetAllActiveEmployeesAsync()).Select(e => new SelectListItem
             {
                 Value = e.Id.ToString(),
-                Text = e.FullName
+                Text = $"{e.LastName} {e.FirstName}"
             });
             model.Groups = (await _groupRepository.GetAllGroupsAsync()).Select(g => new SelectListItem
             {
