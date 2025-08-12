@@ -14,7 +14,7 @@ namespace SchoolManager.Application.ViewModels.Schedule
         public int Id { get; set; }
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
-        public int GroupId { get; set; }
+        public GroupEnum Group { get; set; }
         public string GroupName { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
@@ -25,7 +25,7 @@ namespace SchoolManager.Application.ViewModels.Schedule
         {
             profile.CreateMap<ScheduleEntry, ScheduleEntryVm>()
                 .ForMember(dest => dest.EmployeeName, opt => opt.MapFrom(src => src.Employee.FullName))
-                .ForMember(dest => dest.GroupName, opt => opt.MapFrom(src => src.Group.GroupName));
+                .ForMember(dest => dest.GroupName, opt => opt.MapFrom(src => src.Group.ToString()));
         }
     }
 }

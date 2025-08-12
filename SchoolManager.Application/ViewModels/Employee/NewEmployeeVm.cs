@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolManager.Application.Mapping;
+using SchoolManager.Domain.Enums;
 using SchoolManager.Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace SchoolManager.Application.ViewModels.Employee
         public int? PositionId { get; set; }
         public IEnumerable<SelectListItem> Positions { get; set; }
 
-        public int? GroupId { get; set; }
+        public GroupEnum? Group { get; set; }
         public IEnumerable<SelectListItem> Groups { get; set; }
         public string? Education { get; set; }
         public void Mapping(Profile profile)
@@ -33,7 +34,6 @@ namespace SchoolManager.Application.ViewModels.Employee
 
             profile.CreateMap<NewEmployeeVm, SchoolManager.Domain.Model.Teacher>()
                 .ForMember(dest => dest.Position, opt => opt.Ignore())
-                .ForMember(dest => dest.Group, opt => opt.Ignore())
                 .ReverseMap();
         }
     }

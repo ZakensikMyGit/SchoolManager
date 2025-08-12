@@ -1,4 +1,5 @@
-﻿using SchoolManager.Domain.Model;
+﻿using SchoolManager.Domain.Enums;
+using SchoolManager.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace SchoolManager.Domain.Interfaces
 
         Task<List<ScheduleEntry>> GetAllSchedulesAsync();
         Task<List<ScheduleEntry>> GetByTeacherAsync(int employeeId);
-        Task<List<ScheduleEntry>> GetByGroupAsync(int groupId);
+        Task<List<ScheduleEntry>> GetByGroupAsync(GroupEnum group);
         Task<ScheduleEntry?> GetByIdAsync(int id);
         Task<int> AddScheduleEntryAsync(ScheduleEntry entry);
         Task UpdateScheduleEntryAsync(ScheduleEntry entry);

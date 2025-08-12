@@ -22,7 +22,6 @@ namespace SchoolManager.Infrastructure
             services.AddDbContext<Context>(options => options.UseNpgsql(connectionString));
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IPositionRepository, PositionRepository>();
-            services.AddTransient<IGroupRepository, GroupRepository>();
             services.AddTransient<IScheduleRepository, ScheduleRepository>();
             return services;
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SchoolManager.Domain.Enums;
 using SchoolManager.Domain.Interfaces;
 using SchoolManager.Domain.Model;
 using System;
@@ -21,8 +22,7 @@ namespace SchoolManager.Infrastructure.Repositories
         {
             return _context.ScheduleEntries
                 .Include(e => e.Employee)
-                .Include(e => e.Position)
-                .Include(e => e.Group);
+                .Include(e => e.Position);
         }
 
         public Task<List<ScheduleEntry>> GetAllSchedulesAsync()
@@ -30,7 +30,6 @@ namespace SchoolManager.Infrastructure.Repositories
             return _context.ScheduleEntries
                 .Include(e => e.Employee)
                 .Include(e => e.Position)
-                .Include(e => e.Group)
                 .ToListAsync();
         }
         public int AddScheduleEntry(ScheduleEntry entry)
@@ -72,7 +71,6 @@ namespace SchoolManager.Infrastructure.Repositories
             return _context.ScheduleEntries
                 .Include(e => e.Employee)
                 .Include(e => e.Position)
-                .Include(e => e.Group)
                 .FirstOrDefault(e => e.Id == id);
         }
 
@@ -81,20 +79,19 @@ namespace SchoolManager.Infrastructure.Repositories
             return _context.ScheduleEntries
                 .Include(e => e.Employee)
                 .Include(e => e.Position)
-                .Include(e => e.Group)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public IQueryable<ScheduleEntry> GetByGroup(int groupId)
+        public IQueryable<ScheduleEntry> GetByGroup(GroupEnum group)
         {
             return _context.ScheduleEntries
-                .Where(e => e.GroupId == groupId);
+                .Where(e => e.Group == group);
         }
 
-        public Task<List<ScheduleEntry>> GetByGroupAsync(int groupId)
+        public Task<List<ScheduleEntry>> GetByGroupAsync(GroupEnum group)
         {
             return _context.ScheduleEntries
-                .Where(e => e.GroupId == groupId)
+                .Where(e => e.Group == group)
                 .ToListAsync();
         }
 
@@ -128,7 +125,6 @@ namespace SchoolManager.Infrastructure.Repositories
             return _context.ScheduleEntries
                 .Include(e => e.Employee)
                 .Include(e => e.Position)
-                .Include(e => e.Group)
                 .Where(e => e.StartTime < end && e.EndTime > start)
                 .AsNoTracking()
                 .ToListAsync();

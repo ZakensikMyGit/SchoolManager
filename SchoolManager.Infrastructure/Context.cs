@@ -8,7 +8,6 @@ namespace SchoolManager.Infrastructure
     {
         public DbSet<Education> Educations { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<Group> Groups { get; set; }
         public DbSet<Position> Positions { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<ScheduleEntry> ScheduleEntries { get; set; }
@@ -18,13 +17,6 @@ namespace SchoolManager.Infrastructure
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            // Teacher ↔ Group (one-to-one)
-            builder.Entity<Teacher>()
-                .HasOne(t => t.Group)
-                .WithOne(g => g.Teacher)
-                .HasForeignKey<Teacher>(t => t.GroupId)
-                .OnDelete(DeleteBehavior.SetNull);
 
             // Employee → Position (many-to-one)
             builder.Entity<Employee>()
@@ -50,12 +42,6 @@ namespace SchoolManager.Infrastructure
                 .HasOne(e => e.Position)
                 .WithMany()
                 .HasForeignKey(se => se.PositionId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<ScheduleEntry>()
-                .HasOne(e => e.Group)
-                .WithMany()
-                .HasForeignKey(se => se.GroupId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

@@ -14,7 +14,7 @@ namespace SchoolManager.Application.ViewModels.Schedule
     {
         public int EmployeeId { get; set; }
         public int PositionId { get; set; }
-        public int GroupId { get; set; }
+        public GroupEnum Group { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public DayOfWeek DayOfWeek { get; set; }
@@ -31,7 +31,6 @@ namespace SchoolManager.Application.ViewModels.Schedule
             profile.CreateMap<NewScheduleEntryVm, ScheduleEntry>()
                 .ForMember(dest => dest.Employee, opt => opt.Ignore())
                 .ForMember(dest => dest.Position, opt => opt.Ignore())
-                .ForMember(dest => dest.Group, opt => opt.Ignore())
                 .ReverseMap();
         }
     }

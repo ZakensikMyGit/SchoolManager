@@ -18,7 +18,7 @@ namespace SchoolManager.Application.ViewModels.Schedule
         public string Description { get; set; }
         public int EmployeeId { get; set; }
         public int PositionId { get; set; }
-        public int GroupId { get; set; }
+        public GroupEnum Group { get; set; }
 
         public void Mapping(AutoMapper.Profile profile)
         {

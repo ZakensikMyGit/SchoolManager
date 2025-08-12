@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchoolManager.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace SchoolManager.Domain.Model
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int? GroupId { get; set; }
+        public GroupEnum? Group { get; set; }
         public double WorkingHours { get; set; } = 1;
         // public DateTime DateOfBirth { get; set; }
         //public string PhoneNumber { get; set; }

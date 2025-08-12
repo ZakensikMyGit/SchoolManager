@@ -13,7 +13,5 @@ namespace SchoolManager.Domain.Model
         public string TypeTeacher { get; set; }
         public bool IsDirector { get; set; }
         public int PensumHours { get; set; }
-        public virtual Group Group { get; set; }
-
     }
 }

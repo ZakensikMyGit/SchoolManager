@@ -40,11 +40,11 @@
                 <span asp-validation-for="WorkingHours" class="text-danger"></span>
             </div>
             <div id="groupFields" class="form-group" style="display:none;">
-                <label asp-for="GroupId" class="control-label">Grupa</label>
-                <select asp-for="GroupId" class="form-control" asp-items="Model.Groups">
+                <label asp-for="Group" class="control-label">Grupa</label>
+                <select asp-for="Group" class="form-control" asp-items="Model.Groups">
                     <option value="">-- wybierz --</option>
                 </select>
-                <span asp-validation-for="GroupId" class="text-danger"></span>
+                <span asp-validation-for="Group" class="text-danger"></span>
             </div>
             <div id="educationField" class="form-group" style="display:none;">
                 <label asp-for="Education" class="control-label">Wykształcenie</label>

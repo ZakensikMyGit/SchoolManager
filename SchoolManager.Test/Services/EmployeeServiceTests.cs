@@ -20,7 +20,6 @@ namespace SchoolManager.Test.Services
             return new EmployeeService(
                 repo.Object,
                 new Mock<IPositionRepository>().Object,
-                new Mock<IGroupRepository>().Object,
                 new Mock<IScheduleRepository>().Object,
                 mapper);
         }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolManager.Application.Interfaces;
 using SchoolManager.Application.ViewModels.Schedule;
+using SchoolManager.Domain.Enums;
 using SchoolManager.Domain.Interfaces;
 using SchoolManager.Domain.Model;
 using static System.Net.Mime.MediaTypeNames;
@@ -12,16 +13,13 @@ namespace SchoolManager.Web.Controllers
     {
         private readonly IScheduleService _scheduleService;
         private readonly IEmployeeRepository _employeeRepository;
-        private readonly IGroupRepository _groupRepository;
 
         public ScheduleController(
             IScheduleService scheduleService,
-            IEmployeeRepository employeeRepository,
-            IGroupRepository groupRepository)
+            IEmployeeRepository employeeRepository)
         {
             _scheduleService = scheduleService;
             _employeeRepository = employeeRepository;
-            _groupRepository = groupRepository;
         }
 
         public async Task<IActionResult> Index(int employeeId, DateTime? start, DateTime? end)
@@ -108,7 +106,7 @@ namespace SchoolManager.Web.Controllers
                 "smerfy" => "group-smerfy",
                 "motyle" => "group-motyle",
                 "krasnale" => "group-krasnale",
-                "koty" => "group-koty",
+                "kotki" => "group-kotki",
                 _ => string.Empty
             };
         }
@@ -116,10 +114,10 @@ namespace SchoolManager.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var groups = (await _groupRepository.GetAllGroupsAsync()).Select(g=> new SelectListItem
+            var groups = Enum.GetValues(typeof(GroupEnum)).Cast<GroupEnum>().Select(g => new SelectListItem
             {
-                Value = g.Id.ToString(),
-                Text = g.GroupName
+                Value = ((int)g).ToString(),
+                Text = g.ToString()
             });
 
             var model = new NewScheduleEntryVm
@@ -152,10 +150,10 @@ namespace SchoolManager.Web.Controllers
                 Value = e.Id.ToString(),
                 Text = $"{e.LastName} {e.FirstName}"
             });
-            model.Groups = (await _groupRepository.GetAllGroupsAsync()).Select(g => new SelectListItem
+            model.Groups = Enum.GetValues(typeof(GroupEnum)).Cast<GroupEnum>().Select(g => new SelectListItem
             {
-                Value = g.Id.ToString(),
-                Text = g.GroupName
+                Value = ((int)g).ToString(),
+                Text = g.ToString()
             });
             var employee = await _employeeRepository.GetEmployeeAsync(model.EmployeeId);
             if (employee != null)

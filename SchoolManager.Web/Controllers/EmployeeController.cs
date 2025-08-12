@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using NuGet.Protocol.Core.Types;
 using SchoolManager.Application.Interfaces;
 using SchoolManager.Application.ViewModels.Employee;
+using SchoolManager.Domain.Enums;
 using SchoolManager.Domain.Interfaces;
 using System.Linq;
 
@@ -12,16 +13,13 @@ namespace SchoolManager.Web.Controllers
     {
         private readonly IEmployeeService _employeeService;
         private readonly IPositionRepository _positionRepository;
-        private readonly IGroupRepository _groupRepository;
 
         public EmployeeController(
             IEmployeeService employeeService,
-            IPositionRepository positionRepository,
-            IGroupRepository groupRepository)
+            IPositionRepository positionRepository)
         {
             _employeeService = employeeService;
             _positionRepository = positionRepository;
-            _groupRepository = groupRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -33,7 +31,7 @@ namespace SchoolManager.Web.Controllers
         public async Task<IActionResult> AddEmployee()
         {
             var positions = await _positionRepository.GetAllPositionsAsync();
-            var groups = await _groupRepository.GetAllGroupsAsync();
+            var groups = Enum.GetValues(typeof(GroupEnum)).Cast<GroupEnum>();
 
             return View(new NewEmployeeVm
             {
@@ -44,8 +42,8 @@ namespace SchoolManager.Web.Controllers
                 }),
                 Groups = groups.Select(g => new SelectListItem
                 {
-                    Value = g.Id.ToString(),
-                    Text = g.GroupName
+                    Value = ((int)g).ToString(),
+                    Text = g.ToString()
                 })
             });
         }
@@ -57,7 +55,7 @@ namespace SchoolManager.Web.Controllers
                 return BadRequest("NewEmployeeVM nie może być null");
             }
             var positions = await _positionRepository.GetAllPositionsAsync();
-            var groups = await _groupRepository.GetAllGroupsAsync();
+            var groups = Enum.GetValues(typeof(GroupEnum)).Cast<GroupEnum>();
             model.Positions = positions.Select(p => new SelectListItem
             {
                 Value = p.Id.ToString(),
@@ -65,8 +63,8 @@ namespace SchoolManager.Web.Controllers
             });
             model.Groups = groups.Select(g => new SelectListItem
             {
-                Value = g.Id.ToString(),
-                Text = g.GroupName
+                Value = ((int)g).ToString(),
+                Text = g.ToString()
             });
             if (!ModelState.IsValid)
                 return View(model);
@@ -83,7 +81,7 @@ namespace SchoolManager.Web.Controllers
             }
             var employeeModel = await _employeeService.GetEmployeeForEditAsync(id);
             var positions = await _positionRepository.GetAllPositionsAsync();
-            var groups = await _groupRepository.GetAllGroupsAsync();
+            var groups = Enum.GetValues(typeof(GroupEnum)).Cast<GroupEnum>();
             employeeModel.Positions = positions.Select(p => new SelectListItem
             {
                 Value = p.Id.ToString(),
@@ -91,8 +89,8 @@ namespace SchoolManager.Web.Controllers
             });
             employeeModel.Groups = groups.Select(g => new SelectListItem
             {
-                Value = g.Id.ToString(),
-                Text = g.GroupName
+                Value = ((int)g).ToString(),
+                Text = g.ToString()
             });
             return View(employeeModel);
         }
@@ -104,7 +102,7 @@ namespace SchoolManager.Web.Controllers
                 return BadRequest("NewEmployeeVM nie może być null");
             }
             var positions = await _positionRepository.GetAllPositionsAsync();
-            var groups = await _groupRepository.GetAllGroupsAsync();
+            var groups = Enum.GetValues(typeof(GroupEnum)).Cast<GroupEnum>();
             model.Positions = positions.Select(p => new SelectListItem
             {
                 Value = p.Id.ToString(),
@@ -112,8 +110,8 @@ namespace SchoolManager.Web.Controllers
             });
             model.Groups = groups.Select(g => new SelectListItem
             {
-                Value = g.Id.ToString(),
-                Text = g.GroupName
+                Value = ((int)g).ToString(),
+                Text = g.ToString()
             });
             if (!ModelState.IsValid)
                 return View(model);

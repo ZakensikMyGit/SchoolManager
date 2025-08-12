@@ -8,6 +8,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using SchoolManager.Application.Interfaces;
 using SchoolManager.Application.ViewModels.Employee;
+using SchoolManager.Domain.Enums;
 using SchoolManager.Domain.Interfaces;
 using SchoolManager.Domain.Model;
 
@@ -18,14 +19,12 @@ namespace SchoolManager.Application.Services
         private const string Message = "Id parametru jest niepoprawne.";
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IPositionRepository _positionRepository;
-        public readonly IGroupRepository _groupRepository;
         public readonly IScheduleRepository _scheduleRepository;
         private readonly IMapper _mapper;
-        public EmployeeService(IEmployeeRepository employeeRepo, IPositionRepository positionRepository, IGroupRepository groupRepository, IScheduleRepository scheduleRepository, IMapper mapper)
+        public EmployeeService(IEmployeeRepository employeeRepo, IPositionRepository positionRepository, IScheduleRepository scheduleRepository, IMapper mapper)
         {
             _employeeRepository = employeeRepo;
             _positionRepository = positionRepository;
-            _groupRepository = groupRepository;
             _scheduleRepository = scheduleRepository;
             _mapper = mapper;
         }
@@ -81,7 +80,7 @@ namespace SchoolManager.Application.Services
             }
 
             var employeeId = await _employeeRepository.AddEmployeeAsync(employeeEntity);
-            await UpdateTeacherGroupAsync(employeeId, model.PositionId, model.GroupId);
+            await UpdateTeacherGroupAsync(employeeId, model.PositionId, model.Group);
 
             return employeeId;
         }
@@ -120,13 +119,14 @@ namespace SchoolManager.Application.Services
             }
             employee.EmploymentDate = DateTime.SpecifyKind(employee.EmploymentDate, DateTimeKind.Utc);
             await _employeeRepository.UpdateEmployeeAsync(employee);
-            await UpdateTeacherGroupAsync(employee.Id, model.PositionId, model.GroupId);
+            await UpdateTeacherGroupAsync(employee.Id, model.PositionId, model.Group);
             return employee.Id;
         }
 
-        private async Task UpdateTeacherGroupAsync(int teacherId, int? positionId, int? groupId)
+        // Change the UpdateTeacherGroupAsync method signature to accept GroupEnum? group
+        private async Task UpdateTeacherGroupAsync(int teacherId, int? positionId, GroupEnum? group)
         {
-            if (!groupId.HasValue || !positionId.HasValue || teacherId <= 0)
+            if (!group.HasValue || !positionId.HasValue || teacherId <= 0)
             {
                 return;
             }
@@ -142,7 +142,7 @@ namespace SchoolManager.Application.Services
             if (teacher == null)
                 return;
 
-            teacher.GroupId = groupId;
+            teacher.Group = group;
             await _employeeRepository.UpdateEmployeeAsync(teacher);
         }
 
@@ -221,13 +221,9 @@ namespace SchoolManager.Application.Services
                     position = await _positionRepository.GetPositionByIdAsync(employee.PositionId.Value);
                 }
 
-                if (employee is Teacher t && t.GroupId.HasValue)
+                if (employee.Group.HasValue)
                 {
-                    var group = await _groupRepository.GetGroupAsync(t.GroupId.Value);
-                    if (group != null)
-                    {
-                        employeeVm.GroupName = group.GroupName;
-                    }
+                    employeeVm.GroupName = employee.Group.Value.ToString();
                 }
 
                 if (employee is Teacher teacher)

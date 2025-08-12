@@ -12,7 +12,7 @@ namespace SchoolManager.Domain.Model
         public int Id { get; set; }
         public int EmployeeId { get; set; }
         public int PositionId { get; set; }
-        public int GroupId { get; set; }
+        public GroupEnum Group { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public ScheduleEntryTypeEnum EntryType { get; set; }
@@ -20,6 +20,6 @@ namespace SchoolManager.Domain.Model
 
         public Employee Employee { get; set; }
         public Position Position { get; set; }
-        public Group Group { get; set; }
+        //public GroupEnum Group { get; set; }
     }
 }
