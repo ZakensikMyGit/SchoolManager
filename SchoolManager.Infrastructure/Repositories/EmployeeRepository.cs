@@ -61,7 +61,7 @@ namespace SchoolManager.Infrastructure.Repositories
         public Task<List<Employee>> GetAllActiveEmployeesAsync()
         {
             return _context.Employees
-                .AsNoTracking()
+               // .AsNoTracking()
                 .Include(e => e.Position)
                 .Where(e => e.IsActive)
                 .ToListAsync();
@@ -70,7 +70,7 @@ namespace SchoolManager.Infrastructure.Repositories
         public Task<Employee?> GetEmployeeAsync(int id)
         {
             return _context.Employees
-                .AsNoTracking()
+                //.AsNoTracking()
                .Include(e => e.Educations)
                .FirstOrDefaultAsync(e => e.Id == id);
         }

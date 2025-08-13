@@ -69,8 +69,6 @@ namespace SchoolManager.Web.Controllers
                 Value = ((int)g).ToString(),
                 Text = g.ToString()
             });
-            //if (!ModelState.IsValid)
-            //    return View(model);
 
             var id = await _employeeService.AddEmployeeAsync(model);
             return RedirectToAction("Index");
@@ -117,8 +115,6 @@ namespace SchoolManager.Web.Controllers
                 Value = ((int)g).ToString(),
                 Text = g.ToString()
             });
-            if (!ModelState.IsValid)
-                return View(model);
 
             var id = await _employeeService.AddEmployeeAsync(model);
             return RedirectToAction("Index");
