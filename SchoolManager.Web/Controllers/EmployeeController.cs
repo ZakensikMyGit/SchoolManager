@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NuGet.Protocol.Core.Types;
 using SchoolManager.Application.Interfaces;
@@ -9,6 +10,8 @@ using System.Linq;
 
 namespace SchoolManager.Web.Controllers
 {
+    //[Authorize]
+    //[AllowAnonymous] niezalogowani mają dostęp do widoku
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeeService;
@@ -66,8 +69,9 @@ namespace SchoolManager.Web.Controllers
                 Value = ((int)g).ToString(),
                 Text = g.ToString()
             });
-            if (!ModelState.IsValid)
-                return View(model);
+            //if (!ModelState.IsValid)
+            //    return View(model);
+
             var id = await _employeeService.AddEmployeeAsync(model);
             return RedirectToAction("Index");
         }
