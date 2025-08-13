@@ -51,6 +51,7 @@ namespace SchoolManager.Web.Controllers
             });
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddEmployee(NewEmployeeVm model)
         {
             if (model == null)

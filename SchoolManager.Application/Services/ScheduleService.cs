@@ -47,6 +47,8 @@ namespace SchoolManager.Application.Services
         }
         public async Task<IEnumerable<ScheduleEntryVm>> GetSchedulesByRangeAsync(DateTime start, DateTime end)
         {
+            start = DateTime.SpecifyKind(start, DateTimeKind.Utc);
+            end = DateTime.SpecifyKind(end, DateTimeKind.Utc);
             var entries = await _scheduleRepository.GetByDateRangeAsync(start, end);
             return entries
                 .AsQueryable()
@@ -67,9 +69,9 @@ namespace SchoolManager.Application.Services
                 if (entryVm.RangeStart > entryVm.RangeEnd)
                     throw new InvalidOperationException("Data początkowa musi być wcześniejsza niż data końcowa");
 
-            
-                var startDate = entryVm.RangeStart.Date;
-                var endDate = entryVm.RangeEnd.Date;
+
+                var startDate = DateTime.SpecifyKind(entryVm.RangeStart.Date, DateTimeKind.Utc);
+                var endDate = DateTime.SpecifyKind(entryVm.RangeEnd.Date, DateTimeKind.Utc);
                 var entries = new List<ScheduleEntry>();
 
                 for (var date = startDate; date <= endDate; date = date.AddDays(1))
@@ -77,8 +79,8 @@ namespace SchoolManager.Application.Services
                     if (date.DayOfWeek == entryVm.DayOfWeek)
                     {
                         var entity = _mapper.Map<ScheduleEntry>(entryVm);
-                        entity.StartTime = date.Date.Add(entryVm.StartTime.TimeOfDay);
-                        entity.EndTime = date.Date.Add(entryVm.EndTime.TimeOfDay);
+                        entity.StartTime = DateTime.SpecifyKind(date.Date.Add(entryVm.StartTime.TimeOfDay), DateTimeKind.Utc);
+                        entity.EndTime = DateTime.SpecifyKind(date.Date.Add(entryVm.EndTime.TimeOfDay), DateTimeKind.Utc);
                         entries.Add(entity);
                     }
                 }
@@ -92,6 +94,8 @@ namespace SchoolManager.Application.Services
             else
             {
                 var entity = _mapper.Map<ScheduleEntry>(entryVm);
+                entity.StartTime = DateTime.SpecifyKind(entity.StartTime, DateTimeKind.Utc);
+                entity.EndTime = DateTime.SpecifyKind(entity.EndTime, DateTimeKind.Utc);
                 return await _scheduleRepository.AddScheduleEntryAsync(entity);
             }
         }
@@ -102,6 +106,8 @@ namespace SchoolManager.Application.Services
             if (entryVm.StartTime > entryVm.EndTime)
                 throw new InvalidOperationException("Czas rozpoczęcia musi być wcześniejszy niż czas zakończenia");
             var entity = _mapper.Map<ScheduleEntry>(entryVm);
+            entity.StartTime = DateTime.SpecifyKind(entity.StartTime, DateTimeKind.Utc);
+            entity.EndTime = DateTime.SpecifyKind(entity.EndTime, DateTimeKind.Utc);
             return await _scheduleRepository.AddScheduleEntryAsync(entity);
         }
         public async Task UpdateScheduleAsync(EditScheduleEntryVm entryVm)
@@ -110,6 +116,8 @@ namespace SchoolManager.Application.Services
                 throw new InvalidOperationException("Konflikt godzinowy");
 
             var entity = _mapper.Map<ScheduleEntry>(entryVm);
+            entity.StartTime = DateTime.SpecifyKind(entity.StartTime, DateTimeKind.Utc);
+            entity.EndTime = DateTime.SpecifyKind(entity.EndTime, DateTimeKind.Utc);
             await _scheduleRepository.UpdateScheduleEntryAsync(entity);
         }
 
@@ -128,8 +136,9 @@ namespace SchoolManager.Application.Services
 
         public bool IsScheduleEntryValid(NewScheduleEntryVm newEntryVm)
         {
+            var startDate = new DateTime(newEntryVm.StartTime.Year, newEntryVm.StartTime.Month, newEntryVm.StartTime.Day, 0, 0, 0, DateTimeKind.Utc);
             var existing = _scheduleRepository.GetByTeacher(newEntryVm.EmployeeId)
-                .Where(e => e.StartTime.Date == newEntryVm.StartTime.Date);
+                .Where(e => e.StartTime.Date == startDate);
 
             foreach (var e in existing)
             {
@@ -142,8 +151,9 @@ namespace SchoolManager.Application.Services
         }
         public bool IsScheduleEntryValid(EditScheduleEntryVm EditEntryVm)
         {
+            var startDate = new DateTime(EditEntryVm.StartTime.Year, EditEntryVm.StartTime.Month, EditEntryVm.StartTime.Day, 0, 0, 0, DateTimeKind.Utc);
             var existing = _scheduleRepository.GetByTeacher(EditEntryVm.EmployeeId)
-                .Where(e => e.StartTime.Date == EditEntryVm.StartTime.Date && e.Id != EditEntryVm.Id);
+                 .Where(e => e.StartTime.Date == startDate && e.Id != EditEntryVm.Id);
 
             foreach (var e in existing)
             {
