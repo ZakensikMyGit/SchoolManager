@@ -104,9 +104,13 @@ namespace SchoolManager.Infrastructure.Repositories
         public Task<List<ScheduleEntry>> GetByTeacherAsync(int emloyeeId)
         {
             return _context.ScheduleEntries
+                .Include(e => e.Employee)
+                .Include(e => e.Position)
                 .Where(e => e.EmployeeId == emloyeeId)
+                .AsNoTracking()
                 .ToListAsync();
         }
+
 
         public void UpdateScheduleEntry(ScheduleEntry entry)
         {
