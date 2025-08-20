@@ -23,6 +23,7 @@ namespace SchoolManager.Infrastructure
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IPositionRepository, PositionRepository>();
             services.AddTransient<IScheduleRepository, ScheduleRepository>();
+            services.AddTransient<ITeacherSalaryRepository, TeacherSalaryRepository>();
             return services;
         }
     }

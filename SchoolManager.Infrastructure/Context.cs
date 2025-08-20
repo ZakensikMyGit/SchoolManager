@@ -11,9 +11,11 @@ namespace SchoolManager.Infrastructure
         public DbSet<Position> Positions { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<ScheduleEntry> ScheduleEntries { get; set; }
+        public DbSet<TeacherSalary> TeacherSalaries { get; set; }
+        public DbSet<MotivationalAllowance> MotivationalAllowances { get; set; }
+
 
         public Context(DbContextOptions options) : base(options) { }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -42,6 +44,17 @@ namespace SchoolManager.Infrastructure
                 .HasOne(e => e.Position)
                 .WithMany()
                 .HasForeignKey(se => se.PositionId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<TeacherSalary>()
+                .HasMany(ts => ts.AllowancesHistory)
+                .WithOne(ma => ma.TeacherSalary)
+                .HasForeignKey(ma => ma.TeacherSalaryId);
+
+            builder.Entity<MotivationalAllowance>()
+                .HasOne(ma => ma.Teacher)
+                .WithMany()
+                .HasForeignKey(ma => ma.TeacherId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

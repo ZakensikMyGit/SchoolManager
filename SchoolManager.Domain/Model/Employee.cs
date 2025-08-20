@@ -16,6 +16,7 @@ namespace SchoolManager.Domain.Model
         public string LastName { get; set; }
         public GroupEnum? Group { get; set; }
         public double WorkingHours { get; set; } = 1;
+        public decimal? BaseSalary { get; set; }
         // public DateTime DateOfBirth { get; set; }
         //public string PhoneNumber { get; set; }
         //public string Email { get; set; }
