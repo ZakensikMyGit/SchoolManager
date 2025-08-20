@@ -32,7 +32,7 @@ namespace SchoolManager.Web
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<Context>();
             builder.Services.AddControllersWithViews();
             builder.Services.AddFluentValidationAutoValidation();
