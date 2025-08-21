@@ -46,16 +46,28 @@ namespace SchoolManager.Infrastructure
                 .HasForeignKey(se => se.PositionId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<TeacherSalary>()
-                .HasMany(ts => ts.AllowancesHistory)
-                .WithOne(ma => ma.TeacherSalary)
-                .HasForeignKey(ma => ma.TeacherSalaryId);
+            builder.Entity<TeacherSalary>(e =>
+            {
+                e.Property(x => x.TotalAmount).HasColumnType("numeric(18,2)");
+                e.HasIndex(x => new { x.SchoolYearStart, x.Semester }).IsUnique();
+                e.HasMany(x => x.AllowancesHistory)
+                 .WithOne(x => x.TeacherSalary)
+                 .HasForeignKey(x => x.TeacherSalaryId);
+            });
 
-            builder.Entity<MotivationalAllowance>()
-                .HasOne(ma => ma.Teacher)
-                .WithMany()
-                .HasForeignKey(ma => ma.TeacherId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<MotivationalAllowance>(e =>
+            {
+                e.Property(x => x.Amount).HasColumnType("numeric(18,2)");
+                e.HasOne<Teacher>()
+                 .WithMany()
+                 .HasForeignKey(x => x.TeacherId)
+                 .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<Employee>(e =>
+            {
+                e.Property(x => x.BaseSalary).HasColumnType("numeric(18,2)");
+            });
         }
     }
 }

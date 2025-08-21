@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SchoolManager.Infrastructure;
@@ -23,544 +24,287 @@ namespace SchoolManager.Infrastructure.Migrations
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("EducationEmployee", b =>
-                {
-                    b.Property<int>("EducationsEducationId")
-                        .HasColumnType("integer");
+            {
+                b.Property<int>("EducationsEducationId")
+                    .HasColumnType("integer");
 
-                    b.Property<int>("EmployeesId")
-                        .HasColumnType("integer");
+                b.Property<int>("EmployeesId")
+                    .HasColumnType("integer");
 
-                    b.HasKey("EducationsEducationId", "EmployeesId");
+                b.HasKey("EducationsEducationId", "EmployeesId");
 
-                    b.HasIndex("EmployeesId");
+                b.HasIndex("EmployeesId");
 
-                    b.ToTable("EmployeeEducation", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("AspNetRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("text");
-
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("text");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens", (string)null);
-                });
+                b.ToTable("EmployeeEducation", (string)null);
+            });
 
             modelBuilder.Entity("SchoolManager.Domain.Model.Education", b =>
-                {
-                    b.Property<int>("EducationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+            {
+                b.Property<int>("EducationId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EducationId"));
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EducationId"));
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Type")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.HasKey("EducationId");
+                b.HasKey("EducationId");
 
-                    b.ToTable("Educations");
-                });
+                b.ToTable("Educations");
+            });
 
             modelBuilder.Entity("SchoolManager.Domain.Model.Employee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal?>("BaseSalary")
-                        .HasColumnType("numeric");
+                b.Property<DateTime>("EmploymentDate")
+                    .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("character varying(8)");
+                b.Property<string>("FirstName")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<DateTime>("EmploymentDate")
-                        .HasColumnType("timestamp with time zone");
+                b.Property<int?>("Group")
+                    .HasColumnType("integer");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<bool>("IsActive")
+                    .HasColumnType("boolean");
 
-                    b.Property<int?>("Group")
-                        .HasColumnType("integer");
+                b.Property<string>("LastName")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
+                b.Property<int?>("PositionId")
+                    .HasColumnType("integer");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<double>("WorkingHours")
+                    .HasColumnType("double precision");
 
-                    b.Property<int?>("PositionId")
-                        .HasColumnType("integer");
+                b.Property<decimal?>("BaseSalary")
+                    .HasColumnType("numeric(18,2)");
 
-                    b.Property<double>("WorkingHours")
-                        .HasColumnType("double precision");
+                b.HasKey("Id");
 
-                    b.HasKey("Id");
+                b.HasIndex("PositionId");
 
-                    b.HasIndex("PositionId");
+                b.ToTable("Employees");
 
-                    b.ToTable("Employees");
+                b.HasDiscriminator<string>("Discriminator").HasValue("Employee");
 
-                    b.HasDiscriminator().HasValue("Employee");
-
-                    b.UseTphMappingStrategy();
-                });
-
-            modelBuilder.Entity("SchoolManager.Domain.Model.MotivationalAllowance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("Percentage")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("SemesterEnd")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("SemesterStart")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("TeacherSalaryId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TeacherId");
-
-                    b.HasIndex("TeacherSalaryId");
-
-                    b.ToTable("MotivationalAllowances");
-                });
+                b.UseTphMappingStrategy();
+            });
 
             modelBuilder.Entity("SchoolManager.Domain.Model.Position", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Category")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Positions");
-                });
+                b.ToTable("Positions");
+            });
 
             modelBuilder.Entity("SchoolManager.Domain.Model.ScheduleEntry", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<DateTime>("Date")
+                    .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("integer");
+                b.Property<int>("EmployeeId")
+                    .HasColumnType("integer");
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("timestamp with time zone");
+                b.Property<int>("PositionId")
+                    .HasColumnType("integer");
 
-                    b.Property<int>("EntryType")
-                        .HasColumnType("integer");
+                b.HasKey("Id");
 
-                    b.Property<int>("Group")
-                        .HasColumnType("integer");
+                b.HasIndex("EmployeeId");
 
-                    b.Property<int>("PositionId")
-                        .HasColumnType("integer");
+                b.HasIndex("PositionId");
 
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("PositionId");
-
-                    b.ToTable("ScheduleEntries");
-                });
+                b.ToTable("ScheduleEntries");
+            });
 
             modelBuilder.Entity("SchoolManager.Domain.Model.TeacherSalary", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("numeric");
+                b.Property<DateTime?>("ApprovedAt")
+                    .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("Id");
+                b.Property<string>("ApprovedBy")
+                    .HasColumnType("text");
 
-                    b.ToTable("TeacherSalaries");
-                });
+                b.Property<bool>("IsApproved")
+                    .HasColumnType("boolean");
+
+                b.Property<int>("SchoolYearStart")
+                    .HasColumnType("integer");
+
+                b.Property<int>("Semester")
+                    .HasColumnType("integer");
+
+                b.Property<decimal>("TotalAmount")
+                    .HasColumnType("numeric(18,2)");
+
+                b.HasKey("Id");
+
+                b.HasIndex("SchoolYearStart", "Semester")
+                    .IsUnique();
+
+                b.ToTable("TeacherSalaries");
+            });
+
+            modelBuilder.Entity("SchoolManager.Domain.Model.MotivationalAllowance", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
+
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                b.Property<decimal>("Amount")
+                    .HasColumnType("numeric(18,2)");
+
+                b.Property<int>("Percentage")
+                    .HasColumnType("integer");
+
+                b.Property<int>("TeacherId")
+                    .HasColumnType("integer");
+
+                b.Property<int>("TeacherSalaryId")
+                    .HasColumnType("integer");
+
+                b.HasKey("Id");
+
+                b.HasIndex("TeacherId");
+
+                b.HasIndex("TeacherSalaryId");
+
+                b.ToTable("MotivationalAllowances");
+            });
 
             modelBuilder.Entity("SchoolManager.Domain.Model.Teacher", b =>
-                {
-                    b.HasBaseType("SchoolManager.Domain.Model.Employee");
+            {
+                b.HasBaseType("SchoolManager.Domain.Model.Employee");
 
-                    b.Property<bool>("IsDirector")
-                        .HasColumnType("boolean");
+                b.Property<bool>("IsDirector")
+                    .HasColumnType("boolean");
 
-                    b.Property<int>("PensumHours")
-                        .HasColumnType("integer");
+                b.Property<int>("PensumHours")
+                    .HasColumnType("integer");
 
-                    b.Property<string>("TypeTeacher")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("TypeTeacher")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.HasDiscriminator().HasValue("Teacher");
-                });
+                b.HasDiscriminator().HasValue("Teacher");
+            });
 
             modelBuilder.Entity("EducationEmployee", b =>
-                {
-                    b.HasOne("SchoolManager.Domain.Model.Education", null)
-                        .WithMany()
-                        .HasForeignKey("EducationsEducationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("SchoolManager.Domain.Model.Education", null)
+                    .WithMany()
+                    .HasForeignKey("EducationsEducationId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("SchoolManager.Domain.Model.Employee", null)
-                        .WithMany()
-                        .HasForeignKey("EmployeesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                b.HasOne("SchoolManager.Domain.Model.Employee", null)
+                    .WithMany()
+                    .HasForeignKey("EmployeesId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("SchoolManager.Domain.Model.Employee", b =>
-                {
-                    b.HasOne("SchoolManager.Domain.Model.Position", "Position")
-                        .WithMany("Employees")
-                        .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Restrict);
+            {
+                b.HasOne("SchoolManager.Domain.Model.Position", "Position")
+                    .WithMany("Employees")
+                    .HasForeignKey("PositionId")
+                    .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Position");
-                });
-
-            modelBuilder.Entity("SchoolManager.Domain.Model.MotivationalAllowance", b =>
-                {
-                    b.HasOne("SchoolManager.Domain.Model.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SchoolManager.Domain.Model.TeacherSalary", "TeacherSalary")
-                        .WithMany("AllowancesHistory")
-                        .HasForeignKey("TeacherSalaryId");
-
-                    b.Navigation("Teacher");
-
-                    b.Navigation("TeacherSalary");
-                });
+                b.Navigation("Position");
+            });
 
             modelBuilder.Entity("SchoolManager.Domain.Model.ScheduleEntry", b =>
-                {
-                    b.HasOne("SchoolManager.Domain.Model.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+            {
+                b.HasOne("SchoolManager.Domain.Model.Employee", "Employee")
+                    .WithMany()
+                    .HasForeignKey("EmployeeId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
 
-                    b.HasOne("SchoolManager.Domain.Model.Position", "Position")
-                        .WithMany()
-                        .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                b.HasOne("SchoolManager.Domain.Model.Position", "Position")
+                    .WithMany()
+                    .HasForeignKey("PositionId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
 
-                    b.Navigation("Employee");
+                b.Navigation("Employee");
 
-                    b.Navigation("Position");
-                });
+                b.Navigation("Position");
+            });
+
+            modelBuilder.Entity("SchoolManager.Domain.Model.MotivationalAllowance", b =>
+            {
+                b.HasOne("SchoolManager.Domain.Model.Teacher", null)
+                    .WithMany()
+                    .HasForeignKey("TeacherId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
+
+                b.HasOne("SchoolManager.Domain.Model.TeacherSalary", "TeacherSalary")
+                    .WithMany("AllowancesHistory")
+                    .HasForeignKey("TeacherSalaryId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("TeacherSalary");
+            });
 
             modelBuilder.Entity("SchoolManager.Domain.Model.Position", b =>
-                {
-                    b.Navigation("Employees");
-                });
+            {
+                b.Navigation("Employees");
+            });
 
             modelBuilder.Entity("SchoolManager.Domain.Model.TeacherSalary", b =>
-                {
-                    b.Navigation("AllowancesHistory");
-                });
+            {
+                b.Navigation("AllowancesHistory");
+            });
 #pragma warning restore 612, 618
         }
     }

@@ -1,0 +1,276 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using SchoolManager.Infrastructure;
+
+#nullable disable
+
+    namespace SchoolManager.Infrastructure.Migrations
+    {
+        [DbContext(typeof(Context))]
+        [Migration("20250818000000_AddTeacherSalary")]
+        partial class AddTeacherSalary
+        {
+            /// <inheritdoc />
+            protected override void BuildTargetModel(ModelBuilder modelBuilder)
+            {
+#pragma warning disable 612, 618
+                modelBuilder
+                    .HasAnnotation("ProductVersion", "8.0.16")
+                    .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+                NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+                modelBuilder.Entity("EducationEmployee", b =>
+                {
+                    b.Property<int>("EducationsEducationId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("EmployeesId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("EducationsEducationId", "EmployeesId");
+
+                    b.HasIndex("EmployeesId");
+
+                    b.ToTable("EmployeeEducation", (string)null);
+                });
+
+                modelBuilder.Entity("SchoolManager.Domain.Model.Employee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("EmploymentDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("Group")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("PositionId")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("WorkingHours")
+                        .HasColumnType("double precision");
+
+                    b.Property<decimal?>("BaseSalary")
+                        .HasColumnType("numeric(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PositionId");
+
+                    b.ToTable("Employees");
+
+                    b.HasDiscriminator().HasValue("Employee");
+
+                    b.UseTphMappingStrategy();
+                });
+
+                modelBuilder.Entity("SchoolManager.Domain.Model.MotivationalAllowance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<int>("Percentage")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TeacherSalaryId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeacherId");
+
+                    b.HasIndex("TeacherSalaryId");
+
+                    b.ToTable("MotivationalAllowances");
+                });
+
+                modelBuilder.Entity("SchoolManager.Domain.Model.Position", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Positions");
+                });
+
+                modelBuilder.Entity("SchoolManager.Domain.Model.ScheduleEntry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PositionId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("PositionId");
+
+                    b.ToTable("ScheduleEntries");
+                });
+
+                modelBuilder.Entity("SchoolManager.Domain.Model.Teacher", b =>
+                {
+                    b.HasBaseType("SchoolManager.Domain.Model.Employee");
+
+                    b.Property<bool>("IsDirector")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("PensumHours")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TypeTeacher")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasDiscriminator().HasValue("Teacher");
+                });
+
+                modelBuilder.Entity("SchoolManager.Domain.Model.TeacherSalary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("ApprovedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ApprovedBy")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("SchoolYearStart")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Semester")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("numeric(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolYearStart", "Semester")
+                        .IsUnique();
+
+                    b.ToTable("TeacherSalaries");
+                });
+
+                modelBuilder.Entity("EducationEmployee", b =>
+                {
+                    b.HasOne("SchoolManager.Domain.Model.Education", null)
+                        .WithMany()
+                        .HasForeignKey("EducationsEducationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SchoolManager.Domain.Model.Employee", null)
+                        .WithMany()
+                        .HasForeignKey("EmployeesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+                modelBuilder.Entity("SchoolManager.Domain.Model.MotivationalAllowance", b =>
+                {
+                    b.HasOne("SchoolManager.Domain.Model.Teacher", null)
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SchoolManager.Domain.Model.TeacherSalary", "TeacherSalary")
+                        .WithMany("AllowancesHistory")
+                        .HasForeignKey("TeacherSalaryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TeacherSalary");
+                });
+
+                modelBuilder.Entity("SchoolManager.Domain.Model.ScheduleEntry", b =>
+                {
+                    b.HasOne("SchoolManager.Domain.Model.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SchoolManager.Domain.Model.Position", "Position")
+                        .WithMany()
+                        .HasForeignKey("PositionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Position");
+                });
+
+                modelBuilder.Entity("SchoolManager.Domain.Model.TeacherSalary", b =>
+                {
+                    b.Navigation("AllowancesHistory");
+                });
+#pragma warning restore 612, 618
+            }
+        }
+    }
