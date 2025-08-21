@@ -24,6 +24,9 @@
             <th>
                 Stanowisko
             </th>
+            <th>
+                Pensja zasadnicza
+            </th>
             <th></th>
             <th>Grafik</th>
         </tr>
@@ -43,6 +46,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PositionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BaseSalary)
                 </td>
                 <td>
                     @Html.ActionLink("Edytuj ", "EditEmployee", new { id=item.Id }) |
