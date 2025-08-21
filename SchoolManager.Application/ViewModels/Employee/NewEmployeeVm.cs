@@ -43,7 +43,7 @@ namespace SchoolManager.Application.ViewModels.Employee
     {
         public NewEmployeeVmValidator()
         {
-            RuleFor(x => x.Id).NotNull();
+            RuleFor(x => x.Id).GreaterThanOrEqualTo(0);
             RuleFor(x => x.FirstName).NotEmpty().WithMessage("Uzupejnij pole");
             RuleFor(x => x.LastName).NotEmpty().WithMessage("Uzupejnij pole");
             RuleFor(x => x.EmploymentDate).NotEmpty().WithMessage("Uzupejnij pole");

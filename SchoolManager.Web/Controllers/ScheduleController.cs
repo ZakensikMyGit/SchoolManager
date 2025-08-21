@@ -35,8 +35,7 @@ namespace SchoolManager.Web.Controllers
                 end = DateTime.Today.AddDays(7);
             }
             ViewBag.EmployeeId = employeeId;
-            var model = await _scheduleService.GetAllSchedulesAsync();
-            return View(model);
+            var model = await _scheduleService.GetSchedulesByIdAsync(employeeId, start.Value, end.Value); return View(model);
         }
         public async Task<IActionResult> Entries()
         {
@@ -139,6 +138,7 @@ namespace SchoolManager.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(NewScheduleEntryVm model)
         {
             if (model == null)
@@ -155,6 +155,10 @@ namespace SchoolManager.Web.Controllers
                 Value = ((int)g).ToString(),
                 Text = g.ToString()
             });
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
             var employee = await _employeeRepository.GetEmployeeAsync(model.EmployeeId);
             if (employee != null)
             {

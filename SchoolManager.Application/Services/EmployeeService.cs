@@ -19,7 +19,7 @@ namespace SchoolManager.Application.Services
         private const string Message = "Id parametru jest niepoprawne.";
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IPositionRepository _positionRepository;
-        public readonly IScheduleRepository _scheduleRepository;
+        private readonly IScheduleRepository _scheduleRepository;
         private readonly IMapper _mapper;
         public EmployeeService(IEmployeeRepository employeeRepo, IPositionRepository positionRepository, IScheduleRepository scheduleRepository, IMapper mapper)
         {
@@ -131,7 +131,7 @@ namespace SchoolManager.Application.Services
                 return;
             }
 
-            var position = await _positionRepository.GetPositionByIdAsync(positionId.Value);
+            Position? position = await _positionRepository.GetPositionByIdAsync(positionId.Value);
             if (position == null)
                 return;
 
@@ -146,7 +146,7 @@ namespace SchoolManager.Application.Services
             await _employeeRepository.UpdateEmployeeAsync(teacher);
         }
 
-        private bool IsTeacherPosition(Position position)
+        private bool IsTeacherPosition(Position? position)
         {
             if (position == null)
                 return false;

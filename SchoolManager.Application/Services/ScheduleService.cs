@@ -26,9 +26,7 @@ namespace SchoolManager.Application.Services
         public async Task<ScheduleForEntryVm> GetAllSchedulesAsync()
         {
             var schedules = await _scheduleRepository.GetAllSchedulesAsync();
-            var scheduleVms = schedules.AsQueryable()
-                .ProjectTo<ScheduleEntryVm>(_mapper.ConfigurationProvider)
-                .ToList();
+            var scheduleVms = _mapper.Map<List<ScheduleEntryVm>>(schedules);
             return new ScheduleForEntryVm
             {
                 Schedules = scheduleVms,

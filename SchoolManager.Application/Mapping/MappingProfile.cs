@@ -12,10 +12,10 @@ namespace SchoolManager.Application.Mapping
     {
         public MappingProfile()
         {
-            ApplyMappingsFromAssemly(Assembly.GetExecutingAssembly());
+            ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
-        private void ApplyMappingsFromAssemly(Assembly assembly)
+        private void ApplyMappingsFromAssembly(Assembly assembly)
         {
             var types = assembly.GetExportedTypes()
                 .Where(t => t.GetInterfaces().Any(i =>
