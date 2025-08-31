@@ -19,6 +19,7 @@ namespace SchoolManager.Application.ViewModels.Employee
         public string LastName { get; set; }
         public double WorkingHours { get; set; } = 1;
         public DateTime EmploymentDate { get; set; } = DateTime.UtcNow;
+        public TeacherBaseSalaryRateEnum? SalaryRate { get; set; }
         public decimal? BaseSalary { get; set; }
 
         public int? PositionId { get; set; }

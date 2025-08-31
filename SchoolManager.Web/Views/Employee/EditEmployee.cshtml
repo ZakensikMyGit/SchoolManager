@@ -1,4 +1,5 @@
 ﻿@model SchoolManager.Application.ViewModels.Employee.NewEmployeeVm
+@using SchoolManager.Domain.Enums
 
 @{
     ViewData["Title"] = "EditEmployee";
@@ -43,6 +44,13 @@
                 <input asp-for="BaseSalary" class="form-control" />
                 <span asp-validation-for="BaseSalary" class="text-danger"></span>
             </div>
+            <div id="salaryRateField" class="form-group" style="display:none;">
+                <label asp-for="SalaryRate" class="control-label"></label>
+                <select asp-for="SalaryRate" class="form-control" asp-items="Html.GetEnumSelectList<TeacherBaseSalaryRateEnum>()">
+                    <option value="">-- wybierz --</option>
+                </select>
+                <span asp-validation-for="SalaryRate" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="WorkingHours" class="control-label"></label>
                 <input asp-for="WorkingHours" class="form-control" />
@@ -82,13 +90,16 @@
             var groupDiv = document.getElementById('groupFields');
            var eduDiv = document.getElementById('educationField');
            var baseSalaryDiv = document.getElementById('baseSalaryField');
+           var salaryRateDiv = document.getElementById('salaryRateField');
             if (selectedText.includes('teacher') || selectedText.includes('nauczyciel')) {
                 groupDiv.style.display = 'block';
                 eduDiv.style.display = 'block';
-                baseSalaryDiv.style.display = 'block';
+                 salaryRateDiv.style.display = 'block';
+                baseSalaryDiv.style.display = 'none';
             } else {
                 groupDiv.style.display = 'none';
                 eduDiv.style.display = 'none';
+                salaryRateDiv.style.display = 'none';
                 baseSalaryDiv.style.display = 'block';
             }
         }

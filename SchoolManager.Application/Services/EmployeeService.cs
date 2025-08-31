@@ -66,6 +66,11 @@ namespace SchoolManager.Application.Services
             employeeEntity.IsActive = true;
             employeeEntity.EmploymentDate = DateTime.SpecifyKind(employeeEntity.EmploymentDate, DateTimeKind.Utc);
 
+            if (model.SalaryRate.HasValue)
+            {
+                employeeEntity.BaseSalary = (decimal)model.SalaryRate.Value;
+            }
+
             if (!string.IsNullOrWhiteSpace(model.Education))
             {
                 employeeEntity.Educations = new List<Education>
@@ -93,6 +98,10 @@ namespace SchoolManager.Application.Services
 
             _mapper.Map(model, employee);
             employee.PositionId = model.PositionId;
+            if (model.SalaryRate.HasValue)
+            {
+                employee.BaseSalary = (decimal)model.SalaryRate.Value;
+            }
             if (!string.IsNullOrWhiteSpace(model.Education))
             {
                 var existing = employee.Educations?.FirstOrDefault();
@@ -268,6 +277,11 @@ namespace SchoolManager.Application.Services
             if (employee != null && employee.Educations != null && employee.Educations.Any())
             {
                 employeeVm.Education = string.Join(", ", employee.Educations.Select(e => e.Name));
+            }
+            if (employee?.BaseSalary != null &&
+                Enum.IsDefined(typeof(TeacherBaseSalaryRateEnum), (int)employee.BaseSalary.Value))
+            {
+                employeeVm.SalaryRate = (TeacherBaseSalaryRateEnum)(int)employee.BaseSalary.Value;
             }
             return employeeVm;
         }
